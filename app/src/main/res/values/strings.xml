@@ -3,4 +3,8 @@
     <string name="e_mail">E mail</string>
     <string name="password">Password</string>
     <string name="terms_and_conditions">Terms and conditions</string>
+    <string name="register">Register</string>
+    <string name="log_in">Log in</string>
+    <string name="find_best_places_to_hang_out_with_your_loved_ones">Find best places to hang out with your loved ones</string>
+    <string name="explore_new_places_with_us">Explore new places with us</string>
 </resources>
