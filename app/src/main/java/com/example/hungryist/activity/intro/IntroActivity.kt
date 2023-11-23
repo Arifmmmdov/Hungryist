@@ -9,6 +9,8 @@ import com.example.hungryist.R
 import com.example.hungryist.databinding.ActivityIntroBinding
 import com.example.hungryist.fragment.SplashFragment
 import com.example.hungryist.network.Currencies
+import com.example.hungryist.network.RetrofitBuilder
+import com.example.hungryist.network.getRetrofitBuilder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -25,6 +27,7 @@ class IntroActivity : AppCompatActivity() {
 
     private fun showFragment() {
         lifecycleScope.launch(Dispatchers.IO) {
+            val body = getRetrofitBuilder().getCurrencies()
             Log.d("MyTagHere", "showFragment: ${Currencies().response.request.body.toString()}")
         }
         val fragmentManager = supportFragmentManager
