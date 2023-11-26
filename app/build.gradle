@@ -54,4 +54,7 @@ dependencies {
 
     // OkHttp
     implementation 'com.squareup.okhttp3:okhttp:4.9.1'
+
+    //Dagger Hilt
+    implementation "com.google.dagger:hilt-android:2.48"
 }

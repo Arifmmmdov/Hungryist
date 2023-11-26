@@ -56,6 +56,19 @@
             android:textColor="@color/white"
             android:textSize="16sp" />
 
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/continue_as_guest"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@android:color/transparent"
+            android:padding="11dp"
+            android:text="@string/continue_as_guest"
+            android:textAllCaps="false"
+            android:textColor="@color/main_color"
+            android:textSize="16sp"
+            app:cornerRadius="4dp"
+            app:strokeColor="@color/main_color"
+            app:strokeWidth="1dp" />
 
     </LinearLayout>
 

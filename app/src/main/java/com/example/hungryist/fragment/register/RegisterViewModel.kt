@@ -9,22 +9,16 @@ import android.view.View
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.hungryist.R
 import com.example.hungryist.databinding.FragmentRegisterBinding
 import com.example.hungryist.helper.CommonHelper
-import com.example.hungryist.repository.MyRepo
 
 class RegisterViewModel(context: LifecycleOwner) : ViewModel() {
-    private val mContext = context
-
-    private val myRepo by lazy {
-        MyRepo.Singleton.instance
-    }
-
-    private val liveData  by lazy {
-        myRepo.getLiveData()
-    }
+    private val _liveData = MutableLiveData<String>()
+    private val liveData: LiveData<String> = _liveData
 
     init {
         liveData.observe(context) {
@@ -32,39 +26,41 @@ class RegisterViewModel(context: LifecycleOwner) : ViewModel() {
         }
     }
 
-    fun setClickableSpannableView(termsAndConditions: TextView,context:Context) {
+    fun setClickableSpannableView(termsAndConditions: TextView, context: Context) {
         termsAndConditions.movementMethod = LinkMovementMethod.getInstance()
         termsAndConditions.setText(getSpannableString(context), TextView.BufferType.SPANNABLE)
     }
 
     private fun getSpannableString(context: Context): SpannableString {
-        val spannableString = SpannableString(context.resources.getString(R.string.terms_and_conditions))
-        val clickableSpan = object: ClickableSpan(){
+        val spannableString =
+            SpannableString(context.resources.getString(R.string.terms_and_conditions))
+        val clickableSpan = object : ClickableSpan() {
             override fun updateDrawState(ds: TextPaint) {
                 super.updateDrawState(ds)
                 ds.linkColor = ContextCompat.getColor(context, R.color.purple_700)
                 ds.isUnderlineText = true
             }
+
             override fun onClick(p0: View) {
                 //TODO move to "Terms and conditions page"
             }
         }
-        spannableString.setSpan(clickableSpan,29,50, SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE)
+        spannableString.setSpan(clickableSpan, 29, 50, SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE)
 
         return spannableString
     }
 
     fun searchValidity(binding: FragmentRegisterBinding, emailSection: Boolean): Boolean {
-        return if(emailSection){
+        return if (emailSection) {
             searchEmailValidity(binding.userName.text.toString())
-        }else{
+        } else {
             searchPhoneValidity(binding.userName.text.toString())
         }
     }
 
     private fun searchEmailValidity(email: String): Boolean = CommonHelper.isValidEmail(email)
-    private fun searchPhoneValidity(phoneNumber: String): Boolean = CommonHelper.isValidPhoneNumber(phoneNumber,"994")!!.isValid
-
+    private fun searchPhoneValidity(phoneNumber: String): Boolean =
+        CommonHelper.isValidPhoneNumber(phoneNumber, "994")!!.isValid
 
 
 }

@@ -1,7 +1,7 @@
-package com.example.hungryist.network
+package com.example.hungryist.api
 
-import com.example.hungryist.constants.BundleConstants.HOST
-import com.example.hungryist.constants.BundleConstants.KEY
+import com.example.hungryist.constants.Constants.HOST
+import com.example.hungryist.constants.Constants.KEY
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
