@@ -20,7 +20,7 @@ class IntroActivity : AppCompatActivity() {
     }
 
     @Inject
-    private lateinit var requestInterface: APIRequestInterface
+    lateinit var requestInterface: APIRequestInterface
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

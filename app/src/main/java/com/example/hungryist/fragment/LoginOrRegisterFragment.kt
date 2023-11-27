@@ -30,7 +30,7 @@ class LoginOrRegisterFragment : Fragment() {
     }
 
     private fun moveToMainView() {
-        MainActivity.intentFor(requireContext(), true)
+        MainActivity.intentFor(requireActivity(), true)
     }
 
 }

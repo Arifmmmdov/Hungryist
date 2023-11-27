@@ -1,5 +1,6 @@
 package com.example.hungryist.activity
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -18,10 +19,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     companion object {
-        fun intentFor(context: Context, isGuest: Boolean) {
-            val intent = Intent(context, MainActivity::class.java)
+        fun intentFor(activity: Activity, isGuest: Boolean) {
+            val intent = Intent(activity, MainActivity::class.java)
             intent.putExtra(IS_GUEST, isGuest)
-            context.startActivity(intent)
+            activity.startActivity(intent)
         }
     }
 }

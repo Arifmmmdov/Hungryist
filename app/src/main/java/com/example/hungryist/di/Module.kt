@@ -1,8 +1,10 @@
 package com.example.hungryist.di
 
+import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
 import android.preference.PreferenceManager
+import com.example.hungryist.APP
 import com.example.hungryist.helper.SharedPreferencesManager
 import com.example.hungryist.api.APIRequestInterface
 import dagger.Module
@@ -36,7 +38,6 @@ object Module {
     }
 
     @Provides
-    @Singleton
     fun getSharedPreferencesManager(sharedPreferences: SharedPreferences):SharedPreferencesManager{
         return SharedPreferencesManager(sharedPreferences)
     }

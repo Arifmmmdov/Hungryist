@@ -9,4 +9,6 @@ import java.util.prefs.Preferences
 import javax.inject.Inject
 
 @HiltAndroidApp
-class APP : Application()
+class APP : Application(){
+
+}
