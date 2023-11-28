@@ -15,22 +15,20 @@ import com.example.hungryist.viewmodel.SplashScreenViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class SplashScreenActivity : AppCompatActivity() {
 
     private val binding by lazy {
         ActivitySplashScreenBinding.inflate(layoutInflater)
     }
-    private val viewModel: SplashScreenViewModel by viewModels()
+    @Inject
+    lateinit var viewModel: SplashScreenViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-    }
-
-    override fun onResume() {
-        super.onResume()
         viewModel.startCountdownTimer(this)
-    }
 
+    }
 
 }

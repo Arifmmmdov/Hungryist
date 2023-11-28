@@ -7,6 +7,7 @@ import android.preference.PreferenceManager
 import com.example.hungryist.APP
 import com.example.hungryist.helper.SharedPreferencesManager
 import com.example.hungryist.api.APIRequestInterface
+import com.example.hungryist.viewmodel.SplashScreenViewModel
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -40,5 +41,11 @@ object Module {
     @Provides
     fun getSharedPreferencesManager(sharedPreferences: SharedPreferences):SharedPreferencesManager{
         return SharedPreferencesManager(sharedPreferences)
+    }
+
+    @Provides
+    @Singleton
+    fun getSplashScreenViewModel(sharedPreferencesManager: SharedPreferencesManager):SplashScreenViewModel{
+        return SplashScreenViewModel(sharedPreferencesManager)
     }
 }
