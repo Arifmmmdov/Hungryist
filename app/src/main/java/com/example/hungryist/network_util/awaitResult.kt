@@ -1,13 +1,14 @@
 package com.example.hungryist.network_util
 
 import android.content.Context
+import com.example.hungryist.custom_view.CustomProgressView
 import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 
-public fun <Result, Response : BaseResponseAdapter<Result>> Call<Response>.awaitResult(
+fun <Result, Response : BaseResponseAdapter<Result>> Call<Response>.awaitResult(
     context: Context,
     showProgressBar: Boolean
 ): Expected<Result>? {
@@ -34,7 +35,7 @@ public fun <Result, Response : BaseResponseAdapter<Result>> Call<Response>.await
 }
 
 fun startProgressBar(context: Context, showProgressBar: Boolean) {
-
+    CustomProgressView(context).show()
 }
 
 data class ErrorResponse(

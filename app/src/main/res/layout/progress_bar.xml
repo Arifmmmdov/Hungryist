@@ -6,7 +6,7 @@
 
 
     <com.haseebazeem.sampleGif.GifImageView
-        android:id="@+id/GIF"
+        android:id="@+id/gif"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:src="@drawable/progress"
