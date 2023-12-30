@@ -7,6 +7,7 @@ import android.preference.PreferenceManager
 import com.example.hungryist.APP
 import com.example.hungryist.helper.SharedPreferencesManager
 import com.example.hungryist.api.APIRequestInterface
+import com.example.hungryist.main.MainViewModel
 import com.example.hungryist.viewmodel.SplashScreenViewModel
 import dagger.Module
 import dagger.Provides
@@ -34,18 +35,22 @@ object Module {
 
     @Provides
     @Singleton
-    fun getSharedPreference(@ApplicationContext context:Context):SharedPreferences {
-        return context.getSharedPreferences("",Context.MODE_PRIVATE)
+    fun getSharedPreference(@ApplicationContext context: Context): SharedPreferences {
+        return context.getSharedPreferences("", Context.MODE_PRIVATE)
     }
 
     @Provides
-    fun getSharedPreferencesManager(sharedPreferences: SharedPreferences):SharedPreferencesManager{
+    fun getSharedPreferencesManager(sharedPreferences: SharedPreferences): SharedPreferencesManager {
         return SharedPreferencesManager(sharedPreferences)
     }
 
     @Provides
     @Singleton
-    fun getSplashScreenViewModel(sharedPreferencesManager: SharedPreferencesManager):SplashScreenViewModel{
+    fun getSplashScreenViewModel(sharedPreferencesManager: SharedPreferencesManager): SplashScreenViewModel {
         return SplashScreenViewModel(sharedPreferencesManager)
     }
+
+    @Provides
+    @Singleton
+    fun mainViewModel(): MainViewModel = MainViewModel()
 }

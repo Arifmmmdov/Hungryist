@@ -1,15 +1,13 @@
 package com.example.hungryist.viewmodel
 
 import android.app.Activity
-import android.content.Context
 import android.os.CountDownTimer
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.example.hungryist.activity.IntroActivity
-import com.example.hungryist.activity.MainActivity
+import com.example.hungryist.main.MainActivity
 import com.example.hungryist.helper.SharedPreferencesManager
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 @HiltViewModel

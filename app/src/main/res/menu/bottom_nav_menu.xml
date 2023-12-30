@@ -4,21 +4,17 @@
     <item
         android:id="@+id/action_home"
         android:icon="@drawable/ic_home"
-        android:title="@string/home"
-        app:showAsAction="always" />
+        android:title="@string/home" />
     <item
         android:id="@+id/action_nearby_places"
         android:icon="@drawable/ic_nearby_places"
-        android:title="@string/nearby_places"
-        app:showAsAction="always" />
+        android:title="@string/nearby_places" />
     <item
         android:id="@+id/action_saved"
         android:icon="@drawable/ic_saved"
-        android:title="@string/saved"
-        app:showAsAction="ifRoom" />
+        android:title="@string/saved" />
     <item
         android:id="@+id/action_profile"
         android:icon="@drawable/ic_profile"
-        android:title="@string/profile"
-        app:showAsAction="ifRoom" />
+        android:title="@string/profile" />
 </menu>
