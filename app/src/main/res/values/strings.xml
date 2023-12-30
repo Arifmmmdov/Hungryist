@@ -8,4 +8,10 @@
     <string name="find_best_places_to_hang_out_with_your_loved_ones">Find best places to hang out with your loved ones</string>
     <string name="explore_new_places_with_us">Explore new places with us</string>
     <string name="continue_as_guest">Continue as guest</string>
+    <string name="search_hint">Restaurants, cafés or meals</string>
+    <string name="filter_button_description">For filtering restaurants!</string>
+    <string name="home">Home</string>
+    <string name="nearby_places">Nearby places</string>
+    <string name="saved">Saved</string>
+    <string name="profile">Profile</string>
 </resources>

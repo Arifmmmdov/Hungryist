@@ -28,7 +28,6 @@ class SplashScreenActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         viewModel.startCountdownTimer(this)
-
     }
 
 }
