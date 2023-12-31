@@ -11,6 +11,7 @@ import com.example.hungryist.constants.Constants.IS_GUEST
 import com.example.hungryist.databinding.ActivityMainBinding
 import com.example.hungryist.databinding.CustomBottomNavigationItemBinding
 import com.example.hungryist.fragment.login.LoginFragment
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 

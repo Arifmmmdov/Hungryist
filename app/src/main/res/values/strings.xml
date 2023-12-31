@@ -14,4 +14,11 @@
     <string name="nearby_places">Nearby places</string>
     <string name="saved">Saved</string>
     <string name="profile">Profile</string>
+    <string name="deals_of_month">Deals of month</string>
+    <string name="restaurants">Restaurants</string>
+    <string name="mezzo">Mezzo</string>
+    <string name="_220_dilara_aliyeva_baku">220 Dilara Aliyeva, Baku</string>
+    <string name="place_status">Open now</string>
+    <string name="open_and_close_times">%s - %s</string>
+    <string name="reviews">%s reviews</string>
 </resources>

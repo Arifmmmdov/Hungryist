@@ -20,9 +20,8 @@
         android:background="@android:color/white"
         app:itemBackground="@android:color/white"
         app:itemTextColor="@color/main_color"
-        android:maxWidth="144dp"
-        app:labelVisibilityMode="auto"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:itemActiveIndicatorStyle="@color/main_color"
         app:menu="@menu/bottom_nav_menu" />
 
 
