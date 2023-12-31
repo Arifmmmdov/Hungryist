@@ -10,6 +10,7 @@ import com.example.hungryist.R
 import com.example.hungryist.constants.Constants.IS_GUEST
 import com.example.hungryist.databinding.ActivityMainBinding
 import com.example.hungryist.databinding.CustomBottomNavigationItemBinding
+import com.example.hungryist.fragment.home.HomeFragment
 import com.example.hungryist.fragment.login.LoginFragment
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
@@ -44,7 +45,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun onTabSelected(tabId: Int?) {
         val selectedFragment: Fragment? = when (tabId) {
-            R.id.action_home -> LoginFragment()
+            R.id.action_home -> HomeFragment()
             R.id.action_nearby_places -> LoginFragment()
             R.id.action_saved -> LoginFragment()
             R.id.action_profile -> LoginFragment()

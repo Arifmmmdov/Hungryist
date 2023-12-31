@@ -6,7 +6,7 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/container"
-        android:name="com.example.hungryist.fragment.LoginOrRegisterFragment"
+        android:name="com.example.hungryist.fragment.home.HomeFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
@@ -18,10 +18,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/white"
+        app:itemActiveIndicatorStyle="@color/main_color"
         app:itemBackground="@android:color/white"
         app:itemTextColor="@color/main_color"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:itemActiveIndicatorStyle="@color/main_color"
         app:menu="@menu/bottom_nav_menu" />
 
 
