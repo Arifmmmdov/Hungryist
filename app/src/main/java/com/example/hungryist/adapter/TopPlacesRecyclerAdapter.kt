@@ -3,8 +3,8 @@ package com.example.hungryist.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.example.hungryist.databinding.ItemRecyclerDetailedInfoBinding
-import com.example.hungryist.helper.BaseRecyclerAdapter
-import com.example.hungryist.helper.BaseViewHolder
+import com.example.hungryist.generics.BaseRecyclerAdapter
+import com.example.hungryist.generics.BaseViewHolder
 import com.example.hungryist.model.SimpleDataModel
 
 class TopPlacesRecyclerAdapter(dataList: List<SimpleDataModel>) :

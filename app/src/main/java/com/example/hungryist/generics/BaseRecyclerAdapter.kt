@@ -1,22 +1,17 @@
-package com.example.hungryist.helper
+package com.example.hungryist.generics
 
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 
-abstract class BaseViewHolder<Item, ItemBinding : ViewBinding>(protected val itemBinding: ItemBinding) :
-    RecyclerView.ViewHolder(itemBinding.root) {
-    abstract fun bind(item: Item)
-}
 
-abstract class BaseRecyclerAdapter<Item, ItemBinding : ViewBinding>(val dataList: List<Item>) :
+abstract class BaseRecyclerAdapter<Item, ItemBinding : ViewBinding>(private val dataList: List<Item>) :
     RecyclerView.Adapter<BaseViewHolder<Item, ItemBinding>>() {
+
     abstract override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
     ): BaseViewHolder<Item, ItemBinding>
-
 
     override fun getItemCount(): Int = dataList.size
 

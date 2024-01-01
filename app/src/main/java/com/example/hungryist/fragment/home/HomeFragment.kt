@@ -1,6 +1,7 @@
 package com.example.hungryist.fragment.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,10 +9,12 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.hungryist.adapter.SelectedTextRecyclerAdapter
 import com.example.hungryist.databinding.FragmentHomeBinding
-import com.example.hungryist.databinding.ItemRecyclerFilterBinding
+import com.example.hungryist.generics.ActionListener
+import com.example.hungryist.generics.BaseRecyclerAdapter
 import com.example.hungryist.model.SelectStringModel
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), ActionListener<SelectStringModel> {
+
     private val binding by lazy {
         FragmentHomeBinding.inflate(layoutInflater)
     }
@@ -28,14 +31,15 @@ class HomeFragment : Fragment() {
 
     private fun setRecyclerViews() {
         binding.recyclerFilter.apply {
-            adapter = SelectedTextRecyclerAdapter(requireContext(), getPlacesList())
+            adapter =
+                SelectedTextRecyclerAdapter(requireContext(), getPlacesList(), this@HomeFragment)
             layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         }
     }
 
-    private fun getPlacesList(): List<SelectStringModel> {
-        return listOf(
+    private fun getPlacesList(): MutableList<SelectStringModel> {
+        return mutableListOf(
             SelectStringModel("Restaurants", false),
             SelectStringModel("Cafés", false),
             SelectStringModel("Reviews", false),
@@ -44,5 +48,9 @@ class HomeFragment : Fragment() {
 
     private fun setListeners() {
 
+    }
+
+    override fun run(item: SelectStringModel) {
+        Log.d("MyTagHere", "HomeFragment - selectedItem: $item")
     }
 }
