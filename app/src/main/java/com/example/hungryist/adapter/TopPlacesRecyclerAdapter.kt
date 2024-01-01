@@ -1,19 +1,29 @@
 package com.example.hungryist.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import com.example.hungryist.R
 import com.example.hungryist.databinding.ItemRecyclerDetailedInfoBinding
+import com.example.hungryist.databinding.ItemRecyclerTopPlacesBinding
 import com.example.hungryist.generics.BaseRecyclerAdapter
 import com.example.hungryist.generics.BaseViewHolder
+import com.example.hungryist.model.BaseInfoModel
+import com.example.hungryist.model.DetailedInfoModel
 import com.example.hungryist.model.SimpleDataModel
+import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Inject
 
-class TopPlacesRecyclerAdapter(dataList: List<SimpleDataModel>) :
-    BaseRecyclerAdapter<SimpleDataModel, ItemRecyclerDetailedInfoBinding>(dataList) {
+class TopPlacesRecyclerAdapter @Inject constructor(
+    @ApplicationContext val applicationContext: Context,
+    dataList: List<BaseInfoModel>
+) :
+    BaseRecyclerAdapter<BaseInfoModel, ItemRecyclerTopPlacesBinding>(dataList) {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): BaseViewHolder<SimpleDataModel, ItemRecyclerDetailedInfoBinding> {
-        val binding = ItemRecyclerDetailedInfoBinding.inflate(
+    ): BaseViewHolder<BaseInfoModel, ItemRecyclerTopPlacesBinding> {
+        val binding = ItemRecyclerTopPlacesBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
             false
@@ -21,10 +31,25 @@ class TopPlacesRecyclerAdapter(dataList: List<SimpleDataModel>) :
         return ViewHolder(binding)
     }
 
-    class ViewHolder(val binding: ItemRecyclerDetailedInfoBinding) :
-        BaseViewHolder<SimpleDataModel, ItemRecyclerDetailedInfoBinding>(binding) {
-        override fun bind(item: SimpleDataModel) {
+    inner class ViewHolder(val binding: ItemRecyclerTopPlacesBinding) :
+        BaseViewHolder<BaseInfoModel, ItemRecyclerTopPlacesBinding>(binding) {
+        override fun bind(item: BaseInfoModel) {
+            binding.title.text = item.titleName
+            binding.itemRecyclerDetailedInfo.run {
+                name.text = item.name
+                savedSticker.setImageResource(if (item.saved) R.drawable.ic_saved_sticker else R.drawable.ic_unsaved_sticker)
+                location.text = item.location
+                openStatus.text = item.openStatus
+                openEndTime.text = applicationContext.resources.getString(
+                    R.string.open_and_close_times,
+                    item.openTime,
+                    item.closeTime
+                )
+                rate.text = item.rating.toString()
+                reviews.text =
+                    applicationContext.resources.getString(R.string.reviews, item.reviews)
 
+            }
         }
     }
 }

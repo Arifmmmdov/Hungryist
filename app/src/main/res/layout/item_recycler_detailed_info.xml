@@ -27,7 +27,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:src="@drawable/ic_saved_sticker"
+                android:src="@drawable/ic_unsaved_sticker"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -43,7 +43,7 @@
             android:paddingEnd="10dp">
 
             <TextView
-                android:id="@+id/title"
+                android:id="@+id/name"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="8"
@@ -71,6 +71,7 @@
                 android:gravity="center">
 
                 <TextView
+                    android:id="@+id/openStatus"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/place_status"
@@ -84,6 +85,7 @@
                     android:background="@drawable/dot" />
 
                 <TextView
+                    android:id="@+id/open_end_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/open_and_close_times"
@@ -121,6 +123,7 @@
                     android:src="@drawable/ic_reviews" />
 
                 <TextView
+                    android:id="@+id/reviews"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/reviews"
