@@ -12,6 +12,9 @@ data class DetailedInfoModel(
     val location: String,
     val phoneNumbers: List<String>,
     val websiteLink: String,
-    val videoLocationUri: Uri,
-    val imageUrl: String
+    val videoLocationUri: String,
+    val imageUrl: String,
+    val name:String,
+    val reviews:String,
+    val rating:Double
 )

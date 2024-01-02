@@ -69,4 +69,7 @@ dependencies {
     androidTestAnnotationProcessor 'com.google.dagger:hilt-compiler:3.0.1'
     testImplementation 'com.google.dagger:hilt-android-testing:3.0.1'
     testAnnotationProcessor 'com.google.dagger:hilt-compiler:3.0.1'
+
+    //Firebase
+    implementation platform('com.google.firebase.firebase-bom:26.2.0')
 }

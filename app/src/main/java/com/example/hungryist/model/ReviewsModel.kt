@@ -7,7 +7,7 @@ data class ReviewsModel(
     val images: List<String>,
     val message: String,
     val restaurantName: String,
-    val rate: Rate,
+    val rate: Double,
     val wroteOn: String,
     val reply: Int,
     val like: Int,
