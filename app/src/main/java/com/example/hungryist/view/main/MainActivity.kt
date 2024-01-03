@@ -1,4 +1,4 @@
-package com.example.hungryist.main
+package com.example.hungryist.view.main
 
 import android.app.Activity
 import android.content.Intent

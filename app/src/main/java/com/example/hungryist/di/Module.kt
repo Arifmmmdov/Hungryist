@@ -7,7 +7,7 @@ import android.preference.PreferenceManager
 import com.example.hungryist.APP
 import com.example.hungryist.helper.SharedPreferencesManager
 import com.example.hungryist.api.APIRequestInterface
-import com.example.hungryist.main.MainViewModel
+import com.example.hungryist.view.main.MainViewModel
 import com.example.hungryist.viewmodel.SplashScreenViewModel
 import dagger.Module
 import dagger.Provides

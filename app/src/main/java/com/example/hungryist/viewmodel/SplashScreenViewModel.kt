@@ -5,7 +5,7 @@ import android.os.CountDownTimer
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.example.hungryist.activity.IntroActivity
-import com.example.hungryist.main.MainActivity
+import com.example.hungryist.view.main.MainActivity
 import com.example.hungryist.helper.SharedPreferencesManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject

@@ -1,4 +1,4 @@
-package com.example.hungryist.main
+package com.example.hungryist.view.main
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

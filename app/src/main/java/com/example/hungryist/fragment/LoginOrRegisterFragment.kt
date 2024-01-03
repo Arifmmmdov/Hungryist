@@ -5,7 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.hungryist.main.MainActivity
+import com.example.hungryist.view.main.MainActivity
 import com.example.hungryist.databinding.FragmentLoginOrRegisterBinding
 
 class LoginOrRegisterFragment : Fragment() {

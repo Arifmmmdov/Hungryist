@@ -27,7 +27,7 @@
             android:name=".activity.IntroActivity"
             android:exported="false" />
         <activity
-            android:name=".main.MainActivity"
+            android:name=".view.main.MainActivity"
             android:exported="false" />
     </application>
 
