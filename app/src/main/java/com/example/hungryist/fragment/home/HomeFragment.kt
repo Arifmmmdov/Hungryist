@@ -15,17 +15,23 @@ import com.example.hungryist.generics.ActionListener
 import com.example.hungryist.generics.BaseRecyclerAdapter
 import com.example.hungryist.model.BaseInfoModel
 import com.example.hungryist.model.SelectStringModel
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class HomeFragment : Fragment(), ActionListener<SelectStringModel> {
 
     private val binding by lazy {
         FragmentHomeBinding.inflate(layoutInflater)
     }
 
+    @Inject
+    lateinit var viewModel: HomeViewModel
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         setListeners()
         setRecyclerViews()
@@ -41,7 +47,9 @@ class HomeFragment : Fragment(), ActionListener<SelectStringModel> {
         }
 
         binding.recyclerDealsOfMonth.apply {
-            adapter = TopPlacesRecyclerAdapter(requireContext(), getBaseInfoModel())
+            viewModel.getBaseInfoModel {
+                adapter = TopPlacesRecyclerAdapter(requireContext(), it)
+            }
             layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         }

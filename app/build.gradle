@@ -3,6 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -51,6 +52,9 @@ dependencies {
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.9.0'
     implementation 'com.github.haseebazeem15:gifImageView:1.4'
 
+    //Firebase
+    implementation 'com.google.firebase:firebase-firestore:24.10.0'
+    implementation platform('com.google.firebase:firebase-bom:31.1.1')
 
     // Phone number validity
     implementation 'com.googlecode.libphonenumber:libphonenumber:8.4.2'
@@ -70,6 +74,7 @@ dependencies {
     testImplementation 'com.google.dagger:hilt-android-testing:3.0.1'
     testAnnotationProcessor 'com.google.dagger:hilt-compiler:3.0.1'
 
-    //Firebase
-    implementation platform('com.google.firebase.firebase-bom:26.2.0')
+    //Glide
+    implementation 'com.github.bumptech.glide:glide:4.16.0'
+
 }

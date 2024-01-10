@@ -19,8 +19,11 @@
             android:layout_weight="1">
 
             <ImageView
+                android:id="@+id/mainImage"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:translationX="-4dp"
+                app:layout_constraintStart_toStartOf="parent" />
 
             <ImageView
                 android:id="@+id/saved_sticker"

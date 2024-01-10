@@ -1,12 +1,11 @@
 package com.example.hungryist.di
 
-import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
-import android.preference.PreferenceManager
-import com.example.hungryist.APP
-import com.example.hungryist.helper.SharedPreferencesManager
 import com.example.hungryist.api.APIRequestInterface
+import com.example.hungryist.fragment.home.HomeViewModel
+import com.example.hungryist.helper.SharedPreferencesManager
+import com.example.hungryist.repo.Repository
 import com.example.hungryist.view.main.MainViewModel
 import com.example.hungryist.viewmodel.SplashScreenViewModel
 import dagger.Module
@@ -16,7 +15,6 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import javax.inject.Inject
 import javax.inject.Singleton
 
 @Module
@@ -52,5 +50,21 @@ object Module {
 
     @Provides
     @Singleton
-    fun mainViewModel(): MainViewModel = MainViewModel()
+    fun mainViewModel(
+        @ApplicationContext context: Context,
+        repository: Repository,
+    ): MainViewModel = MainViewModel(context, repository)
+
+    @Provides
+    @Singleton
+    fun repository(): Repository = Repository()
+
+    @Provides
+    @Singleton
+    fun homeViewModel(repository: Repository): HomeViewModel =
+        HomeViewModel(repository)
+
+    @Provides
+    @Singleton
+    fun getContext(@ApplicationContext context: Context): Context = context
 }

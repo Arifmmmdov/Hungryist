@@ -5,7 +5,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 
 
-abstract class BaseRecyclerAdapter<Item, ItemBinding : ViewBinding>(private val dataList: List<Item>) :
+abstract class BaseRecyclerAdapter<Item, ItemBinding : ViewBinding>(val dataList: List<Item>) :
     RecyclerView.Adapter<BaseViewHolder<Item, ItemBinding>>() {
 
     abstract override fun onCreateViewHolder(
@@ -17,5 +17,6 @@ abstract class BaseRecyclerAdapter<Item, ItemBinding : ViewBinding>(private val 
 
     override fun onBindViewHolder(holder: BaseViewHolder<Item, ItemBinding>, position: Int) {
         holder.bind(dataList[position])
+        holder.clickListener(position)
     }
 }
