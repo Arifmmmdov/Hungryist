@@ -1,10 +1,10 @@
 package com.example.hungryist.fragment.home
 
-import android.content.Context
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.example.hungryist.model.BaseInfoModel
+import com.example.hungryist.model.SelectStringModel
 import com.example.hungryist.repo.Repository
-import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 class HomeViewModel @Inject constructor(
@@ -17,6 +17,25 @@ class HomeViewModel @Inject constructor(
                 callback(it)
             }
             .addOnFailureListener {
+                callback(listOf())
+            }
+    }
+
+    fun setSavedInfo(id: String, saved: Boolean) {
+        repository.setDataSaved(id, saved)
+    }
+
+    fun onTypeSelected(selectStringModel: SelectStringModel) {
+
+    }
+
+    fun getDealsOfMonth(callback: (List<String>) -> Unit) {
+        repository.getDealsOfMonths()
+            .addOnSuccessListener {
+                callback(it)
+            }
+            .addOnFailureListener {
+                Log.d("MyTagHere", "getDealsOfMonth: ${it.message}")
                 callback(listOf())
             }
     }

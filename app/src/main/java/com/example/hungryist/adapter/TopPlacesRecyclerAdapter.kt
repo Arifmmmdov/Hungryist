@@ -7,6 +7,7 @@ import com.bumptech.glide.Glide
 import com.example.hungryist.R
 import com.example.hungryist.databinding.ItemRecyclerDetailedInfoBinding
 import com.example.hungryist.databinding.ItemRecyclerTopPlacesBinding
+import com.example.hungryist.fragment.home.HomeViewModel
 import com.example.hungryist.generics.BaseRecyclerAdapter
 import com.example.hungryist.generics.BaseViewHolder
 import com.example.hungryist.model.BaseInfoModel
@@ -18,6 +19,7 @@ import javax.inject.Inject
 class TopPlacesRecyclerAdapter @Inject constructor(
     @ApplicationContext val applicationContext: Context,
     dataList: List<BaseInfoModel>,
+    val viewModel: HomeViewModel,
 ) :
     BaseRecyclerAdapter<BaseInfoModel, ItemRecyclerTopPlacesBinding>(dataList) {
     override fun onCreateViewHolder(
@@ -56,9 +58,11 @@ class TopPlacesRecyclerAdapter @Inject constructor(
 
         override fun clickListener(position: Int) {
             binding.itemRecyclerDetailedInfo.savedSticker.setOnClickListener {
-                //TODO set item changed to firestore
-                dataList[position].saved = !dataList[position].saved
-                notifyItemChanged(position)
+                dataList[position].apply {
+                    this.saved = !this.saved
+                    viewModel.setSavedInfo(id, saved)
+                    notifyItemChanged(position)
+                }
             }
         }
     }

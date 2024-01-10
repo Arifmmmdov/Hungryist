@@ -2,6 +2,7 @@ package com.example.hungryist.di
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.example.hungryist.adapter.TopPlacesRecyclerAdapter
 import com.example.hungryist.api.APIRequestInterface
 import com.example.hungryist.fragment.home.HomeViewModel
 import com.example.hungryist.helper.SharedPreferencesManager
@@ -67,4 +68,6 @@ object Module {
     @Provides
     @Singleton
     fun getContext(@ApplicationContext context: Context): Context = context
+
+
 }
