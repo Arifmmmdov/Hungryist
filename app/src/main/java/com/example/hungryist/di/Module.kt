@@ -2,13 +2,11 @@ package com.example.hungryist.di
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.example.hungryist.adapter.TopPlacesRecyclerAdapter
-import com.example.hungryist.api.APIRequestInterface
-import com.example.hungryist.fragment.home.HomeViewModel
-import com.example.hungryist.helper.SharedPreferencesManager
+import com.example.hungryist.ui.fragment.home.HomeViewModel
+import com.example.hungryist.utils.SharedPreferencesManager
 import com.example.hungryist.repo.Repository
-import com.example.hungryist.view.main.MainViewModel
-import com.example.hungryist.viewmodel.SplashScreenViewModel
+import com.example.hungryist.ui.activity.main.MainViewModel
+import com.example.hungryist.ui.activity.splashscreen.SplashScreenViewModel
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -21,16 +19,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object Module {
-
-    @Provides
-    @Singleton
-    fun apiService(): APIRequestInterface {
-        return Retrofit.Builder()
-            .baseUrl("https://restaurants222.p.rapidapi.com/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(APIRequestInterface::class.java)
-    }
 
     @Provides
     @Singleton

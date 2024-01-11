@@ -11,8 +11,8 @@ import com.example.hungryist.generics.BaseViewHolder
 class DealsOfMonthAdapter(
     val context: Context,
     dataList: List<String>,
-) :
-    BaseRecyclerAdapter<String, ItemDealsOfMonthBinding>(dataList) {
+) : BaseRecyclerAdapter<String, ItemDealsOfMonthBinding>(dataList) {
+
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int,

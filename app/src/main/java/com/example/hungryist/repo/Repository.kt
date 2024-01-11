@@ -5,6 +5,7 @@ import android.util.Log
 import android.widget.Toast
 import com.example.hungryist.model.BaseInfoModel
 import com.example.hungryist.model.DealsOfMonth
+import com.example.hungryist.model.SelectStringModel
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.FirebaseFirestore
@@ -54,4 +55,19 @@ class Repository {
             .update("saved", saved)
     }
 
+    fun getPlacesList(): Task<List<SelectStringModel>> {
+        return db.collection("places").get()
+            .continueWithTask {
+                if (it.isSuccessful) {
+                    val places = mutableListOf<SelectStringModel>()
+                    for (document in it.result) {
+                        val place = document.toObject(SelectStringModel::class.java)
+                        place.id = document.id
+                        places.add(place)
+                    }
+                    Tasks.forResult(places)
+                } else
+                    Tasks.forException(it.exception!!)
+            }
+    }
 }

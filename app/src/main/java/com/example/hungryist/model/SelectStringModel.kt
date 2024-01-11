@@ -1,6 +1,9 @@
 package com.example.hungryist.model
 
 data class SelectStringModel(
-    val item: String,
-    var isSelected: Boolean
-)
+    var id: String?,
+    val place: String,
+    var isSelected: Boolean = false,
+) {
+    constructor() : this("", "", false)
+}

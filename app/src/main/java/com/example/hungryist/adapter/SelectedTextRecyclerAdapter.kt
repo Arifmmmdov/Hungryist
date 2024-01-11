@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import com.example.hungryist.R
 import com.example.hungryist.databinding.ItemRecyclerFilterBinding
-import com.example.hungryist.fragment.home.HomeViewModel
+import com.example.hungryist.ui.fragment.home.HomeViewModel
 import com.example.hungryist.generics.BaseRecyclerAdapter
 import com.example.hungryist.generics.BaseViewHolder
 import com.example.hungryist.model.SelectStringModel
@@ -33,7 +33,7 @@ class SelectedTextRecyclerAdapter @Inject constructor(
     inner class ViewHolder(val binding: ItemRecyclerFilterBinding) :
         BaseViewHolder<SelectStringModel, ItemRecyclerFilterBinding>(binding) {
         override fun bind(item: SelectStringModel) {
-            binding.title.text = item.item
+            binding.title.text = item.place
             textSelectedAction(item)
 
         }

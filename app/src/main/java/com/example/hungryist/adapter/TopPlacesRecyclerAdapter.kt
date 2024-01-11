@@ -7,7 +7,7 @@ import com.bumptech.glide.Glide
 import com.example.hungryist.R
 import com.example.hungryist.databinding.ItemRecyclerDetailedInfoBinding
 import com.example.hungryist.databinding.ItemRecyclerTopPlacesBinding
-import com.example.hungryist.fragment.home.HomeViewModel
+import com.example.hungryist.ui.fragment.home.HomeViewModel
 import com.example.hungryist.generics.BaseRecyclerAdapter
 import com.example.hungryist.generics.BaseViewHolder
 import com.example.hungryist.model.BaseInfoModel
