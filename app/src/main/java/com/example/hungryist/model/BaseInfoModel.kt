@@ -11,9 +11,10 @@ data class BaseInfoModel(
     val closeTime: String,
     val rating: Double,
     val reviews: String,
+    val type: String,
     var saved: Boolean,
     val imageUrl: String,
     val titleName: String? = null,
 ) {
-    constructor() : this("", "", "", "", "", "", 0.0, "", false, "", null)
+    constructor() : this("", "", "", "", "", "", 0.0, "", "", false, "", null)
 }

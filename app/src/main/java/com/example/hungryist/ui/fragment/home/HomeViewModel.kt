@@ -12,24 +12,32 @@ class HomeViewModel @Inject constructor(
     private val repository: Repository,
 ) : ViewModel() {
 
-    private val _isDealsOfMonthLoading = MutableLiveData<Boolean>(false)
+    private val _isDealsOfMonthLoading = MutableLiveData(false)
     val isDealsOfMonthLoading: LiveData<Boolean> = _isDealsOfMonthLoading
 
-    private val _isTopPlacesLoading = MutableLiveData<Boolean>(false)
+    private val _isTopPlacesLoading = MutableLiveData(false)
     val isTopPlacesLoading: LiveData<Boolean> = _isTopPlacesLoading
 
-    private val _isPlacesLoading = MutableLiveData<Boolean>(false)
+    private val _isPlacesLoading = MutableLiveData(false)
     val isPlacesLoading: LiveData<Boolean> = _isPlacesLoading
 
-    fun getBaseInfoModel(callback: (List<BaseInfoModel>) -> Unit) {
+    private val _baseInfoList = MutableLiveData<List<BaseInfoModel>>()
+    val baseInfoList: LiveData<List<BaseInfoModel>> = _baseInfoList
+
+    private val _filteredBaseInfoList = MutableLiveData<List<BaseInfoModel>>()
+    val filteredBaseInfoList: LiveData<List<BaseInfoModel>> = _filteredBaseInfoList
+
+    private val selectedPlace = MutableLiveData<SelectStringModel>()
+
+    fun getBaseInfoModel() {
         _isTopPlacesLoading.value = true
         repository.getBaseInfoList()
             .addOnSuccessListener {
-                callback(it.filter { !it.titleName.isNullOrEmpty() })
-                _isTopPlacesLoading.value = false
+                _baseInfoList.value = it
             }
             .addOnFailureListener {
-                callback(listOf())
+                _baseInfoList.value = listOf()
+            }.addOnCompleteListener {
                 _isTopPlacesLoading.value = false
             }
 
@@ -55,7 +63,10 @@ class HomeViewModel @Inject constructor(
     }
 
     fun onTypeSelected(selectStringModel: SelectStringModel) {
-
+        selectedPlace.value = selectStringModel
+        _filteredBaseInfoList.value = baseInfoList.value?.filter {
+            it.type == selectStringModel.place
+        }
     }
 
     fun getDealsOfMonth(callback: (List<String>) -> Unit) {
@@ -69,5 +80,15 @@ class HomeViewModel @Inject constructor(
                 callback(listOf())
                 _isDealsOfMonthLoading.value = false
             }
+    }
+
+    fun onTextTyped(text: String) {
+        val result = baseInfoList.value
+            ?.takeIf { !selectedPlace.value?.place.isNullOrEmpty() }
+            ?.filter { it.type == selectedPlace.value?.place }
+            ?.takeIf { text.isNotEmpty() }
+            ?.filter { it.name.contains(text) }
+
+        _filteredBaseInfoList.value = result
     }
 }
