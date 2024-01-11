@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView.Adapter
 import com.example.hungryist.adapter.DealsOfMonthAdapter
 import com.example.hungryist.adapter.SelectedTextRecyclerAdapter
 import com.example.hungryist.adapter.TopPlacesRecyclerAdapter
@@ -32,7 +31,20 @@ class HomeFragment : Fragment() {
     ): View {
         setListeners()
         setRecyclerViews()
+        setObservers()
         return binding.root
+    }
+
+    private fun setObservers() {
+        viewModel.isDealsOfMonthLoading.observe(requireActivity()) {
+            binding.recyclerDealsOfMonth.visibility = if (it) View.GONE else View.VISIBLE
+            binding.shimmerDealsOfMonth.visibility = if (it) View.VISIBLE else View.GONE
+        }
+
+        viewModel.isTopPlacesLoading.observe(requireActivity()) {
+            binding.recyclerTop.visibility = if (it) View.GONE else View.VISIBLE
+            binding.shimmerTopPlaces.visibility = if (it) View.VISIBLE else View.GONE
+        }
     }
 
     private fun setRecyclerViews() {

@@ -18,4 +18,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="red">#EC5656</color>
     <color name="blue">#1B74E4</color>
+    <color name="shimmer">#C2C2C2C2</color>
 </resources>
