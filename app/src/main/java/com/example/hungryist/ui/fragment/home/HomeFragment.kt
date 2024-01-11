@@ -42,9 +42,9 @@ class HomeFragment : Fragment() {
 
     private fun setObservers() {
         viewModel.isDealsOfMonthLoading.observe(requireActivity()) {
+            changeDealsOfMonthVisibility(true)
             binding.recyclerDealsOfMonth.visibility = if (it) View.GONE else View.VISIBLE
             binding.shimmerDealsOfMonth.visibility = if (it) View.VISIBLE else View.GONE
-            changeDealsOfMonthVisibility(true)
         }
 
         viewModel.isTopPlacesLoading.observe(requireActivity()) {
@@ -58,14 +58,12 @@ class HomeFragment : Fragment() {
         }
 
         viewModel.baseInfoList.observe(requireActivity()) {
-            setTopPlacesAdapter(it.filter { !it.titleName.isNullOrEmpty() }, false)
+            setPlacesAdapter(it.filter { !it.titleName.isNullOrEmpty() }, false)
         }
 
         viewModel.filteredBaseInfoList.observe(requireActivity()) {
-            if (it.isNotEmpty()) {
-                setTopPlacesAdapter(it, true)
-                changeDealsOfMonthVisibility(false)
-            }
+            setPlacesAdapter(it, true)
+            changeDealsOfMonthVisibility(false)
         }
     }
 
@@ -99,7 +97,7 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun setTopPlacesAdapter(places: List<BaseInfoModel>, isFiltered: Boolean) {
+    private fun setPlacesAdapter(places: List<BaseInfoModel>, isFiltered: Boolean) {
         val itemDecoration = ItemDecoration(resources.getDimensionPixelSize(R.dimen.item_space))
         binding.recyclerInfo.apply {
             layoutManager =

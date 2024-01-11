@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.hungryist.model.BaseInfoModel
+import com.example.hungryist.model.SelectPairString
 import com.example.hungryist.model.SelectStringModel
 import com.example.hungryist.repo.Repository
 import javax.inject.Inject
@@ -27,7 +28,7 @@ class HomeViewModel @Inject constructor(
     private val _filteredBaseInfoList = MutableLiveData<List<BaseInfoModel>>()
     val filteredBaseInfoList: LiveData<List<BaseInfoModel>> = _filteredBaseInfoList
 
-    private val selectedPlace = MutableLiveData<SelectStringModel>()
+    private val selectedPairString = MutableLiveData<SelectPairString>()
 
     fun getBaseInfoModel() {
         _isTopPlacesLoading.value = true
@@ -63,10 +64,8 @@ class HomeViewModel @Inject constructor(
     }
 
     fun onTypeSelected(selectStringModel: SelectStringModel) {
-        selectedPlace.value = selectStringModel
-        _filteredBaseInfoList.value = baseInfoList.value?.filter {
-            it.type == selectStringModel.place
-        }
+        selectedPairString.value?.place = selectStringModel.place
+        filterItems()
     }
 
     fun getDealsOfMonth(callback: (List<String>) -> Unit) {
@@ -83,12 +82,22 @@ class HomeViewModel @Inject constructor(
     }
 
     fun onTextTyped(text: String) {
-        val result = baseInfoList.value
-            ?.takeIf { !selectedPlace.value?.place.isNullOrEmpty() }
-            ?.filter { it.type == selectedPlace.value?.place }
-            ?.takeIf { text.isNotEmpty() }
-            ?.filter { it.name.contains(text) }
+        selectedPairString.value?.typed = text
 
+        filterItems()
+    }
+
+    private fun filterItems() {
+        var result = baseInfoList.value
+        if (!selectedPairString.value?.place.isNullOrEmpty())
+            result = result?.filter {
+                it.type == selectedPairString.value?.place
+            }
+        if (selectedPairString.value?.typed != "") {
+            result = result?.filter {
+                selectedPairString.value?.typed?.let { it1 -> it.name.contains(it1) } ?: true
+            }
+        }
         _filteredBaseInfoList.value = result
     }
 }

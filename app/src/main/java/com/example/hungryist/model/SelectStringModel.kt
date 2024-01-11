@@ -7,3 +7,8 @@ data class SelectStringModel(
 ) {
     constructor() : this("", "", false)
 }
+
+data class SelectPairString(
+    var place:String,
+    var typed:String
+)
