@@ -6,6 +6,7 @@
     android:layout_height="wrap_content"
     app:cardCornerRadius="4dp"
     app:strokeColor="@color/grey"
+    android:layout_marginTop="16dp"
     app:strokeWidth="1dp">
 
     <androidx.appcompat.widget.LinearLayoutCompat

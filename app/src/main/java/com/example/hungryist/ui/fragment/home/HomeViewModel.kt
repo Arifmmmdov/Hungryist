@@ -7,6 +7,7 @@ import com.example.hungryist.model.BaseInfoModel
 import com.example.hungryist.model.SelectPairString
 import com.example.hungryist.model.SelectStringModel
 import com.example.hungryist.repo.Repository
+import com.example.hungryist.utils.FilterUtils
 import javax.inject.Inject
 
 class HomeViewModel @Inject constructor(
@@ -30,7 +31,7 @@ class HomeViewModel @Inject constructor(
 
     private val selectedPairString = MutableLiveData<SelectPairString>()
 
-    fun getBaseInfoModel() {
+    fun getBaseInfoList() {
         _isTopPlacesLoading.value = true
         repository.getBaseInfoList()
             .addOnSuccessListener {
@@ -49,10 +50,11 @@ class HomeViewModel @Inject constructor(
         repository.getPlacesList()
             .addOnSuccessListener {
                 callback(it)
-                _isPlacesLoading.value = false
             }
             .addOnFailureListener {
                 callback(listOf())
+            }
+            .addOnCompleteListener {
                 _isPlacesLoading.value = false
             }
 
@@ -64,8 +66,7 @@ class HomeViewModel @Inject constructor(
     }
 
     fun onTypeSelected(selectStringModel: SelectStringModel) {
-        selectedPairString.value?.place = selectStringModel.place
-        filterItems()
+        _filteredBaseInfoList.value = FilterUtils.filterForCategory(selectStringModel.place)
     }
 
     fun getDealsOfMonth(callback: (List<String>) -> Unit) {
@@ -73,31 +74,17 @@ class HomeViewModel @Inject constructor(
         repository.getDealsOfMonths()
             .addOnSuccessListener {
                 callback(it)
-                _isDealsOfMonthLoading.value = false
             }
             .addOnFailureListener {
                 callback(listOf())
+            }
+            .addOnCompleteListener {
                 _isDealsOfMonthLoading.value = false
             }
     }
 
     fun onTextTyped(text: String) {
-        selectedPairString.value?.typed = text
-
-        filterItems()
+        _filteredBaseInfoList.value = FilterUtils.filterForTypedText(text)
     }
 
-    private fun filterItems() {
-        var result = baseInfoList.value
-        if (!selectedPairString.value?.place.isNullOrEmpty())
-            result = result?.filter {
-                it.type == selectedPairString.value?.place
-            }
-        if (selectedPairString.value?.typed != "") {
-            result = result?.filter {
-                selectedPairString.value?.typed?.let { it1 -> it.name.contains(it1) } ?: true
-            }
-        }
-        _filteredBaseInfoList.value = result
-    }
 }

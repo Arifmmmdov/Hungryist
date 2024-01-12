@@ -15,6 +15,7 @@ import com.example.hungryist.adapter.TopPlacesRecyclerAdapter
 import com.example.hungryist.databinding.FragmentHomeBinding
 import com.example.hungryist.model.BaseInfoModel
 import com.example.hungryist.model.SelectStringModel
+import com.example.hungryist.utils.FilterUtils
 import com.example.hungryist.utils.ItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -59,6 +60,7 @@ class HomeFragment : Fragment() {
 
         viewModel.baseInfoList.observe(requireActivity()) {
             setPlacesAdapter(it.filter { !it.titleName.isNullOrEmpty() }, false)
+            FilterUtils.setBaseInfoList(it)
         }
 
         viewModel.filteredBaseInfoList.observe(requireActivity()) {
@@ -79,7 +81,7 @@ class HomeFragment : Fragment() {
             setSelectedTextAdapter(it.toMutableList())
         }
 
-        viewModel.getBaseInfoModel()
+        viewModel.getBaseInfoList()
 
         viewModel.getDealsOfMonth {
             setDealsOfMonthAdapter(it)
@@ -98,15 +100,12 @@ class HomeFragment : Fragment() {
     }
 
     private fun setPlacesAdapter(places: List<BaseInfoModel>, isFiltered: Boolean) {
-        val itemDecoration = ItemDecoration(resources.getDimensionPixelSize(R.dimen.item_space))
         binding.recyclerInfo.apply {
             layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
             adapter =
                 if (isFiltered) FilteredInfoRecyclerAdapter(requireContext(), places, viewModel)
                 else TopPlacesRecyclerAdapter(requireContext(), places, viewModel)
-
-            addItemDecoration(itemDecoration)
         }
     }
 
@@ -124,6 +123,7 @@ class HomeFragment : Fragment() {
         binding.swipeRefresh.setOnRefreshListener {
             getItems()
             binding.swipeRefresh.isRefreshing = false
+            binding.editText.setText("")
         }
 
         binding.editText.addTextChangedListener {
