@@ -14,7 +14,9 @@ data class DetailedInfoModel(
     val websiteLink: String,
     val videoLocationUri: String,
     val imageUrl: String,
-    val name:String,
-    val reviews:String,
-    val rating:Double
+    val name: String,
+    val reviews: String,
+    val rating: Double,
+    val reviewsList: List<ReviewsModel>,
+    val menuList: List<MenuModel>,
 )

@@ -62,7 +62,6 @@ class Repository {
                     val places = mutableListOf<SelectStringModel>()
                     for (document in it.result) {
                         val place = document.toObject(SelectStringModel::class.java)
-                        place.id = document.id
                         places.add(place)
                     }
                     Tasks.forResult(places)
