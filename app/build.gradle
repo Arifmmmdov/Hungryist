@@ -80,4 +80,8 @@ dependencies {
     //Shimmer effect
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
 
+    //Maps
+    implementation 'com.google.android.gms:play-services-maps:18.2.0'
+
+
 }

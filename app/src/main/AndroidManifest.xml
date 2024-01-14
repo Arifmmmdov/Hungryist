@@ -25,10 +25,17 @@
         </activity>
         <activity
             android:name=".ui.activity.IntroActivity"
-            android:exported="false" />
+            android:exported="false"/>
+        <activity
+            android:name=".ui.activity.detailedinfo.DetailedInfoActivity"
+            android:exported="false"/>
         <activity
             android:name=".ui.activity.main.MainActivity"
             android:exported="false" />
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBWEUyQrrFsc4aOraG87hnFwZAKDdN96n4" />
     </application>
 
 </manifest>

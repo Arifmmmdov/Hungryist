@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import com.example.hungryist.ui.fragment.home.HomeViewModel
 import com.example.hungryist.utils.SharedPreferencesManager
 import com.example.hungryist.repo.Repository
+import com.example.hungryist.ui.activity.detailedinfo.DetailedInfoViewModel
 import com.example.hungryist.ui.activity.main.MainViewModel
 import com.example.hungryist.ui.activity.splashscreen.SplashScreenViewModel
 import dagger.Module
@@ -56,6 +57,12 @@ object Module {
     @Provides
     @Singleton
     fun getContext(@ApplicationContext context: Context): Context = context
+
+
+    @Provides
+    @Singleton
+    fun getDetailedInfoViewModel(context: Context, repository: Repository): DetailedInfoViewModel =
+        DetailedInfoViewModel(context, repository)
 
 
 }

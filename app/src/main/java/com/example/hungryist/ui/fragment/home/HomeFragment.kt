@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.hungryist.R
 import com.example.hungryist.adapter.DealsOfMonthAdapter
 import com.example.hungryist.adapter.FilteredInfoRecyclerAdapter
 import com.example.hungryist.adapter.SelectedTextRecyclerAdapter
@@ -16,7 +15,6 @@ import com.example.hungryist.databinding.FragmentHomeBinding
 import com.example.hungryist.model.BaseInfoModel
 import com.example.hungryist.model.SelectStringModel
 import com.example.hungryist.utils.FilterUtils
-import com.example.hungryist.utils.ItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -129,5 +127,6 @@ class HomeFragment : Fragment() {
         binding.editText.addTextChangedListener {
             viewModel.onTextTyped(it.toString())
         }
+
     }
 }

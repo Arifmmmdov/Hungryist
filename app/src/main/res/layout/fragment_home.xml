@@ -20,10 +20,10 @@
         app:boxCornerRadiusTopStart="4dp"
         app:boxStrokeColor="@color/grey"
         app:hintEnabled="false"
-        app:layout_constraintBottom_toBottomOf="@+id/imageButton"
-        app:layout_constraintEnd_toStartOf="@+id/imageButton"
+        app:layout_constraintBottom_toBottomOf="@+id/filterButton"
+        app:layout_constraintEnd_toStartOf="@+id/filterButton"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageButton">
+        app:layout_constraintTop_toTopOf="@+id/filterButton">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
@@ -40,10 +40,11 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <ImageView
-        android:id="@+id/imageButton"
+        android:id="@+id/filterButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
+        android:clickable="true"
         android:backgroundTint="@color/white"
         android:contentDescription="@string/filter_button_description"
         android:src="@drawable/ic_filter"

@@ -21,6 +21,25 @@
     <string name="place_status">Open now</string>
     <string name="open_and_close_times">%s - %s</string>
     <string name="reviews">%s reviews</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="details">Details</string>
+
+    <string name="free_wifi">Free wifi</string>
+    <string name="booking_mandatory">Booking mandatory</string>
+    <string name="live_music_every_night">Live music every night</string>
+    <string name="order_in_advance">Order in advance</string>
+    <string name="smoking_area">Smoking area</string>
+    <string name="studying_condition">Studying condition</string>
+    <string name="expand_icon_description">Is responsible for expanding showing expansion of Schedule</string>
+    <string name="clock_icon">Schedule clock icon</string>
+    <string name="location">Location</string>
+    <string name="visit_website"><u>Visit website</u></string>
+    <string name="video_location">Video location</string>
+    <string name="book_a_table">Book a table</string>
+    <string name="rating">Rating</string>
+    <string name="back_button">Back button</string>
+    <string name="menu">Menu</string>
+    <string name="main_frame">Main frame</string>
+
+    <string name="rating_info">%s/5</string>
+
 </resources>

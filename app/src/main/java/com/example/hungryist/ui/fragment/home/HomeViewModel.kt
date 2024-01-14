@@ -61,8 +61,8 @@ class HomeViewModel @Inject constructor(
     }
 
 
-    fun setSavedInfo(id: String, saved: Boolean) {
-        repository.setDataSaved(id, saved)
+    fun setSavedInfo(id: String, referenceId: String, saved: Boolean) {
+        repository.setDataSaved(id, referenceId, saved)
     }
 
     fun onTypeSelected(selectStringModel: SelectStringModel) {

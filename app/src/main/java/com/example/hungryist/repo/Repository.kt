@@ -1,16 +1,14 @@
 package com.example.hungryist.repo
 
-import android.content.Context
-import android.util.Log
-import android.widget.Toast
 import com.example.hungryist.model.BaseInfoModel
 import com.example.hungryist.model.DealsOfMonth
+import com.example.hungryist.model.DetailedInfoModel
+import com.example.hungryist.model.MenuModel
+import com.example.hungryist.model.ReviewsModel
 import com.example.hungryist.model.SelectStringModel
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.toObject
-import dagger.hilt.android.qualifiers.ApplicationContext
 
 class Repository {
 
@@ -50,8 +48,11 @@ class Repository {
             }
     }
 
-    fun setDataSaved(id: String, saved: Boolean) {
-        db.collection("baseInfoModel").document(id)
+    fun setDataSaved(baseInfoId: String, detailedInfoId: String, saved: Boolean) {
+        db.collection("baseInfoModel").document(baseInfoId)
+            .update("saved", saved)
+
+        db.collection("detailedInfoModel").document(detailedInfoId)
             .update("saved", saved)
     }
 
@@ -67,6 +68,55 @@ class Repository {
                     Tasks.forResult(places)
                 } else
                     Tasks.forException(it.exception!!)
+            }
+    }
+
+    fun getDetailedInfo(id: String): Task<DetailedInfoModel> {
+        return db.collection("detailedInfoModel").document(id).get()
+            .continueWithTask { task ->
+                if (task.isSuccessful) {
+                    val document = task.result
+                    if (document != null && document.exists()) {
+                        Tasks.forResult(document.toObject(DetailedInfoModel::class.java))
+                    } else {
+                        Tasks.forException(task.exception!!)
+                    }
+                } else {
+                    Tasks.forException(task.exception!!)
+                }
+            }
+
+    }
+
+    fun getMenuList(id: String): Task<List<MenuModel>> {
+        return db.collection("detailedInfoModel").document(id).collection("menuModel").get()
+            .continueWithTask {
+                if (it.isSuccessful) {
+                    val menuList = mutableListOf<MenuModel>()
+                    for (document in it.result) {
+                        val menu = document.toObject(MenuModel::class.java)
+                        menuList.add(menu)
+                    }
+                    Tasks.forResult(menuList)
+                } else {
+                    Tasks.forException(it.exception!!)
+                }
+            }
+    }
+
+    fun getReviewsList(id: String): Task<List<ReviewsModel>> {
+        return db.collection("detailedInfoModel").document(id).collection("reviewsModel").get()
+            .continueWithTask {
+                if (it.isSuccessful) {
+                    val reviews = mutableListOf<ReviewsModel>()
+                    for (document in it.result) {
+                        val reviewModel = document.toObject(ReviewsModel::class.java)
+                        reviews.add(reviewModel)
+                    }
+                    Tasks.forResult(reviews)
+                } else {
+                    Tasks.forException(it.exception!!)
+                }
             }
     }
 }

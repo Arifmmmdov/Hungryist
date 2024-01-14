@@ -9,12 +9,12 @@ import com.example.hungryist.databinding.ItemRecyclerDetailedInfoBinding
 import com.example.hungryist.generics.BaseRecyclerAdapter
 import com.example.hungryist.generics.BaseViewHolder
 import com.example.hungryist.model.BaseInfoModel
+import com.example.hungryist.ui.activity.detailedinfo.DetailedInfoActivity
 import com.example.hungryist.ui.fragment.home.HomeViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 class FilteredInfoRecyclerAdapter @Inject constructor(
-    val applicationContext: Context,
+    val context: Context,
     dataList: List<BaseInfoModel>,
     val viewModel: HomeViewModel,
 ) :
@@ -39,16 +39,16 @@ class FilteredInfoRecyclerAdapter @Inject constructor(
                 savedSticker.setImageResource(if (item.saved) R.drawable.ic_saved_sticker else R.drawable.ic_unsaved_sticker)
                 location.text = item.location
                 openStatus.text = item.openStatus
-                openEndTime.text = applicationContext.resources.getString(
+                openEndTime.text = context.resources.getString(
                     R.string.open_and_close_times,
                     item.openTime,
                     item.closeTime
                 )
                 rate.text = item.rating.toString()
                 reviews.text =
-                    applicationContext.resources.getString(R.string.reviews, item.reviews)
+                    context.resources.getString(R.string.reviews, item.reviews)
 
-                Glide.with(applicationContext).load(item.imageUrl).into(mainImage)
+                Glide.with(context).load(item.imageUrl).into(mainImage)
             }
         }
 
@@ -56,9 +56,13 @@ class FilteredInfoRecyclerAdapter @Inject constructor(
             binding.savedSticker.setOnClickListener {
                 dataList[position].apply {
                     this.saved = !this.saved
-                    viewModel.setSavedInfo(id, saved)
+                    viewModel.setSavedInfo(id,referenceId, saved)
                     notifyItemChanged(position)
                 }
+            }
+
+            binding.itemFrame.setOnClickListener {
+                DetailedInfoActivity.intentFor(context,dataList[position].referenceId)
             }
         }
     }

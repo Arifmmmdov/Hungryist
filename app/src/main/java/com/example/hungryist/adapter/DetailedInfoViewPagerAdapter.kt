@@ -5,11 +5,14 @@ import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 
 class DetailedInfoViewPagerAdapter(
-    private val fragmentList: List<Fragment>,
-    fragmentActivity: FragmentActivity
+    private val fragmentList: List<Pair<Fragment, String>>,
+    fragmentActivity: FragmentActivity,
 ) :
     FragmentStateAdapter(fragmentActivity) {
-    override fun getItemCount(): Int = 4
+    override fun getItemCount(): Int = fragmentList.size
 
-    override fun createFragment(position: Int): Fragment = fragmentList[position]
+    override fun createFragment(position: Int): Fragment = fragmentList[position].first
+
+    fun getPageTitle(position: Int): CharSequence = fragmentList[position].second
+
 }

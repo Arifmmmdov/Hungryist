@@ -4,6 +4,7 @@ import android.media.Rating
 
 data class BaseInfoModel(
     var id: String,
+    var referenceId:String,
     val name: String,
     val location: String,
     val openStatus: String,
@@ -16,5 +17,5 @@ data class BaseInfoModel(
     val imageUrl: String,
     val titleName: String? = null,
 ) {
-    constructor() : this("", "", "", "", "", "", 0.0, "", "", false, "", null)
+    constructor() : this("","", "", "", "", "", "", 0.0, "", "", false, "", null)
 }

@@ -3,6 +3,9 @@ package com.example.hungryist.model
 import android.net.Uri
 
 data class DetailedInfoModel(
+    val id:String,
+    val referenceId:String,
+    var saved:Boolean,
     val freeWifi: Boolean,
     val bookingMandatory: Boolean,
     val liveMusicEveryNight: Boolean,
@@ -17,6 +20,28 @@ data class DetailedInfoModel(
     val name: String,
     val reviews: String,
     val rating: Double,
-    val reviewsList: List<ReviewsModel>,
-    val menuList: List<MenuModel>,
-)
+    var reviewsList: List<ReviewsModel>,
+    var menuList: List<MenuModel>,
+) {
+    constructor() : this(
+        "",
+        "",
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        "",
+        emptyList(),
+        "",
+        "",
+        "",
+        "",
+        "",
+        0.0,
+        emptyList(),
+        emptyList()
+    )
+}

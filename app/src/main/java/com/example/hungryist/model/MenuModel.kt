@@ -7,5 +7,7 @@ data class MenuModel(
     val onSale: Boolean,
     val rate: Double,
     val notifyMe: Boolean,
-    val imageUrl:String
-)
+    val imageUrl: String,
+) {
+    constructor() : this("", 0.0, "", false, 0.0, false, "")
+}

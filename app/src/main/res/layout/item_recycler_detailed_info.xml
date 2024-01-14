@@ -4,9 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginTop="16dp"
+    android:id="@+id/itemFrame"
     app:cardCornerRadius="4dp"
     app:strokeColor="@color/grey"
-    android:layout_marginTop="16dp"
     app:strokeWidth="1dp">
 
     <androidx.appcompat.widget.LinearLayoutCompat

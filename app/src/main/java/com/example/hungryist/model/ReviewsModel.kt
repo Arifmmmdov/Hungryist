@@ -12,4 +12,6 @@ data class ReviewsModel(
     val reply: Int,
     val like: Int,
     val dislike: Int
-)
+){
+    constructor():this("", listOf(),"","",0.0,"",0,0,0)
+}
