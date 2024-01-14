@@ -9,8 +9,10 @@ import com.example.hungryist.databinding.FragmentDetailsBinding
 import com.example.hungryist.model.DetailedInfoModel
 import com.example.hungryist.ui.activity.detailedinfo.DetailedInfoViewModel
 import com.example.hungryist.utils.extension.triggerVisibility
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class DetailsFragment : Fragment() {
     private val binding by lazy {
         FragmentDetailsBinding.inflate(layoutInflater)

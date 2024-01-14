@@ -17,59 +17,59 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/freeWIFI"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/freeWIFI"
                 android:drawablePadding="11dp"
                 android:text="@string/free_wifi"
                 android:textSize="14sp"
                 app:drawableStartCompat="@drawable/ic_wifi" />
 
             <TextView
+                android:id="@+id/bookingMandatory"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="7dp"
-                android:id="@+id/bookingMandatory"
                 android:drawablePadding="11dp"
                 android:text="@string/booking_mandatory"
                 android:textSize="14sp"
                 app:drawableStartCompat="@drawable/ic_booking" />
 
             <TextView
+                android:id="@+id/liveMusic"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="7dp"
-                android:id="@+id/liveMusic"
                 android:drawablePadding="11dp"
                 android:text="@string/live_music_every_night"
                 android:textSize="14sp"
                 app:drawableStartCompat="@drawable/ic_music" />
 
             <TextView
+                android:id="@+id/order"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="7dp"
-                android:id="@+id/order"
                 android:drawablePadding="11dp"
                 android:text="@string/order_in_advance"
                 android:textSize="14sp"
                 app:drawableStartCompat="@drawable/ic_order" />
 
             <TextView
+                android:id="@+id/smokingArea"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="7dp"
                 android:drawablePadding="11dp"
-                android:id="@+id/smokingArea"
                 android:text="@string/smoking_area"
                 android:textSize="14sp"
                 app:drawableStartCompat="@drawable/ic_smoking" />
 
             <TextView
+                android:id="@+id/studyingCondition"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="7dp"
-                android:id="@+id/studyingCondition"
                 android:drawablePadding="11dp"
                 android:text="@string/studying_condition"
                 android:textSize="14sp"
@@ -184,7 +184,7 @@
                 android:id="@+id/mapFragment"
                 android:name="com.google.android.gms.maps.SupportMapFragment"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="140dp"
                 android:layout_marginTop="39dp" />
 
             <TextView
