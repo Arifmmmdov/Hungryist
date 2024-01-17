@@ -6,6 +6,8 @@ import androidx.viewbinding.ViewBinding
 abstract class BaseViewHolder<Item, ItemBinding : ViewBinding>(itemBinding: ItemBinding) :
     RecyclerView.ViewHolder(itemBinding.root) {
     abstract fun bind(item: Item)
-    abstract fun clickListener(position:Int)
+    open fun clickListener(position:Int){
+
+    }
 
 }

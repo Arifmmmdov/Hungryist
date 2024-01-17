@@ -4,6 +4,8 @@ import com.example.hungryist.model.BaseInfoModel
 import com.example.hungryist.model.DealsOfMonth
 import com.example.hungryist.model.DetailedInfoModel
 import com.example.hungryist.model.MenuModel
+import com.example.hungryist.model.OpenCloseTimes
+import com.example.hungryist.model.RatingModel
 import com.example.hungryist.model.ReviewsModel
 import com.example.hungryist.model.SelectStringModel
 import com.google.android.gms.tasks.Task
@@ -77,7 +79,10 @@ class Repository {
                 if (task.isSuccessful) {
                     val document = task.result
                     if (document != null && document.exists()) {
-                        Tasks.forResult(document.toObject(DetailedInfoModel::class.java))
+                        val phones = document.get("phoneNumbers") as List<String>
+                        val detailedInfo = document.toObject(DetailedInfoModel::class.java)
+                        detailedInfo?.phoneNumbers = phones
+                        Tasks.forResult(detailedInfo)
                     } else {
                         Tasks.forException(task.exception!!)
                     }
@@ -114,6 +119,38 @@ class Repository {
                         reviews.add(reviewModel)
                     }
                     Tasks.forResult(reviews)
+                } else {
+                    Tasks.forException(it.exception!!)
+                }
+            }
+    }
+
+    fun getOpenCloseDate(id: String): Task<List<OpenCloseTimes>> {
+        return db.collection("detailedInfoModel").document(id).collection("openCloseTimes").get()
+            .continueWithTask {
+                if (it.isSuccessful) {
+                    val openCloseTimes = mutableListOf<OpenCloseTimes>()
+                    for (document in it.result) {
+                        val openCloseTime = document.toObject(OpenCloseTimes::class.java)
+                        openCloseTimes.add(openCloseTime)
+                    }
+                    Tasks.forResult(openCloseTimes)
+                } else {
+                    Tasks.forException(it.exception!!)
+                }
+            }
+    }
+
+    fun getRatingList(id: String): Task<List<RatingModel>> {
+        return db.collection("detailedInfoModel").document(id).collection("raings").get()
+            .continueWithTask {
+                if (it.isSuccessful) {
+                    val ratingList = mutableListOf<RatingModel>()
+                    for (document in it.result) {
+                        val rating = document.toObject(RatingModel::class.java)
+                        ratingList.add(rating)
+                    }
+                    Tasks.forResult(ratingList)
                 } else {
                     Tasks.forException(it.exception!!)
                 }

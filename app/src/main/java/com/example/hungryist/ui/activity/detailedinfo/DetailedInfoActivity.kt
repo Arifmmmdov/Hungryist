@@ -14,7 +14,6 @@ import com.example.hungryist.model.DetailedInfoModel
 import com.example.hungryist.ui.fragment.LoginOrRegisterFragment
 import com.example.hungryist.ui.fragment.details.DetailsFragment
 import com.example.hungryist.utils.Constant.PLACE_ID
-import com.example.hungryist.utils.extension.triggerVisibility
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -45,7 +44,7 @@ class DetailedInfoActivity : AppCompatActivity() {
     private fun setListeners() {
         binding.savedSticker.setOnClickListener {
             viewModel.savedInfoTrigger()
-            binding.savedSticker.setImage(!viewModel.detailedInfo.value?.saved!!)
+            binding.savedSticker.setSavedImage(viewModel.detailedInfo.value?.saved!!)
         }
 
         binding.btnBack.setOnClickListener {
@@ -61,9 +60,9 @@ class DetailedInfoActivity : AppCompatActivity() {
 
     private fun setUpViews(info: DetailedInfoModel) {
         Glide.with(this).load(info.imageUrl).into(binding.mainImage)
-        binding.savedSticker.setImage(info.saved)
+        binding.savedSticker.setSavedImage(info.saved)
         binding.name.text = info.name
-        binding.rating.text = getString(R.string.rating_info, info.rating.toString())
+        binding.rating.text = getString(R.string.rating_info, info.overallRating.toString())
         binding.reviews.text = getString(R.string.reviews, info.reviews)
     }
 
@@ -90,7 +89,7 @@ class DetailedInfoActivity : AppCompatActivity() {
         }
     }
 
-    fun ImageView.setImage(saved: Boolean) {
+    private fun ImageView.setSavedImage(saved: Boolean) {
         setImageResource(if (saved) R.drawable.ic_saved_sticker else R.drawable.ic_unsaved_sticker)
     }
 }

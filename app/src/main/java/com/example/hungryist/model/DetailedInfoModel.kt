@@ -1,11 +1,12 @@
 package com.example.hungryist.model
 
-import android.net.Uri
+import com.google.firebase.firestore.GeoPoint
 
 data class DetailedInfoModel(
-    val id:String,
-    val referenceId:String,
-    var saved:Boolean,
+    val id: String,
+    val referenceId: String,
+    val geoPoint: GeoPoint,
+    var saved: Boolean,
     val freeWifi: Boolean,
     val bookingMandatory: Boolean,
     val liveMusicEveryNight: Boolean,
@@ -13,19 +14,20 @@ data class DetailedInfoModel(
     val smokingArea: Boolean,
     val studyingCondition: Boolean,
     val location: String,
-    val phoneNumbers: List<String>,
+    var phoneNumbers: List<String>,
     val websiteLink: String,
     val videoLocationUri: String,
     val imageUrl: String,
     val name: String,
     val reviews: String,
-    val rating: Double,
-    var reviewsList: List<ReviewsModel>,
-    var menuList: List<MenuModel>,
+    val overallRating: Double,
+    var reviewsList: List<ReviewsModel>?,
+    var menuList: List<MenuModel>?,
 ) {
     constructor() : this(
         "",
         "",
+        GeoPoint(0.0, 0.0),
         false,
         false,
         false,
@@ -42,6 +44,6 @@ data class DetailedInfoModel(
         "",
         0.0,
         emptyList(),
-        emptyList()
+        emptyList(),
     )
 }

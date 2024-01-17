@@ -34,9 +34,13 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View {
         setListeners()
-        getItems()
         setObservers()
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        getItems()
     }
 
     private fun setObservers() {
