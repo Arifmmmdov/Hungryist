@@ -41,5 +41,6 @@
     <string name="main_frame">Main frame</string>
 
     <string name="rating_info">%s/5</string>
+    <string name="phone_numbers">Phone numbers</string>
 
 </resources>

@@ -1,17 +1,23 @@
 package com.example.hungryist.ui.fragment.details
 
 import android.animation.ObjectAnimator
+import android.content.Intent
 import android.graphics.BitmapFactory.decodeResource
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Adapter
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.hungryist.R
 import com.example.hungryist.adapter.OpenCloseRecyclerAdapter
 import com.example.hungryist.adapter.RatingRecyclerAdapter
+import com.example.hungryist.adapter.SimpleTextRecyclerAdapter
 import com.example.hungryist.databinding.FragmentDetailsBinding
+import com.example.hungryist.generics.BaseRecyclerAdapter
 import com.example.hungryist.model.DetailedInfoModel
 import com.example.hungryist.model.OpenCloseTimes
 import com.example.hungryist.model.RatingModel
@@ -55,6 +61,11 @@ class DetailsFragment : Fragment() {
             setAnimatedDateExpand()
         }
 
+        binding.visitWebsite.setOnClickListener {
+            val webPage = Uri.parse(viewModel.detailedInfo.value?.websiteLink)
+            val intent = Intent(Intent.ACTION_VIEW, webPage)
+            startActivity(intent)
+        }
     }
 
     private fun setAnimatedRatingExpand() {
@@ -132,8 +143,14 @@ class DetailsFragment : Fragment() {
 
     private fun setUpViews(info: DetailedInfoModel) {
         setVisibilities(info)
-
+        setPhoneNumbers(info)
         performMapActions(info)
+    }
+
+    private fun setPhoneNumbers(info: DetailedInfoModel) {
+        binding.recyclerPhone.adapter = SimpleTextRecyclerAdapter(info.phoneNumbers)
+        binding.recyclerPhone.layoutManager =
+            GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
     }
 
     private fun performMapActions(info: DetailedInfoModel) {
@@ -156,7 +173,7 @@ class DetailsFragment : Fragment() {
             googleMap.addMarker(
                 MarkerOptions().position(location).title(info.name).icon(customMarker)
             )
-
+            googleMap.uiSettings.isScrollGesturesEnabled = false
             googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 12.0f))
         }
     }

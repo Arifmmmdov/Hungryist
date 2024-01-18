@@ -208,15 +208,26 @@
                 android:clickable="true"
                 android:focusable="true" />
 
-            <TextView
-                android:id="@+id/phoneNumber"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:drawablePadding="9dp"
-                android:textSize="14sp"
-                app:drawableStartCompat="@drawable/ic_phone"
-                tools:text="+994 70 586 96 96" />
+                android:layout_marginTop="24dp">
+
+                <ImageView
+                    android:id="@+id/phoneNumber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/phone_numbers"
+                    android:src="@drawable/ic_phone"
+                    android:textSize="14sp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerPhone"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="9dp"
+                    android:layout_toEndOf="@id/phoneNumber" />
+            </RelativeLayout>
 
             <TextView
                 android:id="@+id/visitWebsite"
