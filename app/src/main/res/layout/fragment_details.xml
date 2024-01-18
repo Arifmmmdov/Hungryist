@@ -127,7 +127,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
-                android:animateLayoutChanges="true"
                 android:visibility="gone" />
 
             <View
@@ -161,15 +160,18 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:contentDescription="@string/expand_icon_description"
-                    android:src="@drawable/ic_expand_up" />
+                    android:src="@drawable/ic_expand_down" />
 
             </RelativeLayout>
+
+            <View
+                android:id="@+id/dividerBelowRating"
+                style="@style/Divider" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerRating"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:animateLayoutChanges="true"
                 android:visibility="gone" />
 
             <View
@@ -202,7 +204,9 @@
                 android:name="com.google.android.gms.maps.SupportMapFragment"
                 android:layout_width="match_parent"
                 android:layout_height="140dp"
-                android:layout_marginTop="39dp" />
+                android:layout_marginTop="30dp"
+                android:clickable="true"
+                android:focusable="true" />
 
             <TextView
                 android:id="@+id/phoneNumber"

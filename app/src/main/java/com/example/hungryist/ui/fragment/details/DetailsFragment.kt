@@ -1,12 +1,11 @@
 package com.example.hungryist.ui.fragment.details
 
 import android.animation.ObjectAnimator
-import android.graphics.BitmapFactory
+import android.graphics.BitmapFactory.decodeResource
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.RelativeLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.hungryist.R
@@ -16,6 +15,7 @@ import com.example.hungryist.databinding.FragmentDetailsBinding
 import com.example.hungryist.model.DetailedInfoModel
 import com.example.hungryist.model.OpenCloseTimes
 import com.example.hungryist.model.RatingModel
+import com.example.hungryist.ui.activity.MapsActivity
 import com.example.hungryist.ui.activity.detailedinfo.DetailedInfoViewModel
 import com.example.hungryist.utils.extension.triggerVisibility
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -54,6 +54,7 @@ class DetailsFragment : Fragment() {
         binding.layoutExpandSchedule.setOnClickListener {
             setAnimatedDateExpand()
         }
+
     }
 
     private fun setAnimatedRatingExpand() {
@@ -67,8 +68,8 @@ class DetailsFragment : Fragment() {
         ratingRotationAngle += 180
         ratingRotationAngle %= 360
 
-        binding.recyclerRating.visibility =
-            if (ratingRotationAngle == 0.0f) View.VISIBLE else View.GONE
+        binding.recyclerRating.triggerVisibility(ratingRotationAngle == 0.0f)
+        binding.dividerRecyclerRating.triggerVisibility(ratingRotationAngle == 0.0f)
 
     }
 
@@ -83,8 +84,8 @@ class DetailsFragment : Fragment() {
         dateRotationAngle += 180
         dateRotationAngle %= 360
 
-        binding.recyclerOpenDate.visibility =
-            if (dateRotationAngle == 0.0f) View.VISIBLE else View.GONE
+        binding.recyclerOpenDate.triggerVisibility(dateRotationAngle == 0.0f)
+        binding.dividerRating.triggerVisibility(dateRotationAngle == 0.0f)
     }
 
     private fun setOpenCloseTimeAdapter(openCloseTimes: List<OpenCloseTimes>?) {
@@ -111,6 +112,7 @@ class DetailsFragment : Fragment() {
         binding.dividerRecyclerRating.triggerVisibility(!ratingList.isNullOrEmpty())
         binding.dividerRating.triggerVisibility(!ratingList.isNullOrEmpty())
         binding.layoutExpandRating.triggerVisibility(!ratingList.isNullOrEmpty())
+        binding.dividerBelowRating.triggerVisibility(!ratingList.isNullOrEmpty())
 
     }
 
@@ -143,13 +145,19 @@ class DetailsFragment : Fragment() {
                 info.geoPoint.longitude
             )
 
-            val customMarkerIcon = BitmapFactory.decodeResource(resources, R.drawable.ic_marker)
+            googleMap.setOnMapClickListener {
+                MapsActivity.intentFor(requireContext())
+            }
+
+            val customMarkerIcon = decodeResource(resources, R.drawable.ic_marker)
             val customMarker = BitmapDescriptorFactory.fromBitmap(customMarkerIcon)
 
             googleMap.moveCamera(CameraUpdateFactory.newLatLng(location))
             googleMap.addMarker(
                 MarkerOptions().position(location).title(info.name).icon(customMarker)
             )
+
+            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 12.0f))
         }
     }
 

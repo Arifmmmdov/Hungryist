@@ -50,6 +50,7 @@ class DetailedInfoActivity : AppCompatActivity() {
         binding.btnBack.setOnClickListener {
             onBackPressedDispatcher.onBackPressed()
         }
+
     }
 
     private fun setObservers() {
