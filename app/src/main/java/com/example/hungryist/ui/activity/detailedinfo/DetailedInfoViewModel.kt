@@ -1,15 +1,23 @@
 package com.example.hungryist.ui.activity.detailedinfo
 
 import android.content.Context
+import android.graphics.BitmapFactory
 import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.hungryist.R
 import com.example.hungryist.model.DetailedInfoModel
-import com.example.hungryist.model.OpenCloseTimes
+import com.example.hungryist.model.OpenCloseStatusModel
 import com.example.hungryist.model.RatingModel
 import com.example.hungryist.repo.Repository
+import com.example.hungryist.ui.activity.MapsActivity
+import com.example.hungryist.utils.RestaurantStatusChecker
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.MarkerOptions
 import javax.inject.Inject
 
 class DetailedInfoViewModel @Inject constructor(val context: Context, val repository: Repository) :
@@ -18,8 +26,8 @@ class DetailedInfoViewModel @Inject constructor(val context: Context, val reposi
     val detailedInfo: LiveData<DetailedInfoModel> = _detailedInfo
     private val _ratingList = MutableLiveData<List<RatingModel>>()
     val ratingList: LiveData<List<RatingModel>> = _ratingList
-    private val _openClosedDateList = MutableLiveData<List<OpenCloseTimes>>()
-    val openClosedDateList: LiveData<List<OpenCloseTimes>> = _openClosedDateList
+    private val _openClosedDateList = MutableLiveData<List<OpenCloseStatusModel>>()
+    val openClosedDateList: LiveData<List<OpenCloseStatusModel>> = _openClosedDateList
 
     fun getDetailedInfo(id: String) {
         repository.getDetailedInfo(id)
@@ -61,5 +69,30 @@ class DetailedInfoViewModel @Inject constructor(val context: Context, val reposi
             repository.setDataSaved(referenceId, id, !saved)
             saved = !saved
         }
+    }
+
+    fun setUpMapParameters(googleMap: GoogleMap, context: Context) {
+        val location = com.google.android.gms.maps.model.LatLng(
+            detailedInfo.value?.geoPoint!!.latitude,
+            detailedInfo.value?.geoPoint!!.longitude
+        )
+
+        googleMap.setOnMapClickListener {
+            MapsActivity.intentFor(context)
+        }
+
+        val customMarkerIcon = BitmapFactory.decodeResource(context.resources, R.drawable.ic_marker)
+        val customMarker = BitmapDescriptorFactory.fromBitmap(customMarkerIcon)
+
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(location))
+        googleMap.addMarker(
+            MarkerOptions().position(location).title(detailedInfo.value?.name).icon(customMarker)
+        )
+        googleMap.uiSettings.isScrollGesturesEnabled = false
+        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 12.0f))
+    }
+
+    fun isCurrentlyOpen(): Boolean {
+        return RestaurantStatusChecker().isRestaurantOpen(openClosedDateList.value)
     }
 }

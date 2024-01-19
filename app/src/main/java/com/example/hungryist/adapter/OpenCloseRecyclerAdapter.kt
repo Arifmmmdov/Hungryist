@@ -7,12 +7,10 @@ import com.example.hungryist.R
 import com.example.hungryist.databinding.ItemOpenCloseTimesBinding
 import com.example.hungryist.generics.BaseRecyclerAdapter
 import com.example.hungryist.generics.BaseViewHolder
-import com.example.hungryist.model.OpenCloseTimes
-import com.example.hungryist.model.RatingModel
-import com.example.hungryist.utils.extension.triggerVisibility
+import com.example.hungryist.model.OpenCloseStatusModel
 
-class OpenCloseRecyclerAdapter(val context: Context, timesList: List<OpenCloseTimes>) :
-    BaseRecyclerAdapter<OpenCloseTimes, ItemOpenCloseTimesBinding>(timesList) {
+class OpenCloseRecyclerAdapter(val context: Context, timesList: List<OpenCloseStatusModel>) :
+    BaseRecyclerAdapter<OpenCloseStatusModel, ItemOpenCloseTimesBinding>(timesList) {
 
 
     override fun onCreateViewHolder(
@@ -24,8 +22,8 @@ class OpenCloseRecyclerAdapter(val context: Context, timesList: List<OpenCloseTi
     }
 
     inner class ViewHolder(private val itemBinding: ItemOpenCloseTimesBinding) :
-        BaseViewHolder<OpenCloseTimes, ItemOpenCloseTimesBinding>(itemBinding) {
-        override fun bind(item: OpenCloseTimes) {
+        BaseViewHolder<OpenCloseStatusModel, ItemOpenCloseTimesBinding>(itemBinding) {
+        override fun bind(item: OpenCloseStatusModel) {
             itemBinding.dayName.text = item.day
             itemBinding.openCloseTimes.text =
                 context.getString(R.string.open_and_close_times, item.start, item.end)

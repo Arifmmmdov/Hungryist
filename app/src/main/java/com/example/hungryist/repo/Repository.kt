@@ -4,7 +4,7 @@ import com.example.hungryist.model.BaseInfoModel
 import com.example.hungryist.model.DealsOfMonth
 import com.example.hungryist.model.DetailedInfoModel
 import com.example.hungryist.model.MenuModel
-import com.example.hungryist.model.OpenCloseTimes
+import com.example.hungryist.model.OpenCloseStatusModel
 import com.example.hungryist.model.RatingModel
 import com.example.hungryist.model.ReviewsModel
 import com.example.hungryist.model.SelectStringModel
@@ -125,13 +125,13 @@ class Repository {
             }
     }
 
-    fun getOpenCloseDate(id: String): Task<List<OpenCloseTimes>> {
+    fun getOpenCloseDate(id: String): Task<List<OpenCloseStatusModel>> {
         return db.collection("detailedInfoModel").document(id).collection("openCloseTimes").get()
             .continueWithTask {
                 if (it.isSuccessful) {
-                    val openCloseTimes = mutableListOf<OpenCloseTimes>()
+                    val openCloseTimes = mutableListOf<OpenCloseStatusModel>()
                     for (document in it.result) {
-                        val openCloseTime = document.toObject(OpenCloseTimes::class.java)
+                        val openCloseTime = document.toObject(OpenCloseStatusModel::class.java)
                         openCloseTimes.add(openCloseTime)
                     }
                     Tasks.forResult(openCloseTimes)

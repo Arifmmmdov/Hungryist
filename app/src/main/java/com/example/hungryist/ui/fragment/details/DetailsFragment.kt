@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Adapter
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,9 +16,8 @@ import com.example.hungryist.adapter.OpenCloseRecyclerAdapter
 import com.example.hungryist.adapter.RatingRecyclerAdapter
 import com.example.hungryist.adapter.SimpleTextRecyclerAdapter
 import com.example.hungryist.databinding.FragmentDetailsBinding
-import com.example.hungryist.generics.BaseRecyclerAdapter
 import com.example.hungryist.model.DetailedInfoModel
-import com.example.hungryist.model.OpenCloseTimes
+import com.example.hungryist.model.OpenCloseStatusModel
 import com.example.hungryist.model.RatingModel
 import com.example.hungryist.ui.activity.MapsActivity
 import com.example.hungryist.ui.activity.detailedinfo.DetailedInfoViewModel
@@ -99,7 +97,7 @@ class DetailsFragment : Fragment() {
         binding.dividerRating.triggerVisibility(dateRotationAngle == 0.0f)
     }
 
-    private fun setOpenCloseTimeAdapter(openCloseTimes: List<OpenCloseTimes>?) {
+    private fun setOpenCloseTimeAdapter(openCloseTimes: List<OpenCloseStatusModel>?) {
         openCloseTimes?.let { openCloseTimeList ->
             binding.recyclerOpenDate.adapter =
                 OpenCloseRecyclerAdapter(requireContext(), openCloseTimeList)
@@ -134,6 +132,7 @@ class DetailsFragment : Fragment() {
 
         viewModel.openClosedDateList.observe(requireActivity()) {
             setOpenCloseTimeAdapter(it)
+            checkPlaceStatus()
         }
 
         viewModel.ratingList.observe(requireActivity()) {
@@ -144,7 +143,16 @@ class DetailsFragment : Fragment() {
     private fun setUpViews(info: DetailedInfoModel) {
         setVisibilities(info)
         setPhoneNumbers(info)
-        performMapActions(info)
+        performMapActions()
+    }
+
+    private fun checkPlaceStatus() {
+        val isCurrentlyOpen = viewModel.isCurrentlyOpen()
+        val placeStatus = if (isCurrentlyOpen) R.string.open_now else R.string.open_now
+        val statusColor = if (isCurrentlyOpen) R.color.main_color else R.color.red
+
+        binding.txtOpenStatus.text = getString(placeStatus)
+        binding.txtOpenStatus.setTextColor(requireContext().getColor(statusColor))
     }
 
     private fun setPhoneNumbers(info: DetailedInfoModel) {
@@ -153,28 +161,14 @@ class DetailsFragment : Fragment() {
             GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
     }
 
-    private fun performMapActions(info: DetailedInfoModel) {
+    private fun performMapActions() {
         val mapFragment =
             childFragmentManager.findFragmentById(R.id.mapFragment) as SupportMapFragment
         mapFragment.getMapAsync { googleMap ->
-            val location = com.google.android.gms.maps.model.LatLng(
-                info.geoPoint.latitude,
-                info.geoPoint.longitude
+            viewModel.setUpMapParameters(
+                googleMap,
+                requireContext()
             )
-
-            googleMap.setOnMapClickListener {
-                MapsActivity.intentFor(requireContext())
-            }
-
-            val customMarkerIcon = decodeResource(resources, R.drawable.ic_marker)
-            val customMarker = BitmapDescriptorFactory.fromBitmap(customMarkerIcon)
-
-            googleMap.moveCamera(CameraUpdateFactory.newLatLng(location))
-            googleMap.addMarker(
-                MarkerOptions().position(location).title(info.name).icon(customMarker)
-            )
-            googleMap.uiSettings.isScrollGesturesEnabled = false
-            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 12.0f))
         }
     }
 

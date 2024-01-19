@@ -81,7 +81,7 @@
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
-        style="@style/Widget.MaterialComponents.TabLayout"
+        app:tabTextAppearance="@style/MyCustomTextAppearance"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/mainImage"

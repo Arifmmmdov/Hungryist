@@ -1,8 +1,6 @@
 package com.example.hungryist.model
 
-import java.util.Date
-
-data class OpenCloseTimes(
+data class OpenCloseStatusModel(
     val day: String,
     val start: String,
     val end: String,

@@ -18,9 +18,11 @@
     <string name="restaurants">Restaurants</string>
     <string name="mezzo">Mezzo</string>
     <string name="_220_dilara_aliyeva_baku">220 Dilara Aliyeva, Baku</string>
-    <string name="place_status">Open now</string>
+    <string name="open_now">Open now</string>
+    <string name="closed_now">Closed now</string>
     <string name="open_and_close_times">%s - %s</string>
     <string name="reviews">%s reviews</string>
+    <string name="reviews_info">Reviews</string>
     <string name="details">Details</string>
 
     <string name="free_wifi">Free wifi</string>
@@ -42,5 +44,8 @@
 
     <string name="rating_info">%s/5</string>
     <string name="phone_numbers">Phone numbers</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="interior">Interior</string>
 
 </resources>

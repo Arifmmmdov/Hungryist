@@ -13,6 +13,9 @@ import com.example.hungryist.databinding.ActivityDetailedInfoBinding
 import com.example.hungryist.model.DetailedInfoModel
 import com.example.hungryist.ui.fragment.LoginOrRegisterFragment
 import com.example.hungryist.ui.fragment.details.DetailsFragment
+import com.example.hungryist.ui.fragment.interior.InteriorFragment
+import com.example.hungryist.ui.fragment.menu.MenuFragment
+import com.example.hungryist.ui.fragment.reviews.ReviewsFragment
 import com.example.hungryist.utils.Constant.PLACE_ID
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
@@ -78,7 +81,9 @@ class DetailedInfoActivity : AppCompatActivity() {
     private fun getFragmentList(): List<Pair<Fragment, String>> {
         return listOf(
             Pair(DetailsFragment(), getString(R.string.details)),
-            Pair(LoginOrRegisterFragment(), getString(R.string.menu))
+            Pair(MenuFragment(), getString(R.string.menu)),
+            Pair(InteriorFragment(), getString(R.string.interior)),
+            Pair(ReviewsFragment(), getString(R.string.reviews_info)),
         )
     }
 

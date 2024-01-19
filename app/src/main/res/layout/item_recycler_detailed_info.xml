@@ -79,7 +79,7 @@
                     android:id="@+id/openStatus"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/place_status"
+                    android:text="@string/open_now"
                     android:textColor="@color/main_color"
                     android:textSize="12sp" />
 
