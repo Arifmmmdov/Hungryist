@@ -95,7 +95,9 @@ class HomeFragment : Fragment() {
 
         binding.recyclerSelectPlaces.apply {
             adapter =
-                SelectedTextRecyclerAdapter(requireContext(), places, viewModel)
+                SelectedTextRecyclerAdapter(requireContext(), places) {
+                    viewModel.onTypeSelected(it)
+                }
             layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         }

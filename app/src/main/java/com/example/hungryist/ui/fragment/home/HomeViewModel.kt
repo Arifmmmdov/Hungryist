@@ -66,7 +66,7 @@ class HomeViewModel @Inject constructor(
     }
 
     fun onTypeSelected(selectStringModel: SelectStringModel) {
-        _filteredBaseInfoList.value = FilterUtils.filterForCategory(selectStringModel.place)
+        _filteredBaseInfoList.value = FilterUtils.filterForCategory(selectStringModel.name)
     }
 
     fun getDealsOfMonth(callback: (List<String>) -> Unit) {

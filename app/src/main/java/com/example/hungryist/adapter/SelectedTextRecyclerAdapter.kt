@@ -16,7 +16,7 @@ import javax.inject.Inject
 class SelectedTextRecyclerAdapter @Inject constructor(
     val context: Context,
     dataList: MutableList<SelectStringModel>,
-    private val viewModel: HomeViewModel,
+    val callback: (SelectStringModel) -> Unit,
 ) : BaseRecyclerAdapter<SelectStringModel, ItemRecyclerFilterBinding>(dataList) {
 
     private var selectedIndex = 0
@@ -33,7 +33,7 @@ class SelectedTextRecyclerAdapter @Inject constructor(
     inner class ViewHolder(val binding: ItemRecyclerFilterBinding) :
         BaseViewHolder<SelectStringModel, ItemRecyclerFilterBinding>(binding) {
         override fun bind(item: SelectStringModel) {
-            binding.title.text = item.place
+            binding.title.text = item.name
             textSelectedAction(item)
 
         }
@@ -53,7 +53,7 @@ class SelectedTextRecyclerAdapter @Inject constructor(
                 dataList[position].isSelected = true
                 selectedIndex = position
                 notifyDataSetChanged()
-                viewModel.onTypeSelected(dataList[position])
+                callback(dataList[position])
             }
 
 

@@ -44,8 +44,10 @@
 
     <string name="rating_info">%s/5</string>
     <string name="phone_numbers">Phone numbers</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="interior">Interior</string>
+    <string name="search_for_meal">Search for a meal</string>
+    <string name="go_to_your_orders"><u>Go to your orders</u></string>
+    <string name="see_all"><u>See all</u></string>
 
 </resources>

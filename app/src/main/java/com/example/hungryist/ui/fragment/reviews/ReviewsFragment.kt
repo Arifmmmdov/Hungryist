@@ -21,4 +21,5 @@ class ReviewsFragment : Fragment() {
     ): View {
         return binding.root
     }
+
 }
