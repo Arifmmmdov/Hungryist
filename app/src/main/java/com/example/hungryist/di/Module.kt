@@ -8,6 +8,7 @@ import com.example.hungryist.repo.Repository
 import com.example.hungryist.ui.activity.detailedinfo.DetailedInfoViewModel
 import com.example.hungryist.ui.activity.main.MainViewModel
 import com.example.hungryist.ui.activity.splashscreen.SplashScreenViewModel
+import com.example.hungryist.ui.fragment.menu.MenuViewModel
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -63,6 +64,11 @@ object Module {
     @Singleton
     fun getDetailedInfoViewModel(context: Context, repository: Repository): DetailedInfoViewModel =
         DetailedInfoViewModel(context, repository)
+
+    @Provides
+    @Singleton
+    fun getMenuViewModel(context: Context, repository: Repository): MenuViewModel =
+        MenuViewModel(context, repository)
 
 
 }

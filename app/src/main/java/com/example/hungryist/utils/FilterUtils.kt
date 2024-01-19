@@ -1,6 +1,5 @@
 package com.example.hungryist.utils
 
-import androidx.compose.ui.text.toLowerCase
 import com.example.hungryist.model.BaseInfoModel
 
 object FilterUtils {
@@ -9,7 +8,7 @@ object FilterUtils {
     private var category: String? = ""
     private var typed: String? = ""
 
-    fun setBaseInfoList(list: List<BaseInfoModel>) {
+    fun setList(list: List<BaseInfoModel>) {
         this.baseList = list
         category = ""
         typed = ""

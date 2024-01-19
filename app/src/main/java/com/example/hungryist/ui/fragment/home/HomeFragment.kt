@@ -62,7 +62,7 @@ class HomeFragment : Fragment() {
 
         viewModel.baseInfoList.observe(requireActivity()) {
             setPlacesAdapter(it.filter { !it.titleName.isNullOrEmpty() }, false)
-            FilterUtils.setBaseInfoList(it)
+            FilterUtils.setList(it)
         }
 
         viewModel.filteredBaseInfoList.observe(requireActivity()) {

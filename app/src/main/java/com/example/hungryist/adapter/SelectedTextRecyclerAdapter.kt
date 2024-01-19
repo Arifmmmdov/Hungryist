@@ -49,6 +49,12 @@ class SelectedTextRecyclerAdapter @Inject constructor(
         @SuppressLint("NotifyDataSetChanged")
         override fun clickListener(position: Int) {
             binding.mainFrame.setOnClickListener {
+                if (selectedIndex == position) {
+                    dataList[selectedIndex].isSelected = false
+                    notifyItemChanged(selectedIndex)
+                    selectedIndex = 0
+                    return@setOnClickListener
+                }
                 dataList[selectedIndex].isSelected = false
                 dataList[position].isSelected = true
                 selectedIndex = position

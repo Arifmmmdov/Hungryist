@@ -49,5 +49,9 @@
     <string name="search_for_meal">Search for a meal</string>
     <string name="go_to_your_orders"><u>Go to your orders</u></string>
     <string name="see_all"><u>See all</u></string>
+    <string name="on_sale">On sale</string>
+    <string name="notify_me">Notify me</string>
+    <string name="cost_in_dollar">%s $</string>
+    <string name="not_on_sale">Not on sale</string>
 
 </resources>

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp"
+    android:id="@+id/mainFrame">
+
+    <ImageView
+        android:id="@+id/mainImage"
+        android:layout_width="95dp"
+        android:layout_height="75dp"
+        android:background="@drawable/round_background_4dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/onSale"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/card_background"
+        android:clickable="false"
+        android:text="@string/on_sale"
+        android:textColor="@color/main_color"
+        android:textSize="12sp"
+        app:cornerRadius="4dp"
+        app:layout_constraintEnd_toEndOf="@+id/mainImage"
+        app:layout_constraintStart_toStartOf="@+id/mainImage"
+        app:layout_constraintTop_toBottomOf="@id/mainImage" />
+
+    <LinearLayout
+        android:id="@+id/groupRating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:visibility="visible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/onSale">
+
+        <TextView
+            android:id="@+id/rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            tools:text="4.2" />
+
+        <ImageView
+            android:id="@+id/star1"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:src="@drawable/ic_unfilled_star" />
+
+        <ImageView
+            android:id="@+id/star2"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:src="@drawable/ic_unfilled_star" />
+
+        <ImageView
+            android:id="@+id/star3"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:src="@drawable/ic_unfilled_star" />
+
+        <ImageView
+            android:id="@+id/star4"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:src="@drawable/ic_unfilled_star" />
+
+        <ImageView
+            android:id="@+id/star5"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:src="@drawable/ic_unfilled_star" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@+id/mainImage"
+        app:layout_constraintTop_toTopOf="@+id/mainImage"
+        tools:text="Ezogelin" />
+
+    <TextView
+        android:id="@+id/cost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="2.5 $" />
+
+    <TextView
+        android:id="@+id/description"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="12dp"
+        app:layout_constraintBottom_toTopOf="@+id/notifyMe"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/mainImage"
+        app:layout_constraintTop_toBottomOf="@+id/name"
+        tools:text="red lentils, rice, bulgur, olive oil, butter, onion, garlic, tomato, tomato paste, paprika, hot pepper, dried mint, black pepper, and salt, tomato sauce, and ..." />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/notifyMe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/grey"
+        android:clickable="false"
+        android:text="@string/notify_me"
+        android:textColor="@color/grey_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/groupRating" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

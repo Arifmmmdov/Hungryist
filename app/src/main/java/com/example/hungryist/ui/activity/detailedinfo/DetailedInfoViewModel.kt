@@ -41,10 +41,6 @@ class DetailedInfoViewModel @Inject constructor(val context: Context, val reposi
     }
 
     private fun getOtherDataAsync(id: String) {
-        repository.getMenuList(id)
-            .addOnSuccessListener {
-                _detailedInfo.value?.menuList = it
-            }
 
         repository.getReviewsList(id)
             .addOnSuccessListener {
