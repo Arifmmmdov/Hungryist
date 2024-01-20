@@ -43,8 +43,8 @@ class MenuRecyclerAdapter(val context: Context, dataList: List<MenuModel>) :
         override fun bind(item: MenuModel) {
             binding.description.text = item.description
             binding.notifyMe.apply {
-                setBackgroundResource(if (item.notifyMe) R.color.secondary_color else R.color.grey)
-                val textColorResource = if (item.notifyMe) R.color.white else R.color.text_color
+                setBackgroundColor(context.getColor(if (item.notifyMe) R.color.secondary_color else R.color.grey))
+                val textColorResource = if (item.notifyMe) R.color.white else R.color.grey_text
                 setTextColor(context.getColor(textColorResource))
             }
             binding.cost.text = context.getString(R.string.cost_in_dollar, item.cost.toString())

@@ -16,7 +16,7 @@ import javax.inject.Inject
 class SelectedTextRecyclerAdapter @Inject constructor(
     val context: Context,
     dataList: MutableList<SelectStringModel>,
-    val callback: (SelectStringModel) -> Unit,
+    val callback: (SelectStringModel?) -> Unit,
 ) : BaseRecyclerAdapter<SelectStringModel, ItemRecyclerFilterBinding>(dataList) {
 
     private var selectedIndex = 0
@@ -50,21 +50,18 @@ class SelectedTextRecyclerAdapter @Inject constructor(
         override fun clickListener(position: Int) {
             binding.mainFrame.setOnClickListener {
                 if (selectedIndex == position) {
-                    dataList[selectedIndex].isSelected = false
+                    dataList[selectedIndex].isSelected = !dataList[selectedIndex].isSelected
                     notifyItemChanged(selectedIndex)
                     selectedIndex = 0
-                    return@setOnClickListener
+                } else {
+                    dataList[selectedIndex].isSelected = false
+                    dataList[position].isSelected = true
+                    selectedIndex = position
+                    notifyDataSetChanged()
                 }
-                dataList[selectedIndex].isSelected = false
-                dataList[position].isSelected = true
-                selectedIndex = position
-                notifyDataSetChanged()
-                callback(dataList[position])
+                callback(dataList[selectedIndex].takeIf { it.isSelected })
             }
-
-
         }
-
     }
 
 }

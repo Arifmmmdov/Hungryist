@@ -15,7 +15,6 @@ class SplashScreenViewModel @Inject constructor(
     private val sharedPreferencesManager: SharedPreferencesManager
 ) : ViewModel() {
 
-    private val REGISTERED = "registered"
 
     fun startCountdownTimer(activity: Activity) {
 
@@ -51,7 +50,7 @@ class SplashScreenViewModel @Inject constructor(
     }
 
     private fun checkUserRegistration(): Boolean {
-        return sharedPreferencesManager.getBoolean(REGISTERED, false)
+        return sharedPreferencesManager.isRegistered()
     }
 
 

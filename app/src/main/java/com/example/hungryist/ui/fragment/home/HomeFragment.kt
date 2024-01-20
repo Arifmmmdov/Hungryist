@@ -14,7 +14,7 @@ import com.example.hungryist.adapter.TopPlacesRecyclerAdapter
 import com.example.hungryist.databinding.FragmentHomeBinding
 import com.example.hungryist.model.BaseInfoModel
 import com.example.hungryist.model.SelectStringModel
-import com.example.hungryist.utils.FilterUtils
+import com.example.hungryist.utils.filterutils.HomePageFilterUtils
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -62,7 +62,7 @@ class HomeFragment : Fragment() {
 
         viewModel.baseInfoList.observe(requireActivity()) {
             setPlacesAdapter(it.filter { !it.titleName.isNullOrEmpty() }, false)
-            FilterUtils.setList(it)
+            HomePageFilterUtils.setBaseInfoList(it)
         }
 
         viewModel.filteredBaseInfoList.observe(requireActivity()) {

@@ -1,4 +1,4 @@
-package com.example.hungryist.utils.network_util
+package com.example.hungryist.utils.networkutils
 
 import com.google.gson.annotations.SerializedName
 

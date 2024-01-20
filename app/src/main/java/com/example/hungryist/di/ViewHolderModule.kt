@@ -1,37 +1,25 @@
 package com.example.hungryist.di
 
 import android.content.Context
-import android.content.SharedPreferences
-import com.example.hungryist.ui.fragment.home.HomeViewModel
-import com.example.hungryist.utils.SharedPreferencesManager
-import com.example.hungryist.repo.Repository
+import com.example.hungryist.repo.BaseRepository
+import com.example.hungryist.repo.DetailedInfoRepository
 import com.example.hungryist.ui.activity.detailedinfo.DetailedInfoViewModel
 import com.example.hungryist.ui.activity.main.MainViewModel
 import com.example.hungryist.ui.activity.splashscreen.SplashScreenViewModel
+import com.example.hungryist.ui.fragment.home.HomeViewModel
 import com.example.hungryist.ui.fragment.menu.MenuViewModel
+import com.example.hungryist.utils.SharedPreferencesManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
+
 
 @Module
 @InstallIn(SingletonComponent::class)
-object Module {
-
-    @Provides
-    @Singleton
-    fun getSharedPreference(@ApplicationContext context: Context): SharedPreferences {
-        return context.getSharedPreferences("", Context.MODE_PRIVATE)
-    }
-
-    @Provides
-    fun getSharedPreferencesManager(sharedPreferences: SharedPreferences): SharedPreferencesManager {
-        return SharedPreferencesManager(sharedPreferences)
-    }
+object ViewHolderModule {
 
     @Provides
     @Singleton
@@ -43,32 +31,26 @@ object Module {
     @Singleton
     fun mainViewModel(
         @ApplicationContext context: Context,
-        repository: Repository,
+        repository: BaseRepository,
     ): MainViewModel = MainViewModel(context, repository)
 
     @Provides
     @Singleton
-    fun repository(): Repository = Repository()
-
-    @Provides
-    @Singleton
-    fun homeViewModel(repository: Repository): HomeViewModel =
+    fun homeViewModel(repository: BaseRepository): HomeViewModel =
         HomeViewModel(repository)
 
     @Provides
     @Singleton
-    fun getContext(@ApplicationContext context: Context): Context = context
-
-
-    @Provides
-    @Singleton
-    fun getDetailedInfoViewModel(context: Context, repository: Repository): DetailedInfoViewModel =
+    fun getDetailedInfoViewModel(
+        context: Context,
+        repository: DetailedInfoRepository,
+    ): DetailedInfoViewModel =
         DetailedInfoViewModel(context, repository)
 
+
     @Provides
     @Singleton
-    fun getMenuViewModel(context: Context, repository: Repository): MenuViewModel =
+    fun getMenuViewModel(context: Context, repository: DetailedInfoRepository): MenuViewModel =
         MenuViewModel(context, repository)
-
 
 }

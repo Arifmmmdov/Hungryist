@@ -11,7 +11,7 @@ import com.example.hungryist.R
 import com.example.hungryist.model.DetailedInfoModel
 import com.example.hungryist.model.OpenCloseStatusModel
 import com.example.hungryist.model.RatingModel
-import com.example.hungryist.repo.Repository
+import com.example.hungryist.repo.DetailedInfoRepository
 import com.example.hungryist.ui.activity.MapsActivity
 import com.example.hungryist.utils.RestaurantStatusChecker
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -20,7 +20,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.MarkerOptions
 import javax.inject.Inject
 
-class DetailedInfoViewModel @Inject constructor(val context: Context, val repository: Repository) :
+class DetailedInfoViewModel @Inject constructor(val context: Context, val repository: DetailedInfoRepository) :
     ViewModel() {
     private val _detailedInfo = MutableLiveData<DetailedInfoModel>()
     val detailedInfo: LiveData<DetailedInfoModel> = _detailedInfo
@@ -29,31 +29,31 @@ class DetailedInfoViewModel @Inject constructor(val context: Context, val reposi
     private val _openClosedDateList = MutableLiveData<List<OpenCloseStatusModel>>()
     val openClosedDateList: LiveData<List<OpenCloseStatusModel>> = _openClosedDateList
 
-    fun getDetailedInfo(id: String) {
-        repository.getDetailedInfo(id)
+    fun getDetailedInfo() {
+        repository.getDetailedInfo()
             .addOnSuccessListener {
                 _detailedInfo.value = it
-                getOtherDataAsync(id)
+                getOtherDataAsync()
             }
             .addOnFailureListener {
                 Toast.makeText(context, it.message, Toast.LENGTH_LONG).show()
             }
     }
 
-    private fun getOtherDataAsync(id: String) {
+    private fun getOtherDataAsync() {
 
-        repository.getReviewsList(id)
+        repository.getReviewsList()
             .addOnSuccessListener {
                 _detailedInfo.value?.reviewsList = it
             }
 
-        repository.getOpenCloseDate(id)
+        repository.getOpenCloseDate()
             .addOnSuccessListener {
                 Log.d("TestResult", "getOtherDataAsync: $it")
                 _openClosedDateList.value = it
             }
 
-        repository.getRatingList(id)
+        repository.getRatingList()
             .addOnSuccessListener {
                 Log.d("TestResult", "getOtherDataAsync: $it")
                 _ratingList.value = it
@@ -91,4 +91,9 @@ class DetailedInfoViewModel @Inject constructor(val context: Context, val reposi
     fun isCurrentlyOpen(): Boolean {
         return RestaurantStatusChecker().isRestaurantOpen(openClosedDateList.value)
     }
+
+    fun setPlaceId(id: String?) {
+        repository.setPlaceId(id!!)
+    }
+
 }

@@ -11,7 +11,6 @@ import com.example.hungryist.R
 import com.example.hungryist.adapter.DetailedInfoViewPagerAdapter
 import com.example.hungryist.databinding.ActivityDetailedInfoBinding
 import com.example.hungryist.model.DetailedInfoModel
-import com.example.hungryist.ui.fragment.LoginOrRegisterFragment
 import com.example.hungryist.ui.fragment.details.DetailsFragment
 import com.example.hungryist.ui.fragment.interior.InteriorFragment
 import com.example.hungryist.ui.fragment.menu.MenuFragment
@@ -31,17 +30,18 @@ class DetailedInfoActivity : AppCompatActivity() {
     @Inject
     lateinit var viewModel: DetailedInfoViewModel
 
-    val id by lazy {
-        intent.getStringExtra(PLACE_ID)
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        viewModel.getDetailedInfo(id!!)
+        savePlaceId()
+        viewModel.getDetailedInfo()
         setUpViewPager()
         setListeners()
         setObservers()
+    }
+
+    private fun savePlaceId() {
+        viewModel.setPlaceId(intent.getStringExtra(PLACE_ID))
     }
 
     private fun setListeners() {

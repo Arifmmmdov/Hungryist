@@ -6,12 +6,12 @@ import androidx.lifecycle.ViewModel
 import com.example.hungryist.model.BaseInfoModel
 import com.example.hungryist.model.SelectPairString
 import com.example.hungryist.model.SelectStringModel
-import com.example.hungryist.repo.Repository
-import com.example.hungryist.utils.FilterUtils
+import com.example.hungryist.repo.BaseRepository
+import com.example.hungryist.utils.filterutils.HomePageFilterUtils
 import javax.inject.Inject
 
 class HomeViewModel @Inject constructor(
-    private val repository: Repository,
+    private val repository: BaseRepository,
 ) : ViewModel() {
 
     private val _isDealsOfMonthLoading = MutableLiveData(false)
@@ -65,8 +65,8 @@ class HomeViewModel @Inject constructor(
         repository.setDataSaved(id, referenceId, saved)
     }
 
-    fun onTypeSelected(selectStringModel: SelectStringModel) {
-        _filteredBaseInfoList.value = FilterUtils.filterForCategory(selectStringModel.name)
+    fun onTypeSelected(selectStringModel: SelectStringModel?) {
+        _filteredBaseInfoList.value = HomePageFilterUtils.filterForCategory(selectStringModel?.name)
     }
 
     fun getDealsOfMonth(callback: (List<String>) -> Unit) {
@@ -84,7 +84,7 @@ class HomeViewModel @Inject constructor(
     }
 
     fun onTextTyped(text: String) {
-        _filteredBaseInfoList.value = FilterUtils.filterForTypedText(text)
+        _filteredBaseInfoList.value = HomePageFilterUtils.filterForTypedText(text)
     }
 
 }

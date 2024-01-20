@@ -1,4 +1,4 @@
-package com.example.hungryist.utils.network_util
+package com.example.hungryist.utils.networkutils
 
 import android.content.Context
 import com.google.gson.Gson

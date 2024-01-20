@@ -36,57 +36,114 @@
             android:paddingStart="8dp" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerSelectTypes"
+
+    <LinearLayout
+        android:id="@+id/lnrSelectedPlaces"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="24dp"
-        app:layout_constraintTop_toBottomOf="@id/textInput" />
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/textInput">
 
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginVertical="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/bookATable"
-        app:layout_constraintTop_toBottomOf="@id/recyclerSelectTypes">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerSelectTypes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
-        <LinearLayout
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/shimmerSelectPlaces"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerMenu"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+            app:shimmer_duration="800">
 
             <LinearLayout
-                android:id="@+id/additionInformation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <include layout="@layout/item_recycler_filter_shimmer" />
+
+                <include layout="@layout/item_recycler_filter_shimmer" />
+
+                <include layout="@layout/item_recycler_filter_shimmer" />
+            </LinearLayout>
+        </com.facebook.shimmer.ShimmerFrameLayout>
+    </LinearLayout>
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:id="@+id/swipeRefresh"
+        android:layout_marginVertical="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/bookATable"
+        app:layout_constraintTop_toBottomOf="@id/lnrSelectedPlaces">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginTop="24dp">
+                android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/goToYourOrders"
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:id="@+id/lnrMenu"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/go_to_your_orders"
-                    android:textColor="@color/secondary_color"
-                    android:textSize="16sp" />
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/seeAll"
-                    android:layout_width="wrap_content"
+                    <com.facebook.shimmer.ShimmerFrameLayout
+                        android:id="@+id/shimmerMenu"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:shimmer_duration="800">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <include layout="@layout/item_menu_shimmer" />
+
+                            <include layout="@layout/item_menu_shimmer" />
+
+                            <include layout="@layout/item_menu_shimmer" />
+                        </LinearLayout>
+                    </com.facebook.shimmer.ShimmerFrameLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerMenu"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/additionInformation"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/see_all"
-                    android:textColor="@color/main_color"
-                    android:textSize="16sp" />
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="24dp">
+
+                    <TextView
+                        android:id="@+id/goToYourOrders"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/go_to_your_orders"
+                        android:textColor="@color/secondary_color"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/seeAll"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/see_all"
+                        android:textColor="@color/main_color"
+                        android:textSize="16sp" />
+                </LinearLayout>
             </LinearLayout>
-        </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/bookATable"

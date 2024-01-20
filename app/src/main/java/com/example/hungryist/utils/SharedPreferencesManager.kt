@@ -1,6 +1,7 @@
 package com.example.hungryist.utils
 
 import android.content.SharedPreferences
+import com.example.hungryist.utils.Constant.REGISTERED
 import javax.inject.Inject
 
 
@@ -14,7 +15,11 @@ class SharedPreferencesManager @Inject constructor(private val sharedPreferences
         sharedPreferences.edit().putString(key, item).apply()
     }
 
-    fun getBoolean(key: String, defaultValue: Boolean): Boolean {
-        return sharedPreferences.getBoolean(key, defaultValue)
+    fun isRegistered(): Boolean {
+        return sharedPreferences.getBoolean(REGISTERED, false)
+    }
+
+    fun setRegistered() {
+        sharedPreferences.edit().putBoolean(REGISTERED, true).apply()
     }
 }
