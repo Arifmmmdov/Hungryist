@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    app:layoutDescription="@xml/activity_detailed_info_scene"
     tools:context=".ui.activity.detailedinfo.DetailedInfoActivity">
 
     <ImageView
@@ -72,6 +73,7 @@
         tools:text="4.1/5" />
 
     <ImageView
+        android:id="@+id/icRating"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_filled_star"
@@ -81,12 +83,12 @@
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
-        app:tabTextAppearance="@style/MyCustomTextAppearance"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/mainImage"
         app:tabGravity="fill"
         app:tabMode="fixed"
+        app:tabTextAppearance="@style/MyCustomTextAppearance"
         app:tabTextColor="@color/black" />
 
     <androidx.viewpager2.widget.ViewPager2
@@ -96,4 +98,4 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tabLayout" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.motion.widget.MotionLayout>

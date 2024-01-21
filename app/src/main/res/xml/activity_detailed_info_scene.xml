@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:motion="http://schemas.android.com/apk/res-auto">
+
+    <Transition
+        motion:constraintSetEnd="@+id/end"
+        motion:constraintSetStart="@id/start"
+        motion:duration="5050">
+       <KeyFrameSet>
+           <KeyAttribute
+               motion:motionTarget="@+id/mainImage"
+               motion:framePosition="100"
+               android:alpha="0" />
+           <KeyAttribute
+               motion:motionTarget="@+id/mainImage"
+               motion:framePosition="100"
+               android:scaleX="0" />
+           <KeyAttribute
+               motion:motionTarget="@+id/mainImage"
+               motion:framePosition="100"
+               android:scaleY="0" />
+       </KeyFrameSet>
+        <OnSwipe
+            motion:touchAnchorId="@+id/mainImage"
+            motion:touchAnchorSide="bottom"
+            motion:maxAcceleration="0.1"
+            motion:maxVelocity="0.3899" />
+    </Transition>
+
+    <ConstraintSet android:id="@+id/start">
+        <Constraint
+            android:id="@+id/mainImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            motion:layout_constraintTop_toTopOf="parent"
+            android:translationZ="-1dp"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent" />
+    </ConstraintSet>
+
+    <ConstraintSet android:id="@+id/end">
+        <Constraint
+            android:id="@+id/mainImage"
+            android:layout_width="1dp"
+            android:layout_height="1dp"
+            motion:layout_constraintTop_toTopOf="parent"
+            android:translationZ="-1dp"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent" />
+        <Constraint
+            android:id="@+id/btnBack"
+            android:layout_width="1dp"
+            android:layout_height="1dp"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:layout_constraintStart_toStartOf="parent" />
+        <Constraint
+            android:id="@+id/savedSticker"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:transitionEasing="cubic(0.19,0.17,0.8,0.8)" />
+        <Constraint
+            android:id="@+id/name"
+            android:layout_width="1dp"
+            android:layout_height="1dp"
+            motion:layout_constraintBottom_toBottomOf="@+id/mainImage"
+            motion:layout_constraintStart_toStartOf="parent" />
+        <Constraint
+            android:id="@+id/reviews"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="1dp"
+            android:layout_height="1dp"
+            motion:layout_constraintBottom_toBottomOf="@+id/mainImage" />
+        <Constraint
+            android:id="@+id/rating"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            motion:layout_constraintBottom_toTopOf="@+id/reviews"
+            android:layout_marginEnd="16dp" />
+        <Constraint
+            android:id="@+id/icRating"
+            motion:layout_constraintEnd_toStartOf="@+id/rating"
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            motion:layout_constraintBottom_toBottomOf="@+id/rating"
+            motion:layout_constraintTop_toTopOf="@+id/rating" />
+    </ConstraintSet>
+</MotionScene>
