@@ -4,12 +4,15 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.hungryist.R
 import com.example.hungryist.databinding.ItemRecyclerInteriorBinding
+import com.example.hungryist.ui.dialog.PicturesDialog
 
 class InteriorAdapter(
+    val fragmentManager: FragmentManager,
     val context: Context,
     private val fullList: List<String>,
     private val limit: Int,
@@ -66,6 +69,9 @@ class InteriorAdapter(
                     shortenedList = fullList
                     canBeExtended = false
                     notifyDataSetChanged()
+                } else {
+                    val dialog = PicturesDialog(position, context, fullList)
+                    dialog.show(fragmentManager, "Pictures dialog")
                 }
             }
         }

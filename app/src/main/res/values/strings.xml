@@ -56,5 +56,6 @@
     <string name="interior_image">Interior image</string>
     <string name="count_more_items">+%d</string>
     <string name="profile_picture">Profile picture</string>
+    <string name="sequence">%d/%d</string>
 
 </resources>

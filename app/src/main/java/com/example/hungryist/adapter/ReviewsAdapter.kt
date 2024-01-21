@@ -3,6 +3,7 @@ package com.example.hungryist.adapter
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
@@ -15,6 +16,7 @@ import com.example.hungryist.utils.SpacesItemDecoration
 
 
 class ReviewsAdapter(
+    val fragmentManager: FragmentManager,
     val context: Context,
     dataList: List<ReviewsModel>,
 ) : BaseRecyclerAdapter<ReviewsModel, ItemRecyclerReviewsBinding>(dataList) {
@@ -55,7 +57,7 @@ class ReviewsAdapter(
 
         private fun setInteriorDesign(images: List<String>) {
             binding.recyclerImages.apply {
-                adapter = InteriorAdapter(context, images, 3)
+                adapter = InteriorAdapter(fragmentManager,context, images, 3)
                 addItemDecoration(SpacesItemDecoration(8))
                 layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             }

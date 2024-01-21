@@ -49,7 +49,7 @@ class ReviewsFragment : Fragment() {
 
     private fun setRecyclerReviews(reviewsList: List<ReviewsModel>?) {
         binding.recyclerReviews.apply {
-            adapter = reviewsList?.let { ReviewsAdapter(requireContext(), it) }
+            adapter = reviewsList?.let { ReviewsAdapter(parentFragmentManager,requireContext(), it) }
             layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         }

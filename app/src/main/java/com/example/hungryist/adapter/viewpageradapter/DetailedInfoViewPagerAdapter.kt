@@ -1,4 +1,4 @@
-package com.example.hungryist.adapter
+package com.example.hungryist.adapter.viewpageradapter
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity

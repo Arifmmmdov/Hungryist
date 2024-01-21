@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.example.hungryist.R
-import com.example.hungryist.adapter.DetailedInfoViewPagerAdapter
+import com.example.hungryist.adapter.viewpageradapter.DetailedInfoViewPagerAdapter
 import com.example.hungryist.databinding.ActivityDetailedInfoBinding
 import com.example.hungryist.model.DetailedInfoModel
 import com.example.hungryist.ui.fragment.details.DetailsFragment
