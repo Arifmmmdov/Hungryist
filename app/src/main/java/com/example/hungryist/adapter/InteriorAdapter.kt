@@ -1,6 +1,8 @@
 package com.example.hungryist.adapter
 
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -71,7 +73,8 @@ class InteriorAdapter(
                     notifyDataSetChanged()
                 } else {
                     val dialog = PicturesDialog(position, context, fullList)
-                    dialog.show(fragmentManager, "Pictures dialog")
+                    dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                    dialog.show()
                 }
             }
         }
