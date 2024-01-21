@@ -8,6 +8,7 @@ import com.example.hungryist.ui.activity.main.MainViewModel
 import com.example.hungryist.ui.activity.splashscreen.SplashScreenViewModel
 import com.example.hungryist.ui.fragment.home.HomeViewModel
 import com.example.hungryist.ui.fragment.menu.MenuViewModel
+import com.example.hungryist.ui.fragment.reviews.ReviewsViewModel
 import com.example.hungryist.utils.SharedPreferencesManager
 import dagger.Module
 import dagger.Provides
@@ -52,5 +53,12 @@ object ViewHolderModule {
     @Singleton
     fun getMenuViewModel(context: Context, repository: DetailedInfoRepository): MenuViewModel =
         MenuViewModel(context, repository)
+
+
+    @Provides
+    @Singleton
+    fun getReviewsViewModel(context: Context, repository: DetailedInfoRepository): ReviewsViewModel =
+        ReviewsViewModel(context, repository)
+
 
 }

@@ -53,5 +53,8 @@
     <string name="notify_me">Notify me</string>
     <string name="cost_in_dollar">%s $</string>
     <string name="not_on_sale">Not on sale</string>
+    <string name="interior_image">Interior image</string>
+    <string name="count_more_items">+%d</string>
+    <string name="profile_picture">Profile picture</string>
 
 </resources>

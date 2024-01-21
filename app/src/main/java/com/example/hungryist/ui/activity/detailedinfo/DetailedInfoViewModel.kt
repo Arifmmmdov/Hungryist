@@ -20,7 +20,10 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.MarkerOptions
 import javax.inject.Inject
 
-class DetailedInfoViewModel @Inject constructor(val context: Context, val repository: DetailedInfoRepository) :
+class DetailedInfoViewModel @Inject constructor(
+    val context: Context,
+    val repository: DetailedInfoRepository,
+) :
     ViewModel() {
     private val _detailedInfo = MutableLiveData<DetailedInfoModel>()
     val detailedInfo: LiveData<DetailedInfoModel> = _detailedInfo
@@ -28,6 +31,8 @@ class DetailedInfoViewModel @Inject constructor(val context: Context, val reposi
     val ratingList: LiveData<List<RatingModel>> = _ratingList
     private val _openClosedDateList = MutableLiveData<List<OpenCloseStatusModel>>()
     val openClosedDateList: LiveData<List<OpenCloseStatusModel>> = _openClosedDateList
+    private val _interiorList = MutableLiveData<List<String>>()
+    val interiorList: LiveData<List<String>> = _interiorList
 
     fun getDetailedInfo() {
         repository.getDetailedInfo()
@@ -42,10 +47,6 @@ class DetailedInfoViewModel @Inject constructor(val context: Context, val reposi
 
     private fun getOtherDataAsync() {
 
-        repository.getReviewsList()
-            .addOnSuccessListener {
-                _detailedInfo.value?.reviewsList = it
-            }
 
         repository.getOpenCloseDate()
             .addOnSuccessListener {
@@ -57,6 +58,15 @@ class DetailedInfoViewModel @Inject constructor(val context: Context, val reposi
             .addOnSuccessListener {
                 Log.d("TestResult", "getOtherDataAsync: $it")
                 _ratingList.value = it
+            }
+
+        getInteriorList()
+    }
+
+    private fun getInteriorList() {
+        repository.getInteriorList()
+            .addOnSuccessListener {
+                _interiorList.value = it
             }
     }
 
@@ -95,5 +105,6 @@ class DetailedInfoViewModel @Inject constructor(val context: Context, val reposi
     fun setPlaceId(id: String?) {
         repository.setPlaceId(id!!)
     }
+
 
 }

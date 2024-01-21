@@ -13,7 +13,7 @@ object MenuFilterUtils : BaseFilterUtils<MenuModel>() {
 
     override fun filter(): List<MenuModel> {
         return list.filter {
-            (category.isNullOrBlank() || category == it.type) &&
+            (category.isNullOrBlank() || category?.lowercase() == it.type.lowercase()) &&
                     (typed.isNullOrBlank() ||
                             it.name.lowercase().contains(typed!!.lowercase()) ||
                             it.description.lowercase().contains(typed!!.lowercase())

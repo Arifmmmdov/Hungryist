@@ -1,5 +1,6 @@
 package com.example.hungryist.repo
 
+import com.example.hungryist.model.DealsOfMonth
 import com.example.hungryist.model.DetailedInfoModel
 import com.example.hungryist.model.MenuModel
 import com.example.hungryist.model.OpenCloseStatusModel
@@ -52,6 +53,22 @@ class DetailedInfoRepository {
                     for (document in it.result) {
                         val menu = document.toObject(MenuModel::class.java)
                         menuList.add(menu)
+                    }
+                    Tasks.forResult(menuList)
+                } else {
+                    Tasks.forException(it.exception!!)
+                }
+            }
+    }
+
+    fun getInteriorList(): Task<List<String>> {
+        return db.collection("detailedInfoModel").document(id).collection("interior").get()
+            .continueWithTask {
+                if (it.isSuccessful) {
+                    val menuList = mutableListOf<String>()
+                    for (document in it.result) {
+                        val menu = document.toObject(DealsOfMonth::class.java)
+                        menuList.add(menu.imageUrl)
                     }
                     Tasks.forResult(menuList)
                 } else {

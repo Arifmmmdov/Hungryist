@@ -21,7 +21,6 @@ data class DetailedInfoModel(
     val name: String,
     val reviews: String,
     val overallRating: Double,
-    var reviewsList: List<ReviewsModel>?,
 ) {
     constructor() : this(
         "",
@@ -42,6 +41,5 @@ data class DetailedInfoModel(
         "",
         "",
         0.0,
-        emptyList(),
     )
 }

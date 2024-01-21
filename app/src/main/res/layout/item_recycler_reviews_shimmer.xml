@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="16dp">
+
+    <ImageView
+        android:id="@+id/profilePhoto"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:background="@drawable/circle_background"
+        android:backgroundTint="@color/shimmer"
+        android:contentDescription="@string/profile_picture"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="116dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:background="@color/shimmer"
+        app:layout_constraintStart_toEndOf="@id/profilePhoto"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/groupRating"
+        android:layout_width="132dp"
+        android:layout_height="28dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/shimmer"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:visibility="visible"
+        app:layout_constraintStart_toStartOf="@id/name"
+        app:layout_constraintTop_toBottomOf="@id/name" />
+
+    <TextView
+        android:id="@+id/txtWroteOn"
+        android:layout_width="66dp"
+        android:layout_height="21dp"
+        android:background="@color/shimmer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/name" />
+
+    <TextView
+        android:id="@+id/description"
+        android:layout_width="match_parent"
+        android:layout_height="63dp"
+        android:layout_marginTop="9dp"
+        android:background="@color/shimmer"
+        android:textColor="@color/soft_grey"
+        android:textSize="14sp"
+        app:layout_constraintTop_toBottomOf="@+id/groupRating" />
+
+    <LinearLayout
+        android:id="@+id/interior"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/description">
+
+        <ImageView
+            android:layout_width="109dp"
+            android:layout_height="87dp"
+            android:background="@drawable/round_background_4dp"
+            android:backgroundTint="@color/shimmer" />
+
+        <ImageView
+            android:layout_width="109dp"
+            android:layout_height="87dp"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/round_background_4dp"
+            android:backgroundTint="@color/shimmer" />
+
+        <ImageView
+            android:layout_width="109dp"
+            android:layout_height="87dp"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/round_background_4dp"
+            android:backgroundTint="@color/shimmer" />
+
+        <ImageView
+            android:layout_width="109dp"
+            android:layout_height="87dp"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/round_background_4dp"
+            android:backgroundTint="@color/shimmer" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@+id/interior">
+
+        <TextView
+            android:id="@+id/placeName"
+            android:layout_width="46dp"
+            android:layout_height="21dp"
+            android:background="@color/shimmer" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:id="@+id/icReviews"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/grey"
+            android:src="@drawable/ic_reviews_grey" />
+
+        <TextView
+            android:id="@+id/txtReviews"
+            android:layout_width="17dp"
+            android:layout_height="21dp"
+            android:layout_marginStart="8dp"
+            android:background="@color/shimmer" />
+
+        <ImageView
+            android:id="@+id/icLike"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:backgroundTint="@color/grey"
+            android:src="@drawable/ic_like" />
+
+        <TextView
+            android:id="@+id/txtLike"
+            android:layout_width="24dp"
+            android:layout_height="21dp"
+            android:layout_marginStart="8dp"
+            android:background="@color/shimmer" />
+
+
+        <ImageView
+            android:id="@+id/icDislike"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:backgroundTint="@color/grey"
+            android:src="@drawable/ic_dislike" />
+
+        <TextView
+            android:id="@+id/txtDislike"
+            android:layout_width="17dp"
+            android:layout_height="21dp"
+            android:layout_marginStart="8dp"
+            android:background="@color/shimmer" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

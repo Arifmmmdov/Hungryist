@@ -1,22 +1,26 @@
 package com.example.hungryist.ui.fragment.menu
 
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.hungryist.R
 import com.example.hungryist.adapter.MenuRecyclerAdapter
 import com.example.hungryist.adapter.SelectedTextRecyclerAdapter
 import com.example.hungryist.databinding.FragmentMenuBinding
 import com.example.hungryist.model.MenuModel
 import com.example.hungryist.model.SelectStringModel
+import com.example.hungryist.utils.*
 import com.example.hungryist.utils.enum.VisibleStatusEnum
-import com.example.hungryist.utils.extension.triggerVisibility
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+
 
 @AndroidEntryPoint
 class MenuFragment : Fragment() {
@@ -48,7 +52,13 @@ class MenuFragment : Fragment() {
         binding.swipeRefresh.setOnRefreshListener {
             viewModel.getMenuList()
             binding.swipeRefresh.isRefreshing = false
+            resetViews()
         }
+    }
+
+    private fun resetViews() {
+        binding.editText.setText("")
+
     }
 
     private fun setObservers() {
@@ -69,7 +79,17 @@ class MenuFragment : Fragment() {
     private fun setMenuRecycler(menuList: List<MenuModel>) {
         binding.recyclerMenu.run {
             adapter = MenuRecyclerAdapter(requireContext(), menuList)
-            addItemDecoration(DividerItemDecoration(this.context, DividerItemDecoration.VERTICAL))
+            val itemDecoration =
+                DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
+            itemDecoration.setDrawable(
+                ColorDrawable(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.grey
+                    )
+                )
+            )
+            addItemDecoration(itemDecoration)
             layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         }
