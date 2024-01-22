@@ -6,7 +6,7 @@
     <Transition
         motion:constraintSetEnd="@+id/end"
         motion:constraintSetStart="@id/start"
-        motion:duration="5050">
+        motion:duration="50">
        <KeyFrameSet>
            <KeyAttribute
                motion:motionTarget="@+id/mainImage"
@@ -20,6 +20,55 @@
                motion:motionTarget="@+id/mainImage"
                motion:framePosition="100"
                android:scaleY="0" />
+           <KeyAttribute
+               motion:motionTarget="@+id/btnBack"
+               motion:framePosition="21"
+               android:alpha="0" />
+           <KeyAttribute
+               motion:motionTarget="@+id/savedSticker"
+               motion:framePosition="21"
+               android:alpha="0" />
+           <KeyAttribute
+               motion:motionTarget="@+id/name"
+               motion:framePosition="21"
+               android:alpha="0" />
+           <KeyAttribute
+               motion:motionTarget="@+id/reviews"
+               motion:framePosition="21"
+               android:alpha="0" />
+           <KeyAttribute
+               motion:motionTarget="@+id/rating"
+               motion:framePosition="21"
+               android:alpha="0" />
+           <KeyAttribute
+               motion:motionTarget="@+id/icRating"
+               motion:framePosition="21"
+               android:alpha="0" />
+           <KeyAttribute
+               motion:motionTarget="@+id/btnBack"
+               motion:framePosition="100"
+               android:alpha="0" />
+           <KeyAttribute
+               motion:motionTarget="@+id/savedSticker"
+               motion:framePosition="100"
+               android:alpha="0" />
+           <KeyAttribute
+               motion:motionTarget="@+id/name"
+               motion:framePosition="100"
+               android:alpha="0" />
+           <KeyAttribute
+               motion:motionTarget="@+id/reviews"
+               motion:framePosition="100"
+               android:alpha="0" />
+           <KeyAttribute
+               motion:motionTarget="@+id/rating"
+               motion:framePosition="100"
+               android:alpha="0" />
+           <KeyAttribute
+               motion:motionTarget="@+id/icRating"
+               motion:framePosition="100"
+               android:alpha="0" />
+
        </KeyFrameSet>
         <OnSwipe
             motion:touchAnchorId="@+id/mainImage"
@@ -52,34 +101,32 @@
             android:id="@+id/btnBack"
             android:layout_width="1dp"
             android:layout_height="1dp"
-            motion:layout_constraintTop_toTopOf="parent"
-            motion:layout_constraintStart_toStartOf="parent" />
+            motion:layout_constraintTop_toTopOf="@id/mainImage"
+            motion:layout_constraintStart_toStartOf="@id/mainImage" />
         <Constraint
             android:id="@+id/savedSticker"
-            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintEnd_toEndOf="@id/mainImage"
             android:layout_width="0dp"
             android:layout_height="1dp"
-            motion:layout_constraintTop_toTopOf="parent"
-            motion:transitionEasing="cubic(0.19,0.17,0.8,0.8)" />
+            motion:layout_constraintTop_toTopOf="@id/mainImage" />
         <Constraint
             android:id="@+id/name"
             android:layout_width="1dp"
             android:layout_height="1dp"
             motion:layout_constraintBottom_toBottomOf="@+id/mainImage"
-            motion:layout_constraintStart_toStartOf="parent" />
+            motion:layout_constraintStart_toStartOf="@id/mainImage" />
         <Constraint
             android:id="@+id/reviews"
-            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintEnd_toEndOf="@id/mainImage"
             android:layout_width="1dp"
             android:layout_height="1dp"
             motion:layout_constraintBottom_toBottomOf="@+id/mainImage" />
         <Constraint
             android:id="@+id/rating"
-            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintEnd_toEndOf="@id/mainImage"
             android:layout_width="wrap_content"
             android:layout_height="1dp"
-            motion:layout_constraintBottom_toTopOf="@+id/reviews"
-            android:layout_marginEnd="16dp" />
+            motion:layout_constraintBottom_toTopOf="@+id/reviews" />
         <Constraint
             android:id="@+id/icRating"
             motion:layout_constraintEnd_toStartOf="@+id/rating"

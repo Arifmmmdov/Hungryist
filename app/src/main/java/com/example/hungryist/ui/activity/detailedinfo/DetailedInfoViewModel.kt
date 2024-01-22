@@ -83,17 +83,15 @@ class DetailedInfoViewModel @Inject constructor(
             detailedInfo.value?.geoPoint!!.longitude
         )
 
-        googleMap.setOnMapClickListener {
-            MapsActivity.intentFor(context)
-        }
-
         val customMarkerIcon = BitmapFactory.decodeResource(context.resources, R.drawable.ic_marker)
         val customMarker = BitmapDescriptorFactory.fromBitmap(customMarkerIcon)
 
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(location))
-        googleMap.addMarker(
+        val marker = googleMap.addMarker(
             MarkerOptions().position(location).title(detailedInfo.value?.name).icon(customMarker)
         )
+        marker?.showInfoWindow()
+
         googleMap.uiSettings.isScrollGesturesEnabled = false
         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 12.0f))
     }

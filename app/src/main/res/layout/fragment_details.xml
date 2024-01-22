@@ -199,14 +199,29 @@
                 android:textSize="14sp"
                 app:drawableStartCompat="@drawable/ic_nearby_places" />
 
-            <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/mapFragment"
-                android:name="com.google.android.gms.maps.SupportMapFragment"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="140dp"
-                android:layout_marginTop="30dp"
-                android:clickable="true"
-                android:focusable="true" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp">
+
+                <androidx.fragment.app.FragmentContainerView
+                    android:id="@+id/mapFragment"
+                    android:name="com.google.android.gms.maps.SupportMapFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="140dp"
+                    android:layout_marginTop="30dp"
+                    android:translationZ="-1dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/mapFrame"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/mapFragment"
+                    app:layout_constraintTop_toTopOf="@id/mapFragment" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -265,13 +280,13 @@
             <com.google.android.material.button.MaterialButton
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:paddingVertical="11dp"
                 android:text="@string/book_a_table"
                 android:textAllCaps="false"
-                app:icon="@drawable/ic_phone"
                 android:textSize="16sp"
-                app:iconGravity="textStart"
-                android:gravity="center" />
+                app:icon="@drawable/ic_phone"
+                app:iconGravity="textStart" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 

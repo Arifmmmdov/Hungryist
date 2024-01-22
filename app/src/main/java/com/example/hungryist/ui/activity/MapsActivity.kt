@@ -29,10 +29,11 @@ class MapsActivity : AppCompatActivity() {
             val customMarkerIcon = BitmapFactory.decodeResource(resources, R.drawable.ic_marker)
             val customMarker = BitmapDescriptorFactory.fromBitmap(customMarkerIcon)
 
-            googleMap.addMarker(
+            val marker = googleMap.addMarker(
                 MarkerOptions().position(location).title(it.name).icon(customMarker)
             )
-            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 12.0f))
+            marker?.showInfoWindow()
+            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 15.0f))
 
         }
     }

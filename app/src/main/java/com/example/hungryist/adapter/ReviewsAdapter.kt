@@ -57,7 +57,7 @@ class ReviewsAdapter(
 
         private fun setInteriorDesign(images: List<String>) {
             binding.recyclerImages.apply {
-                adapter = InteriorAdapter(fragmentManager,context, images, 3)
+                adapter = InteriorAdapter(context, images, 3)
                 addItemDecoration(SpacesItemDecoration(8))
                 layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             }

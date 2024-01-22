@@ -49,7 +49,7 @@ class InteriorFragment : Fragment() {
 
         binding.recyclerInterior.apply {
             adapter =
-                value?.let { InteriorAdapter(parentFragmentManager, requireContext(), it, 9) }
+                value?.let { InteriorAdapter(requireContext(), it, 9) }
             layoutManager =
                 GridLayoutManager(requireContext(), 3, GridLayoutManager.VERTICAL, false)
         }

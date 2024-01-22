@@ -6,6 +6,8 @@ import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -14,11 +16,10 @@ import com.example.hungryist.databinding.ItemRecyclerInteriorBinding
 import com.example.hungryist.ui.dialog.PicturesDialog
 
 class InteriorAdapter(
-    val fragmentManager: FragmentManager,
     val context: Context,
     private val fullList: List<String>,
     private val limit: Int,
-) : RecyclerView.Adapter<InteriorAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<InteriorAdapter.ViewHolder>(), Filterable {
 
     private var shortenedList = getShortenedList()
     private var canBeExtended = false
@@ -45,7 +46,20 @@ class InteriorAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(position)
-        holder.clickListener(position)
+        clickListener(holder.binding, position)
+    }
+
+    private fun clickListener(binding: ItemRecyclerInteriorBinding, position: Int) {
+        binding.imgInterior.setOnClickListener {
+            if (canBeExtended && position == limit - 1) {
+                this.filter.filter("")
+                canBeExtended = false
+            } else {
+                val dialog = PicturesDialog(position, context, fullList)
+                dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                dialog.show()
+            }
+        }
     }
 
     inner class ViewHolder(val binding: ItemRecyclerInteriorBinding) :
@@ -66,17 +80,25 @@ class InteriorAdapter(
         }
 
         fun clickListener(position: Int) {
-            binding.imgInterior.setOnClickListener {
-                if (canBeExtended && position == limit - 1) {
-                    shortenedList = fullList
-                    canBeExtended = false
-                    notifyDataSetChanged()
-                } else {
-                    val dialog = PicturesDialog(position, context, fullList)
-                    dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-                    dialog.show()
-                }
+
+        }
+    }
+
+    override fun getFilter(): Filter {
+        return object : Filter() {
+            override fun performFiltering(p0: CharSequence?): FilterResults {
+                val filterResults = FilterResults()
+                filterResults.values = fullList
+                filterResults.count = fullList.size
+                return filterResults
             }
+
+            override fun publishResults(p0: CharSequence?, results: FilterResults?) {
+                shortenedList = results?.values as? List<String> ?: emptyList()
+                notifyItemChanged(limit-1)
+                notifyItemInserted(limit)
+            }
+
         }
     }
 }

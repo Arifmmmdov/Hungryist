@@ -64,6 +64,10 @@ class DetailsFragment : Fragment() {
             val intent = Intent(Intent.ACTION_VIEW, webPage)
             startActivity(intent)
         }
+
+        binding.mapFrame.setOnClickListener {
+            MapsActivity.intentFor(requireContext())
+        }
     }
 
     private fun setAnimatedRatingExpand() {

@@ -24,8 +24,8 @@
         android:contentDescription="@string/back_button"
         android:focusable="true"
         android:src="@drawable/ic_arrow_back"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="@id/mainImage"
+        app:layout_constraintTop_toTopOf="@id/mainImage" />
 
     <ImageView
         android:id="@+id/savedSticker"
@@ -36,8 +36,8 @@
         android:contentDescription="@string/saved"
         android:focusable="true"
         android:src="@drawable/ic_unsaved_sticker"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="@id/mainImage"
+        app:layout_constraintTop_toTopOf="@id/mainImage" />
 
     <TextView
         android:id="@+id/name"
@@ -47,7 +47,7 @@
         android:textColor="@color/white"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/mainImage"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@id/mainImage"
         tools:text="Mezzo/28 may filialı" />
 
     <TextView
@@ -58,7 +58,7 @@
         android:textColor="@color/white"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="@+id/mainImage"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/mainImage"
         tools:text="3.5k reviews" />
 
     <TextView
@@ -69,7 +69,7 @@
         android:textColor="@color/white"
         android:textSize="14sp"
         app:layout_constraintBottom_toTopOf="@+id/reviews"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/mainImage"
         tools:text="4.1/5" />
 
     <ImageView
