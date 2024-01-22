@@ -68,6 +68,14 @@
                motion:motionTarget="@+id/icRating"
                motion:framePosition="100"
                android:alpha="0" />
+           <KeyAttribute
+               motion:motionTarget="@+id/mainImage"
+               motion:framePosition="75"
+               android:alpha="0" />
+           <KeyAttribute
+               motion:motionTarget="@+id/mainImage"
+               motion:framePosition="60"
+               android:alpha="0" />
 
        </KeyFrameSet>
         <OnSwipe

@@ -14,6 +14,8 @@ import com.example.hungryist.adapter.TopPlacesRecyclerAdapter
 import com.example.hungryist.databinding.FragmentHomeBinding
 import com.example.hungryist.model.BaseInfoModel
 import com.example.hungryist.model.SelectStringModel
+import com.example.hungryist.utils.enum.VisibleStatusEnum
+import com.example.hungryist.utils.extension.triggerVisibility
 import com.example.hungryist.utils.filterutils.HomePageFilterUtils
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -45,19 +47,16 @@ class HomeFragment : Fragment() {
 
     private fun setObservers() {
         viewModel.isDealsOfMonthLoading.observe(requireActivity()) {
-            changeDealsOfMonthVisibility(true)
-            binding.recyclerDealsOfMonth.visibility = if (it) View.GONE else View.VISIBLE
-            binding.shimmerDealsOfMonth.visibility = if (it) View.VISIBLE else View.GONE
+            binding.dealsOfMonth.triggerVisibility(true)
+            changeDealsOfMonthVisibility(if (it) VisibleStatusEnum.SHIMMER else VisibleStatusEnum.VISIBLE)
         }
 
         viewModel.isTopPlacesLoading.observe(requireActivity()) {
-            binding.recyclerInfo.visibility = if (it) View.GONE else View.VISIBLE
-            binding.shimmerTopPlaces.visibility = if (it) View.VISIBLE else View.GONE
+            changeTopPlacesVisibility(if (it) VisibleStatusEnum.SHIMMER else VisibleStatusEnum.VISIBLE)
         }
 
         viewModel.isPlacesLoading.observe(requireActivity()) {
-            binding.recyclerSelectPlaces.visibility = if (it) View.GONE else View.VISIBLE
-            binding.shimmerSelectPlaces.visibility = if (it) View.VISIBLE else View.GONE
+            changeFilteredPlaceVisibility(if (it) VisibleStatusEnum.SHIMMER else VisibleStatusEnum.VISIBLE)
         }
 
         viewModel.baseInfoList.observe(requireActivity()) {
@@ -67,14 +66,22 @@ class HomeFragment : Fragment() {
 
         viewModel.filteredBaseInfoList.observe(requireActivity()) {
             setPlacesAdapter(it, true)
-            changeDealsOfMonthVisibility(false)
+            changeDealsOfMonthVisibility(VisibleStatusEnum.INVISIBLE)
+            binding.dealsOfMonth.triggerVisibility(false)
+
         }
     }
 
-    private fun changeDealsOfMonthVisibility(visible: Boolean) {
-        binding.dealsOfMonth.visibility = if (visible) View.VISIBLE else View.GONE
-        binding.shimmerDealsOfMonth.visibility = if (visible) View.VISIBLE else View.GONE
-        binding.recyclerDealsOfMonth.visibility = if (visible) View.VISIBLE else View.GONE
+    private fun changeFilteredPlaceVisibility(visibleStatusEnum: VisibleStatusEnum) {
+        visibleStatusEnum.triggerVisibility(binding.shimmerSelectPlaces,binding.recyclerSelectPlaces)
+    }
+
+    private fun changeTopPlacesVisibility(visibleStatusEnum: VisibleStatusEnum) {
+        visibleStatusEnum.triggerVisibility(binding.shimmerTopPlaces, binding.recyclerInfo)
+    }
+
+    private fun changeDealsOfMonthVisibility(visibleStatus: VisibleStatusEnum) {
+        visibleStatus.triggerVisibility(binding.shimmerDealsOfMonth, binding.recyclerDealsOfMonth)
     }
 
     private fun getItems() {
