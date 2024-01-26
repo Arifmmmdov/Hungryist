@@ -28,7 +28,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.activity.IntroActivity"
+            android:name=".ui.activity.intro.IntroActivity"
             android:exported="false" />
         <activity
             android:name=".ui.activity.detailedinfo.DetailedInfoActivity"

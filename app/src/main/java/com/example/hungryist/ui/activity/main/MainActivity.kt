@@ -10,6 +10,7 @@ import com.example.hungryist.databinding.ActivityMainBinding
 import com.example.hungryist.databinding.CustomBottomNavigationItemBinding
 import com.example.hungryist.ui.fragment.home.HomeFragment
 import com.example.hungryist.ui.fragment.login.LoginFragment
+import com.example.hungryist.ui.fragment.profile.ProfileFragment
 import com.example.hungryist.utils.Constant
 import com.google.firebase.FirebaseApp
 import dagger.hilt.android.AndroidEntryPoint
@@ -49,7 +50,7 @@ class MainActivity : AppCompatActivity() {
             R.id.action_home -> HomeFragment()
             R.id.action_nearby_places -> LoginFragment()
             R.id.action_saved -> LoginFragment()
-            R.id.action_profile -> LoginFragment()
+            R.id.action_profile -> ProfileFragment()
             else -> null
         }
 
@@ -68,9 +69,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     companion object {
-        fun intentFor(context: Context, isGuest: Boolean) {
+        fun intentFor(context: Context) {
             val intent = Intent(context, MainActivity::class.java)
-            intent.putExtra(Constant.IS_GUEST, isGuest)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
             context.startActivity(intent)
         }
     }

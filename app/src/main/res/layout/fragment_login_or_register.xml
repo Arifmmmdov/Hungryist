@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.fragment.LoginOrRegisterFragment">
+    tools:context=".ui.fragment.login_or_register.LoginOrRegisterFragment">
 
     <ImageView
         android:layout_width="match_parent"
@@ -51,7 +51,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/secondary_color"
-            android:text="@string/log_in"
+            android:text="@string/log_in_underline"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="16sp" />

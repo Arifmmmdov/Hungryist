@@ -1,40 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/lnr_register"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="20dp"
+    android:padding="16dp"
     tools:context=".ui.fragment.register.RegisterFragment">
 
-    <RelativeLayout
-        android:id="@+id/rll_reg_toolbar"
-        android:layout_width="match_parent"
+    <ImageButton
+        android:id="@+id/backButton"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent">
+        android:background="@drawable/ic_arrow_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/ic_arrow_back" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="Register"
-            android:textColor="#1A1A1A"
-            android:textSize="18sp" />
-    </RelativeLayout>
+    <TextView
+        android:id="@+id/titleRegister"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/register"
+        android:textColor="#1A1A1A"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@id/backButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/backButton" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/lnr_select_section"
+        android:id="@+id/lnrSelectRegister"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="30dp"
-        app:layout_constraintTop_toBottomOf="@+id/rll_reg_toolbar">
+        android:layout_marginTop="30dp"
+        app:layout_constraintTop_toBottomOf="@+id/titleRegister">
 
         <TextView
             android:id="@+id/email"
@@ -43,7 +43,7 @@
             android:layout_weight="1"
             android:background="@drawable/radius_to_left"
             android:paddingVertical="11dp"
-            android:text="E-mail"
+            android:text="@string/e_mail"
             android:textAlignment="center"
             android:textColor="#1A1A1A"
             android:textSize="16sp"
@@ -57,23 +57,27 @@
             android:background="@drawable/radius_to_right"
             android:backgroundTint="@color/main_color"
             android:paddingVertical="11dp"
-            android:text="Phone number"
+            android:text="@string/phone_number"
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="16sp"
             android:translationX="-1dp" />
     </androidx.appcompat.widget.LinearLayoutCompat>
 
+
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="0dp"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/lnrSelectRegister"
+        tools:layout_editor_absoluteX="16dp">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/lnr_register_center_inputs"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             app:divider="@drawable/vertical_empty_space"
             app:showDividers="middle">
@@ -121,7 +125,8 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:gravity="center">
 
                 <CheckBox
                     android:id="@+id/checkbox"
@@ -130,13 +135,13 @@
                     android:gravity="center_vertical" />
 
                 <TextView
-                    android:id="@+id/terms_and_conditions"
+                    android:id="@+id/termsAndCondition"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_toEndOf="@id/checkbox"
                     android:text="@string/terms_and_conditions"
-                    android:textColor="#1A1A1A"
+                    android:textColor="@color/black"
                     android:textSize="14sp" />
             </RelativeLayout>
         </androidx.appcompat.widget.LinearLayoutCompat>
@@ -144,18 +149,19 @@
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="60dp"
             android:layout_gravity="center"
+            android:gravity="bottom"
             android:orientation="vertical"
             app:divider="@drawable/small_vertical_empty_space"
-            app:layout_constraintTop_toBottomOf="@id/lnr_register_center_inputs"
             app:showDividers="middle">
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/register"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="11dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:text="Register"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
@@ -164,20 +170,22 @@
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_gravity="center"
-                android:text="or"
+                android:layout_weight="0.4"
+                android:gravity="center"
+                android:text="@string/or"
                 android:textColor="#9E9E9E"
                 android:textSize="16sp" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/google"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:backgroundTint="@color/white"
-                android:drawableLeft="@drawable/ic_google"
-                android:padding="11dp"
-                android:text="Continue with Google"
+                android:drawableStart="@drawable/ic_google"
+                android:text="@string/continue_with_google"
                 android:textAllCaps="false"
                 android:textColor="@color/red"
                 android:textSize="16sp"
@@ -188,11 +196,11 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/facebook"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:backgroundTint="@color/white"
-                android:drawableLeft="@drawable/ic_facebook"
-                android:padding="11dp"
-                android:text="Continue with Facebook"
+                android:drawableStart="@drawable/ic_facebook"
+                android:text="@string/continue_with_facebook"
                 android:textAllCaps="false"
                 android:textColor="@color/blue"
                 android:textSize="16sp"
@@ -203,9 +211,9 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/guest"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:backgroundTint="@color/white"
-                android:padding="11dp"
                 android:text="@string/continue_as_guest"
                 android:textAllCaps="false"
                 android:textColor="@color/main_color"
@@ -216,15 +224,16 @@
 
             <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_gravity="center_horizontal"
+                android:layout_weight="0.9"
                 android:translationZ="1dp">
 
                 <TextView
                     android:id="@+id/dont_have_account"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Have an Account"
+                    android:text="@string/have_an_account"
                     android:textColor="#1A1A1A"
                     android:textSize="16sp" />
 
@@ -232,19 +241,17 @@
                     android:id="@+id/login"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="3dp"
                     android:layout_toEndOf="@id/dont_have_account"
-                    android:text="Log in"
+                    android:text="@string/log_in_underline"
                     android:textColor="@color/secondary_color"
                     android:textSize="16sp" />
             </RelativeLayout>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
+
     </androidx.appcompat.widget.LinearLayoutCompat>
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"></ScrollView>
 
-
-</androidx.appcompat.widget.LinearLayoutCompat>
+</androidx.constraintlayout.widget.ConstraintLayout>

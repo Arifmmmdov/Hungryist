@@ -19,7 +19,7 @@ class SharedPreferencesManager @Inject constructor(private val sharedPreferences
         return sharedPreferences.getBoolean(REGISTERED, false)
     }
 
-    fun setRegistered() {
-        sharedPreferences.edit().putBoolean(REGISTERED, true).apply()
+    fun setRegistered(isRegistered:Boolean) {
+        sharedPreferences.edit().putBoolean(REGISTERED, isRegistered).apply()
     }
 }

@@ -1,57 +1,31 @@
 package com.example.hungryist.ui.activity.splashscreen
 
-import android.app.Activity
-import android.os.CountDownTimer
-import android.util.Log
+import android.content.Context
 import androidx.lifecycle.ViewModel
-import com.example.hungryist.ui.activity.IntroActivity
+import com.example.hungryist.ui.activity.intro.IntroActivity
 import com.example.hungryist.ui.activity.main.MainActivity
 import com.example.hungryist.utils.SharedPreferencesManager
+import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class SplashScreenViewModel @Inject constructor(
-    private val sharedPreferencesManager: SharedPreferencesManager
+    val context: Context,
+    private val sharedPreferencesManager: SharedPreferencesManager,
 ) : ViewModel() {
 
+    private lateinit var auth: FirebaseAuth
 
-    fun startCountdownTimer(activity: Activity) {
-
-        object : CountDownTimer(3000, 1000) {
-            override fun onTick(p0: Long) {
-
-            }
-
-            override fun onFinish() {
-                navigateToAnotherView(activity)
-            }
-
-        }.start()
-    }
-
-    private fun navigateToAnotherView(activity: Activity) {
-        Log.d("MyTagHere", "navigateToAnotherView: $sharedPreferencesManager")
-        if (checkUserRegistration())
-            moveToMainActivity(activity)
+    private fun intentTo(isRegistered: Boolean) {
+        if (isRegistered)
+            MainActivity.intentFor(context)
         else
-            moveToIntroActivity(activity)
+            IntroActivity.intentFor(context)
     }
 
-
-    private fun moveToIntroActivity(activity: Activity) {
-        IntroActivity.intentFor(activity)
-        activity.finish()
+    fun checkRegistered(callback: () -> Unit) {
+        intentTo(sharedPreferencesManager.isRegistered())
+        callback()
     }
-
-    private fun moveToMainActivity(activity: Activity) {
-        MainActivity.intentFor(activity, false)
-        activity.finish()
-    }
-
-    private fun checkUserRegistration(): Boolean {
-        return sharedPreferencesManager.isRegistered()
-    }
-
-
 }

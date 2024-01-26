@@ -8,6 +8,8 @@ import com.example.hungryist.ui.activity.main.MainViewModel
 import com.example.hungryist.ui.activity.splashscreen.SplashScreenViewModel
 import com.example.hungryist.ui.fragment.home.HomeViewModel
 import com.example.hungryist.ui.fragment.menu.MenuViewModel
+import com.example.hungryist.ui.activity.intro.IntroViewModel
+import com.example.hungryist.ui.fragment.profile.ProfileViewModel
 import com.example.hungryist.ui.fragment.reviews.ReviewsViewModel
 import com.example.hungryist.utils.SharedPreferencesManager
 import dagger.Module
@@ -20,12 +22,24 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object ViewHolderModule {
+object ViewModelModule {
 
     @Provides
     @Singleton
-    fun getSplashScreenViewModel(sharedPreferencesManager: SharedPreferencesManager): SplashScreenViewModel {
-        return SplashScreenViewModel(sharedPreferencesManager)
+    fun getSplashScreenViewModel(
+        context: Context,
+        sharedPreferencesManager: SharedPreferencesManager,
+    ): SplashScreenViewModel {
+        return SplashScreenViewModel(context, sharedPreferencesManager)
+    }
+
+    @Provides
+    @Singleton
+    fun getProfileViewModel(
+        @ApplicationContext context: Context,
+        sharedPreferencesManager: SharedPreferencesManager,
+    ): ProfileViewModel {
+        return ProfileViewModel(context,sharedPreferencesManager)
     }
 
     @Provides
@@ -57,8 +71,19 @@ object ViewHolderModule {
 
     @Provides
     @Singleton
-    fun getReviewsViewModel(context: Context, repository: DetailedInfoRepository): ReviewsViewModel =
+    fun getReviewsViewModel(
+        context: Context,
+        repository: DetailedInfoRepository,
+    ): ReviewsViewModel =
         ReviewsViewModel(context, repository)
+
+
+    @Provides
+    @Singleton
+    fun getRegisterViewModel(
+        context: Context,
+    ): IntroViewModel =
+        IntroViewModel(context)
 
 
 }
