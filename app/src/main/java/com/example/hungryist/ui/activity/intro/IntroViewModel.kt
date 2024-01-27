@@ -30,8 +30,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class IntroViewModel @Inject constructor(val context: Context) : ViewModel() {
-    private val _liveData = MutableLiveData<String>()
-    private val liveData: LiveData<String> = _liveData
+    private val _isEmailSelected = MutableLiveData<Boolean>()
+    val isEmailSelected: LiveData<Boolean> = _isEmailSelected
 
     private lateinit var firebaseAuth: FirebaseAuthentication
 
@@ -47,7 +47,8 @@ class IntroViewModel @Inject constructor(val context: Context) : ViewModel() {
         resultLauncherForGoogle: ActivityResultLauncher<IntentSenderRequest>,
         facebookCallbackManager: CallbackManager,
     ) {
-        firebaseAuth = FirebaseAuthentication(activity, FirebaseAuth.getInstance(),facebookCallbackManager)
+        firebaseAuth =
+            FirebaseAuthentication(activity, FirebaseAuth.getInstance(), facebookCallbackManager)
         this.resultLauncherForGoogle = resultLauncherForGoogle
     }
 
@@ -124,6 +125,10 @@ class IntroViewModel @Inject constructor(val context: Context) : ViewModel() {
 
     fun registerWithFacebook(activityResultRegistryOwner: ActivityResultRegistryOwner) {
         firebaseAuth.onRegisterWithFacebookClick(activityResultRegistryOwner)
+    }
+
+    fun registerTabSelected(position: Int) {
+        _isEmailSelected.value = position == 0
     }
 
 
