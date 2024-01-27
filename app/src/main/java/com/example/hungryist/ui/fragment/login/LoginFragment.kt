@@ -33,5 +33,9 @@ class LoginFragment : Fragment() {
         binding.google.setOnClickListener {
             viewModel.registerWithGoogle()
         }
+
+        binding.facebook.setOnClickListener {
+            viewModel.registerWithFacebook(requireActivity())
+        }
     }
 }

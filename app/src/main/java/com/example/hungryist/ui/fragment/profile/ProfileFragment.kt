@@ -36,7 +36,7 @@ class ProfileFragment : Fragment() {
 
     private fun setListeners() {
         binding.logOut.setOnClickListener {
-            viewModel.logOut()
+            viewModel.logOut(requireActivity())
         }
     }
 

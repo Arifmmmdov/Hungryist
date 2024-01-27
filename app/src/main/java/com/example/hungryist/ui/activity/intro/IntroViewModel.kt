@@ -10,6 +10,7 @@ import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.ActivityResultRegistryOwner
 import androidx.activity.result.IntentSenderRequest
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LiveData
@@ -20,7 +21,10 @@ import com.example.hungryist.databinding.FragmentRegisterBinding
 import com.example.hungryist.utils.CommonHelper
 import com.example.hungryist.utils.SharedPreferencesManager
 import com.example.hungryist.utils.firebaseutils.FirebaseAuthentication
+import com.facebook.CallbackManager
+import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GoogleAuthProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -41,8 +45,9 @@ class IntroViewModel @Inject constructor(val context: Context) : ViewModel() {
     fun initializeItems(
         activity: Activity,
         resultLauncherForGoogle: ActivityResultLauncher<IntentSenderRequest>,
+        facebookCallbackManager: CallbackManager,
     ) {
-        firebaseAuth = FirebaseAuthentication(activity, FirebaseAuth.getInstance())
+        firebaseAuth = FirebaseAuthentication(activity, FirebaseAuth.getInstance(),facebookCallbackManager)
         this.resultLauncherForGoogle = resultLauncherForGoogle
     }
 
@@ -86,7 +91,7 @@ class IntroViewModel @Inject constructor(val context: Context) : ViewModel() {
         firebaseAuth.onRegisterWithGoogleClickListener(resultLauncherForGoogle)
     }
 
-    fun registerWithEmailAndPassword( email: String, password: String) {
+    fun registerWithEmailAndPassword(email: String, password: String) {
         firebaseAuth.registerWithEmailAndPassword(email, password) {
 
         }
@@ -101,14 +106,24 @@ class IntroViewModel @Inject constructor(val context: Context) : ViewModel() {
             phoneNumber.substring(0, 3)
         )?.isValid
         if (isValid == true) {
-            firebaseAuth.registerWithPhoneNumberAndPassword( phoneNumber, password)
+            firebaseAuth.registerWithPhoneNumberAndPassword(phoneNumber, password)
         } else
             Toast.makeText(context, "Phone number is not valid", Toast.LENGTH_LONG).show()
         return isValid
     }
 
-    fun firebaseAuthWithGoogle( idToken: String?) {
-        firebaseAuth.firebaseIdTokenForGoogleAuth( idToken, sharedPreferencesManager)
+    fun firebaseAuthWithFacebook(idToken: String) {
+        val credential = FacebookAuthProvider.getCredential(idToken)
+        firebaseAuth.firebaseIdTokenForGoogleAuth(credential, sharedPreferencesManager)
+    }
+
+    fun firebaseAuthWithGoogle(idToken: String?) {
+        val credential = GoogleAuthProvider.getCredential(idToken, null)
+        firebaseAuth.firebaseIdTokenForGoogleAuth(credential, sharedPreferencesManager)
+    }
+
+    fun registerWithFacebook(activityResultRegistryOwner: ActivityResultRegistryOwner) {
+        firebaseAuth.onRegisterWithFacebookClick(activityResultRegistryOwner)
     }
 
 

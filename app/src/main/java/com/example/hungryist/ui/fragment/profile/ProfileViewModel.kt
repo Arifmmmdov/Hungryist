@@ -1,5 +1,6 @@
 package com.example.hungryist.ui.fragment.profile
 
+import android.app.Activity
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import com.example.hungryist.ui.activity.intro.IntroActivity
@@ -13,9 +14,9 @@ import javax.inject.Inject
 class ProfileViewModel @Inject constructor(val context: Context, val sharedPreferencesManager: SharedPreferencesManager):
     ViewModel() {
 
-    fun logOut() {
+    fun logOut(activity: Activity) {
         FirebaseAuth.getInstance().signOut()
         sharedPreferencesManager.setRegistered(false)
-        IntroActivity.intentFor(context)
+        IntroActivity.intentFor(activity)
     }
 }

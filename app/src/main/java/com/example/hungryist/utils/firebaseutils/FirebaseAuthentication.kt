@@ -4,25 +4,33 @@ import android.app.Activity
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.ActivityResultRegistryOwner
 import androidx.activity.result.IntentSenderRequest
 import com.example.hungryist.R
+import com.example.hungryist.ui.activity.intro.IntroActivity
 import com.example.hungryist.ui.activity.main.MainActivity
 import com.example.hungryist.utils.SharedPreferencesManager
+import com.facebook.CallbackManager
+import com.facebook.login.LoginManager
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseTooManyRequestsException
+import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
-import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthOptions
 import com.google.firebase.auth.PhoneAuthProvider
 import java.util.concurrent.TimeUnit
 
 
-class FirebaseAuthentication(private val activity: Activity, private val auth: FirebaseAuth) {
+class FirebaseAuthentication(
+    private val activity: Activity,
+    private val auth: FirebaseAuth,
+    val facebookCallbackManager: CallbackManager,
+) {
 
     private lateinit var oneTapClient: SignInClient
     private lateinit var signUpRequest: BeginSignInRequest
@@ -62,10 +70,9 @@ class FirebaseAuthentication(private val activity: Activity, private val auth: F
 
 
     fun firebaseIdTokenForGoogleAuth(
-        idToken: String?,
+        credential: AuthCredential,
         sharedPreferencesManager: SharedPreferencesManager,
     ) {
-        val credential = GoogleAuthProvider.getCredential(idToken, null)
         auth.signInWithCredential(credential)
             .addOnCompleteListener(activity) { task ->
                 if (task.isSuccessful) {
@@ -75,6 +82,13 @@ class FirebaseAuthentication(private val activity: Activity, private val auth: F
                     Toast.makeText(activity, task.exception?.message, Toast.LENGTH_LONG).show()
                 }
             }
+    }
+
+    //Register with Facebook
+
+    fun onRegisterWithFacebookClick(activityResultRegistryOwner: ActivityResultRegistryOwner) {
+        LoginManager.getInstance()
+            .logInWithReadPermissions(activityResultRegistryOwner, facebookCallbackManager, listOf("public_profile"));
     }
 
     // Register with Phone number

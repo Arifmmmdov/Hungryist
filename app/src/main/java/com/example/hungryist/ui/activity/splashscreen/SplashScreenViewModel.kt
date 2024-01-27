@@ -15,17 +15,8 @@ class SplashScreenViewModel @Inject constructor(
     private val sharedPreferencesManager: SharedPreferencesManager,
 ) : ViewModel() {
 
-    private lateinit var auth: FirebaseAuth
 
-    private fun intentTo(isRegistered: Boolean) {
-        if (isRegistered)
-            MainActivity.intentFor(context)
-        else
-            IntroActivity.intentFor(context)
-    }
-
-    fun checkRegistered(callback: () -> Unit) {
-        intentTo(sharedPreferencesManager.isRegistered())
-        callback()
+    fun checkRegistered(callback: (Boolean) -> Unit) {
+        callback(sharedPreferencesManager.isRegistered())
     }
 }

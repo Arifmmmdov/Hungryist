@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import com.example.hungryist.R
 import com.example.hungryist.databinding.FragmentRegisterBinding
 import com.example.hungryist.ui.activity.intro.IntroViewModel
@@ -56,7 +55,7 @@ class RegisterFragment : Fragment() {
 
 
     private fun registerWithFacebook(view: View) {
-        //TODO Register with Facebook
+        viewModel.registerWithFacebook(requireActivity())
     }
 
     private fun onRegisterClicked(view: View) {
