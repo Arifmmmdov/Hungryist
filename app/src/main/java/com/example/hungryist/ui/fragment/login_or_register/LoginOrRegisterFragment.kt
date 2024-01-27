@@ -27,7 +27,7 @@ class LoginOrRegisterFragment : Fragment() {
 
     private fun setListeners() {
         binding.continueAsGuest.setOnClickListener {
-            moveToMainView()
+            MainActivity.intentFor(requireActivity())
         }
 
         binding.register.setOnClickListener {
@@ -41,13 +41,10 @@ class LoginOrRegisterFragment : Fragment() {
 
     private fun beginTransaction(fragment: Fragment) {
         parentFragmentManager.beginTransaction()
+            .setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right)
             .replace(R.id.fragment_container, fragment)
             .addToBackStack("Login & Register")
             .commit()
-    }
-
-    private fun moveToMainView() {
-        MainActivity.intentFor(requireActivity())
     }
 
 }

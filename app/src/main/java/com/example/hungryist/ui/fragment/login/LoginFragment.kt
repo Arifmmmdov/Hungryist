@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import com.example.hungryist.R
 import com.example.hungryist.databinding.FragmentLoginBinding
 import com.example.hungryist.ui.activity.intro.IntroViewModel
+import com.example.hungryist.ui.activity.main.MainActivity
+import com.example.hungryist.ui.fragment.register.RegisterFragment
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
@@ -37,5 +39,17 @@ class LoginFragment : Fragment() {
         binding.facebook.setOnClickListener {
             viewModel.registerWithFacebook(requireActivity())
         }
+
+        binding.guest.setOnClickListener {
+            MainActivity.intentFor(requireActivity())
+        }
+
+        binding.register.setOnClickListener {
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, RegisterFragment())
+                .commit()
+        }
+
+
     }
 }

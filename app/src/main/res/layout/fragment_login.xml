@@ -21,7 +21,7 @@
         android:id="@+id/titleRegister"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/register"
+        android:text="@string/log_in"
         android:textColor="#1A1A1A"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@id/backButton"
@@ -186,17 +186,17 @@
                     android:id="@+id/dont_have_account"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/have_an_account"
+                    android:text="@string/don_t_have_an_account"
                     android:textColor="#1A1A1A"
                     android:textSize="16sp" />
 
                 <TextView
-                    android:id="@+id/login"
+                    android:id="@+id/register"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="3dp"
                     android:layout_toEndOf="@id/dont_have_account"
-                    android:text="@string/log_in_underline"
+                    android:text="@string/register_underline"
                     android:textColor="@color/secondary_color"
                     android:textSize="16sp" />
             </RelativeLayout>

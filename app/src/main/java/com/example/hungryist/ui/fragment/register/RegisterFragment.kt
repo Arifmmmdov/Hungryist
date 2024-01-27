@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import com.example.hungryist.R
 import com.example.hungryist.databinding.FragmentRegisterBinding
 import com.example.hungryist.ui.activity.intro.IntroViewModel
+import com.example.hungryist.ui.activity.main.MainActivity
 import com.example.hungryist.ui.fragment.login.LoginFragment
 import com.example.hungryist.utils.extension.showToastMessage
 import dagger.hilt.android.AndroidEntryPoint
@@ -50,7 +51,7 @@ class RegisterFragment : Fragment() {
 
 
     private fun registerWithGuest(view: View) {
-        //TODO Register with GUEST
+        MainActivity.intentFor(requireActivity())
     }
 
 
@@ -89,7 +90,8 @@ class RegisterFragment : Fragment() {
     }
 
     private fun moveToLoginFragment(view: View) {
-        parentFragmentManager.beginTransaction().replace(R.id.fragment_container, LoginFragment())
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, LoginFragment())
             .commit()
     }
 
@@ -103,13 +105,13 @@ class RegisterFragment : Fragment() {
                         //TODO move to terms and conditions view
                     }
                 },
-                23, 46, SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE
+                29, 50, SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE
             )
             setSpan(
                 ForegroundColorSpan(requireContext().getColor(R.color.secondary_color)),
-                23, 46, SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE
+                29, 50, SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE
             )
-            setSpan(UnderlineSpan(), 23, 46, SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE)
+            setSpan(UnderlineSpan(), 29, 50, SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE)
         }
 
         binding.termsAndCondition.apply {
