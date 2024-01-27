@@ -97,7 +97,7 @@ class DetailedInfoViewModel @Inject constructor(
     }
 
     fun isCurrentlyOpen(): Boolean {
-        return RestaurantStatusChecker().isRestaurantOpen(openClosedDateList.value)
+        return RestaurantStatusChecker.isRestaurantOpen(openClosedDateList.value)
     }
 
     fun setPlaceId(id: String?) {

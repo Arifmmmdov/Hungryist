@@ -82,8 +82,9 @@ object ViewModelModule {
     @Singleton
     fun getRegisterViewModel(
         context: Context,
+        sharedPreferencesManager: SharedPreferencesManager
     ): IntroViewModel =
-        IntroViewModel(context)
+        IntroViewModel(context,sharedPreferencesManager)
 
 
 }

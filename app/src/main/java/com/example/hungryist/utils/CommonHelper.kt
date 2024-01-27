@@ -15,10 +15,10 @@ class CommonHelper {
     )
 
     companion object{
-        fun isValidEmail(email: String?): Boolean {
-            return Patterns.EMAIL_ADDRESS.matcher(email).matches()
+        fun isValidEmail(email: String?): Boolean? {
+            return email?.let { Patterns.EMAIL_ADDRESS.matcher(it).matches() }
         }
-        fun isValidPhoneNumber(mobNumber: String?, countryCode: String): PhoneValidity? {
+        fun isValidPhoneNumber(mobNumber: String?, countryCode: String): PhoneValidity {
             val phoneNumberValidate = PhoneValidity()
             val phoneNumberUtil: PhoneNumberUtil = PhoneNumberUtil.getInstance()
             val phoneNumber: Phonenumber.PhoneNumber
@@ -45,6 +45,11 @@ class CommonHelper {
                 phoneNumberValidate.isValid = true
             }
             return phoneNumberValidate
+        }
+
+        fun isValidPhoneNumber(phoneNumber: String): Boolean {
+            val regex = """(\+994\s?)?([5-9][0-9]{1,2})\s?([0-9]{2})\s?([0-9]{2})\s?([0-9]{2})""".toRegex()
+            return regex.matches(phoneNumber)
         }
     }
 }

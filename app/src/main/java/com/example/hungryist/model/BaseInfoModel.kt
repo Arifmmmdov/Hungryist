@@ -1,21 +1,18 @@
 package com.example.hungryist.model
 
 import android.media.Rating
+import com.google.firebase.firestore.GeoPoint
 
 data class BaseInfoModel(
     var id: String,
-    var referenceId:String,
-    val name: String,
-    val location: String,
-    val openStatus: String,
-    val openTime: String,
-    val closeTime: String,
-    val rating: Double,
-    val reviews: String,
+    val baseImage: String,
+    val titleName: String,
     val type: String,
-    var saved: Boolean,
-    val imageUrl: String,
-    val titleName: String? = null,
+    val location: String,
+    val name: String,
+    val reviews: String,
+    val overallRating: Double,
+    var openCloseTimes:List<OpenCloseStatusModel>
 ) {
-    constructor() : this("","", "", "", "", "", "", 0.0, "", "", false, "", null)
+    constructor() : this("","", "", "", "", "", "",0.0, listOf())
 }

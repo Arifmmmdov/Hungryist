@@ -5,6 +5,9 @@ import com.google.firebase.firestore.GeoPoint
 data class DetailedInfoModel(
     val id: String,
     val referenceId: String,
+    val baseImage: String,
+    val titleName: String,
+    val type: String,
     val geoPoint: GeoPoint,
     var saved: Boolean,
     val freeWifi: Boolean,
@@ -16,13 +19,16 @@ data class DetailedInfoModel(
     val location: String,
     var phoneNumbers: List<String>,
     val websiteLink: String,
-    val videoLocationUri: String,
+    val videoLocationUri: String?,
     val imageUrl: String,
     val name: String,
     val reviews: String,
     val overallRating: Double,
 ) {
     constructor() : this(
+        "",
+        "",
+        "",
         "",
         "",
         GeoPoint(0.0, 0.0),

@@ -8,6 +8,7 @@ import com.example.hungryist.model.SelectPairString
 import com.example.hungryist.model.SelectStringModel
 import com.example.hungryist.repo.BaseRepository
 import com.example.hungryist.utils.filterutils.HomePageFilterUtils
+import dagger.hilt.android.scopes.ViewModelScoped
 import javax.inject.Inject
 
 class HomeViewModel @Inject constructor(

@@ -21,6 +21,7 @@ import com.example.hungryist.model.OpenCloseStatusModel
 import com.example.hungryist.model.RatingModel
 import com.example.hungryist.ui.activity.MapsActivity
 import com.example.hungryist.ui.activity.detailedinfo.DetailedInfoViewModel
+import com.example.hungryist.utils.extension.setStatus
 import com.example.hungryist.utils.extension.triggerVisibility
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.SupportMapFragment
@@ -136,7 +137,7 @@ class DetailsFragment : Fragment() {
 
         viewModel.openClosedDateList.observe(requireActivity()) {
             setOpenCloseTimeAdapter(it)
-            checkPlaceStatus()
+            binding.txtOpenStatus.setStatus(viewModel.openClosedDateList.value)
         }
 
         viewModel.ratingList.observe(requireActivity()) {
@@ -148,15 +149,7 @@ class DetailsFragment : Fragment() {
         setVisibilities(info)
         setPhoneNumbers(info)
         performMapActions()
-    }
 
-    private fun checkPlaceStatus() {
-        val isCurrentlyOpen = viewModel.isCurrentlyOpen()
-        val placeStatus = if (isCurrentlyOpen) R.string.open_now else R.string.open_now
-        val statusColor = if (isCurrentlyOpen) R.color.main_color else R.color.red
-
-        binding.txtOpenStatus.text = getString(placeStatus)
-        binding.txtOpenStatus.setTextColor(requireContext().getColor(statusColor))
     }
 
     private fun setPhoneNumbers(info: DetailedInfoModel) {
@@ -183,5 +176,6 @@ class DetailsFragment : Fragment() {
         binding.order.triggerVisibility(info.orderInAdvanced)
         binding.smokingArea.triggerVisibility(info.smokingArea)
         binding.studyingCondition.triggerVisibility(info.smokingArea)
+        binding.videoLocation.triggerVisibility(info.videoLocationUri != "")
     }
 }

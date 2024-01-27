@@ -2,22 +2,12 @@ package com.example.hungryist.ui.activity.intro
 
 import android.app.Activity
 import android.content.Context
-import android.text.SpannableString
-import android.text.TextPaint
-import android.text.method.LinkMovementMethod
-import android.text.style.ClickableSpan
-import android.view.View
-import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.ActivityResultRegistryOwner
 import androidx.activity.result.IntentSenderRequest
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.hungryist.R
-import com.example.hungryist.databinding.FragmentRegisterBinding
 import com.example.hungryist.utils.CommonHelper
 import com.example.hungryist.utils.SharedPreferencesManager
 import com.example.hungryist.utils.firebaseutils.FirebaseAuthentication
@@ -29,15 +19,14 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class IntroViewModel @Inject constructor(val context: Context) : ViewModel() {
+class IntroViewModel @Inject constructor(val context: Context,val sharedPreferencesManager:SharedPreferencesManager) : ViewModel() {
     private val _isEmailSelected = MutableLiveData<Boolean>()
     val isEmailSelected: LiveData<Boolean> = _isEmailSelected
 
-    private lateinit var firebaseAuth: FirebaseAuthentication
+    val registerErrorMessage = MutableLiveData<String>()
+    val loginErrorMessage = MutableLiveData<String>()
 
-    private val sharedPreferencesManager: SharedPreferencesManager by lazy {
-        SharedPreferencesManager(context.getSharedPreferences("", Context.MODE_PRIVATE))
-    }
+    private lateinit var firebaseAuth: FirebaseAuthentication
 
     private lateinit var resultLauncherForGoogle: ActivityResultLauncher<IntentSenderRequest>
 
@@ -48,79 +37,27 @@ class IntroViewModel @Inject constructor(val context: Context) : ViewModel() {
         facebookCallbackManager: CallbackManager,
     ) {
         firebaseAuth =
-            FirebaseAuthentication(activity, FirebaseAuth.getInstance(), facebookCallbackManager)
+            FirebaseAuthentication(
+                activity,
+                FirebaseAuth.getInstance(),
+                facebookCallbackManager,
+                sharedPreferencesManager
+            )
         this.resultLauncherForGoogle = resultLauncherForGoogle
     }
-
-    fun setClickableSpannableView(termsAndConditions: TextView, context: Context) {
-        termsAndConditions.movementMethod = LinkMovementMethod.getInstance()
-        termsAndConditions.setText(getSpannableString(context), TextView.BufferType.SPANNABLE)
-    }
-
-    private fun getSpannableString(context: Context): SpannableString {
-        val spannableString =
-            SpannableString(context.resources.getString(R.string.terms_and_conditions))
-        val clickableSpan = object : ClickableSpan() {
-            override fun updateDrawState(ds: TextPaint) {
-                super.updateDrawState(ds)
-                ds.linkColor = ContextCompat.getColor(context, R.color.secondary_color)
-                ds.isUnderlineText = true
-            }
-
-            override fun onClick(p0: View) {
-                //TODO move to "Terms and conditions page"
-            }
-        }
-        spannableString.setSpan(clickableSpan, 29, 50, SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE)
-
-        return spannableString
-    }
-
-    fun searchValidity(binding: FragmentRegisterBinding, emailSection: Boolean): Boolean {
-        return if (emailSection) {
-            searchEmailValidity(binding.userName.text.toString())
-        } else {
-            searchPhoneValidity(binding.userName.text.toString())
-        }
-    }
-
-    private fun searchEmailValidity(email: String): Boolean = CommonHelper.isValidEmail(email)
-    private fun searchPhoneValidity(phoneNumber: String): Boolean =
-        CommonHelper.isValidPhoneNumber(phoneNumber, "994")!!.isValid
 
     fun registerWithGoogle() {
         firebaseAuth.onRegisterWithGoogleClickListener(resultLauncherForGoogle)
     }
 
-    fun registerWithEmailAndPassword(email: String, password: String) {
-        firebaseAuth.registerWithEmailAndPassword(email, password) {
-
-        }
-    }
-
-    fun registerWithPhoneNumber(
-        phoneNumber: String,
-        password: String,
-    ): Boolean? {
-        val isValid = CommonHelper.isValidPhoneNumber(
-            phoneNumber.substring(4),
-            phoneNumber.substring(0, 3)
-        )?.isValid
-        if (isValid == true) {
-            firebaseAuth.registerWithPhoneNumberAndPassword(phoneNumber, password)
-        } else
-            Toast.makeText(context, "Phone number is not valid", Toast.LENGTH_LONG).show()
-        return isValid
-    }
-
     fun firebaseAuthWithFacebook(idToken: String) {
         val credential = FacebookAuthProvider.getCredential(idToken)
-        firebaseAuth.firebaseIdTokenForGoogleAuth(credential, sharedPreferencesManager)
+        firebaseAuth.firebaseIdTokenForGoogleAuth(credential)
     }
 
     fun firebaseAuthWithGoogle(idToken: String?) {
         val credential = GoogleAuthProvider.getCredential(idToken, null)
-        firebaseAuth.firebaseIdTokenForGoogleAuth(credential, sharedPreferencesManager)
+        firebaseAuth.firebaseIdTokenForGoogleAuth(credential)
     }
 
     fun registerWithFacebook(activityResultRegistryOwner: ActivityResultRegistryOwner) {
@@ -131,5 +68,67 @@ class IntroViewModel @Inject constructor(val context: Context) : ViewModel() {
         _isEmailSelected.value = position == 0
     }
 
+    fun checkMainText(typedText: String): Boolean {
+
+        return (isEmailSelected.value == true && CommonHelper.isValidEmail(typedText) == true)
+                || (isEmailSelected.value == false && CommonHelper.isValidPhoneNumber(
+            typedText.takeLast(
+                9
+            ), "994"
+        ).isValid)
+
+    }
+
+    fun isValidPassword(password: String?): Boolean {
+        if (password != null) {
+            return password.length > 6
+        }
+        return true
+    }
+
+
+    fun register(mainText: String, password: String) {
+        if (isEmailSelected.value!!) {
+            firebaseAuth.registerWithEmailAndPassword(
+                mainText,
+                password
+            ) {
+                registerErrorMessage.value = it
+            }
+        } else
+            firebaseAuth.registerWithPhoneNumberAndPassword(
+                mainText.take(9),
+                password
+            ) {
+                registerErrorMessage.value = it
+            }
+
+    }
+
+    fun login(emailOrPhoneNumber: String, password: String) {
+        if (emailOrPhoneNumber.contains("@"))
+            firebaseAuth.signInWithEmailAndPassword(
+                emailOrPhoneNumber,
+                password
+            ) {
+                loginErrorMessage.value = it
+            }
+        else
+            firebaseAuth.signInWithEmailAndPassword(
+                "$emailOrPhoneNumber@hungryist.com",
+                password
+            ) {
+                loginErrorMessage.value = it
+            }
+    }
+
+    fun checkLoginValidity(emailOrPhoneNumber: String): Boolean {
+        return CommonHelper.isValidEmail(emailOrPhoneNumber) == true
+                || CommonHelper.isValidPhoneNumber(
+            emailOrPhoneNumber.takeLast(
+                9
+            ), "994"
+        ).isValid
+    }
 
 }

@@ -48,6 +48,7 @@
             app:showDividers="middle">
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputMain"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -58,16 +59,16 @@
                 app:boxCornerRadiusTopStart="4sp">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/userName"
+                    android:id="@+id/editMain"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="phone"
                     android:textColor="@color/black"
                     android:textSize="14sp" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputPassword"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -79,7 +80,7 @@
                 app:passwordToggleEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/password"
+                    android:id="@+id/editPassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPassword"

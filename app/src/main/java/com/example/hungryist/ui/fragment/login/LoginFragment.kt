@@ -11,7 +11,6 @@ import com.example.hungryist.ui.activity.intro.IntroViewModel
 import com.example.hungryist.ui.activity.main.MainActivity
 import com.example.hungryist.ui.fragment.register.RegisterFragment
 import dagger.hilt.android.AndroidEntryPoint
-import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -28,12 +27,23 @@ class LoginFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View {
         setListeners()
+        setObservers()
         return binding.root
+    }
+
+    private fun setObservers() {
+        viewModel.loginErrorMessage.observe(requireActivity()){
+            binding.textInputMain.error = it
+        }
     }
 
     private fun setListeners() {
         binding.google.setOnClickListener {
             viewModel.registerWithGoogle()
+        }
+
+        binding.logIn.setOnClickListener {
+            login()
         }
 
         binding.facebook.setOnClickListener {
@@ -51,5 +61,17 @@ class LoginFragment : Fragment() {
         }
 
 
+    }
+
+    private fun login() {
+        binding.textInputMain.isErrorEnabled = false
+        binding.textInputPassword.isErrorEnabled = false
+
+        if (!viewModel.checkLoginValidity(binding.editMain.text.toString()))
+            binding.textInputMain.error = "This is not valid!"
+        else if (!viewModel.isValidPassword(binding.editPassword.text.toString()))
+            binding.textInputPassword.error = requireContext().getString(R.string.less_than_6)
+        else
+            viewModel.login(binding.editMain.text.toString(), binding.editPassword.text.toString())
     }
 }

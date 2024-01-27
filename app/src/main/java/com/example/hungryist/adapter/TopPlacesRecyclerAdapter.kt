@@ -10,7 +10,9 @@ import com.example.hungryist.ui.fragment.home.HomeViewModel
 import com.example.hungryist.generics.BaseRecyclerAdapter
 import com.example.hungryist.generics.BaseViewHolder
 import com.example.hungryist.model.BaseInfoModel
-import com.example.hungryist.ui.activity.detailedinfo.DetailedInfoActivity
+import com.example.hungryist.utils.RestaurantStatusChecker
+import com.example.hungryist.utils.extension.setStatus
+import com.example.hungryist.utils.extension.setSaved
 import javax.inject.Inject
 
 class TopPlacesRecyclerAdapter @Inject constructor(
@@ -37,33 +39,30 @@ class TopPlacesRecyclerAdapter @Inject constructor(
             binding.title.text = item.titleName
             binding.itemRecyclerDetailedInfo.run {
                 name.text = item.name
-                savedSticker.setImageResource(if (item.saved) R.drawable.ic_saved_sticker else R.drawable.ic_unsaved_sticker)
+                openStatus.setStatus(item.openCloseTimes)
+                savedSticker.setSaved()
                 location.text = item.location
-                openStatus.text = item.openStatus
-                openEndTime.text = context.resources.getString(
-                    R.string.open_and_close_times,
-                    item.openTime,
-                    item.closeTime
-                )
-                rate.text = item.rating.toString()
+                openEndTime.text =
+                    RestaurantStatusChecker.getTimesToday(context, item.openCloseTimes)
+                rate.text = item.overallRating.toString()
                 reviews.text =
                     context.resources.getString(R.string.reviews, item.reviews)
 
-                Glide.with(context).load(item.imageUrl).into(mainImage)
+                Glide.with(context).load(item.baseImage).into(mainImage)
             }
         }
 
         override fun clickListener(position: Int) {
             binding.itemRecyclerDetailedInfo.savedSticker.setOnClickListener {
                 dataList[position].apply {
-                    this.saved = !this.saved
-                    viewModel.setSavedInfo(id, referenceId, saved)
+//                    this.saved = !this.saved
+//                    viewModel.setSavedInfo(id, referenceId, saved)
                     notifyItemChanged(position)
                 }
             }
 
             binding.itemRecyclerDetailedInfo.itemFrame.setOnClickListener {
-                DetailedInfoActivity.intentFor(context, dataList[position].referenceId)
+//                DetailedInfoActivity.intentFor(context, dataList[position].referenceId)
             }
         }
     }

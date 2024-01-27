@@ -11,14 +11,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.core.content.ContextCompat
 import com.example.hungryist.R
 import com.example.hungryist.databinding.FragmentRegisterBinding
 import com.example.hungryist.ui.activity.intro.IntroViewModel
 import com.example.hungryist.ui.activity.main.MainActivity
 import com.example.hungryist.ui.fragment.login.LoginFragment
-import com.example.hungryist.utils.extension.showToastMessage
 import com.google.android.material.tabs.TabLayout
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -32,9 +29,6 @@ class RegisterFragment : Fragment() {
     @Inject
     lateinit var viewModel: IntroViewModel
 
-    private var isEmailSection = true
-
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
@@ -47,10 +41,7 @@ class RegisterFragment : Fragment() {
 
     private fun setViews() {
         setUpTabLayout()
-
         setTermsAndConditionText()
-
-
     }
 
     private fun setUpTabLayout() {
@@ -68,21 +59,26 @@ class RegisterFragment : Fragment() {
         viewModel.isEmailSelected.observe(requireActivity()) {
             setTabSelectedListener(it)
         }
+
+        viewModel.registerErrorMessage.observe(requireActivity()) {
+            binding.textInputMain.error = it
+        }
     }
 
     private fun setTabSelectedListener(isEmailSelected: Boolean) {
-        if (isEmailSelected){
+        if (isEmailSelected) {
             binding.textInputMain.hint = getString(R.string.e_mail)
-            binding.userName.inputType = InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
-        }
-        else{
+            binding.editMain.inputType = InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
+            binding.editMain.setAutofillHints(View.AUTOFILL_HINT_EMAIL_ADDRESS)
+        } else {
             binding.textInputMain.hint = getString(R.string.phone_number)
-            binding.userName.inputType = InputType.TYPE_CLASS_PHONE
+            binding.editMain.setAutofillHints(View.AUTOFILL_HINT_PHONE)
+            binding.editMain.inputType = InputType.TYPE_CLASS_PHONE
         }
     }
 
     private fun setListeners() {
-        binding.register.setOnClickListener(this::onRegisterClicked)
+        binding.register.setOnClickListener { register() }
         binding.login.setOnClickListener(this::moveToLoginFragment)
         binding.google.setOnClickListener(this::registerWithGoogle)
         binding.guest.setOnClickListener(this::registerWithGuest)
@@ -90,10 +86,28 @@ class RegisterFragment : Fragment() {
         binding.tabLayout.addOnTabSelectedListener(tabSelectedListener())
     }
 
+    private fun register() {
+        binding.textInputMain.isErrorEnabled = false
+        binding.textInputPassword.isErrorEnabled = false
+        binding.checkbox.error = null
+
+        if (!binding.checkbox.isChecked) {
+            binding.checkbox.setError(getString(R.string.terms_and_conditions_warning), null)
+            binding.checkbox.requestFocus()
+        } else if (!viewModel.checkMainText(binding.editMain.text.toString()))
+            binding.textInputMain.error = "This is not valid!"
+        else if (!viewModel.isValidPassword(binding.password.text.toString()))
+            binding.textInputPassword.error = requireContext().getString(R.string.less_than_6)
+        else
+            viewModel.register(binding.editMain.text.toString(), binding.password.text.toString())
+    }
+
     private fun tabSelectedListener(): TabLayout.OnTabSelectedListener {
         return object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
                 viewModel.registerTabSelected(tab.position)
+                binding.editMain.text = null
+                binding.password.text = null
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab) {
@@ -116,27 +130,10 @@ class RegisterFragment : Fragment() {
         viewModel.registerWithFacebook(requireActivity())
     }
 
-    private fun onRegisterClicked(view: View) {
-        if (isPasswordRegular(binding.password.text.toString()))
-            return
-        if (viewModel.searchValidity(binding, isEmailSection) && searchConfirmation()) {
-            //TODO move to Main Page fragment
-        }
-    }
-
-    private fun isPasswordRegular(password: String): Boolean {
-        //TODO write here other password requirements
-        if (password.length < 6) {
-            requireContext().showToastMessage("The password can't be less than 6!")
-            return false
-        }
-        return true
-    }
 
     private fun searchConfirmation(): Boolean {
         if (!binding.checkbox.isChecked) {
-            requireContext().showToastMessage("You must read terms and conditions and accept!")
-            binding.checkbox.error = "Accept it!"
+            binding.checkbox.error = getString(R.string.terms_and_conditions_warning)
             return false
         }
         return true

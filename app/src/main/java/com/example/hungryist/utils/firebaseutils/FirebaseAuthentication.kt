@@ -10,6 +10,7 @@ import com.example.hungryist.R
 import com.example.hungryist.ui.activity.intro.IntroActivity
 import com.example.hungryist.ui.activity.main.MainActivity
 import com.example.hungryist.utils.SharedPreferencesManager
+import com.example.hungryist.utils.extension.showToastMessage
 import com.facebook.CallbackManager
 import com.facebook.login.LoginManager
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
@@ -29,7 +30,8 @@ import java.util.concurrent.TimeUnit
 class FirebaseAuthentication(
     private val activity: Activity,
     private val auth: FirebaseAuth,
-    val facebookCallbackManager: CallbackManager,
+    private val facebookCallbackManager: CallbackManager,
+    private val sharedPreferencesManager: SharedPreferencesManager,
 ) {
 
     private lateinit var oneTapClient: SignInClient
@@ -71,7 +73,6 @@ class FirebaseAuthentication(
 
     fun firebaseIdTokenForGoogleAuth(
         credential: AuthCredential,
-        sharedPreferencesManager: SharedPreferencesManager,
     ) {
         auth.signInWithCredential(credential)
             .addOnCompleteListener(activity) { task ->
@@ -88,7 +89,11 @@ class FirebaseAuthentication(
 
     fun onRegisterWithFacebookClick(activityResultRegistryOwner: ActivityResultRegistryOwner) {
         LoginManager.getInstance()
-            .logInWithReadPermissions(activityResultRegistryOwner, facebookCallbackManager, listOf("public_profile"));
+            .logInWithReadPermissions(
+                activityResultRegistryOwner,
+                facebookCallbackManager,
+                listOf("public_profile")
+            );
     }
 
     // Register with Phone number
@@ -116,7 +121,7 @@ class FirebaseAuthentication(
                 // 2 - Auto-retrieval. On some devices Google Play services can automatically
                 //     detect the incoming verification SMS and perform verification without
                 //     user action.
-                Log.d("MyTagHere", "onVerificationCompleted:$credential")
+                activity.showToastMessage("Verified $credential")
 //                signInWithPhoneAuthCredential(credential)
             }
 
@@ -135,7 +140,7 @@ class FirebaseAuthentication(
                     }
                 }
 
-                Toast.makeText(activity, message, Toast.LENGTH_LONG).show()
+                activity.showToastMessage(message)
             }
 
             override fun onCodeSent(
@@ -159,22 +164,22 @@ class FirebaseAuthentication(
     fun registerWithPhoneNumberAndPassword(
         phoneNumber: String,
         password: String,
+        errorCallback: (String?) -> Unit,
     ) {
         auth.createUserWithEmailAndPassword("$phoneNumber@hungryist.com", password)
             .addOnCompleteListener(activity) { task ->
                 if (task.isSuccessful) {
-                    Toast.makeText(activity, "Registration successful", Toast.LENGTH_SHORT).show()
-                } else {
-                    Toast.makeText(
-                        activity,
-                        "Registration failed: ${task.exception?.message}",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
+                    sharedPreferencesManager.setRegistered(true)
+                    MainActivity.intentFor(activity)
+                } else
+                    errorCallback(
+                        task.exception!!.message.toString().replace("email address", "phone number")
+                    )
             }
     }
 
-    //Register with email and password
+
+//Register with email and password
 
     fun registerWithEmailAndPassword(
         email: String,
@@ -185,13 +190,26 @@ class FirebaseAuthentication(
             .addOnCompleteListener(activity) { task ->
                 if (task.isSuccessful) {
                     val userId = auth.currentUser?.uid
-                    callback(userId)
+                    MainActivity.intentFor(activity)
+                    sharedPreferencesManager.setRegistered(true)
+                } else
+                    callback(task.exception!!.message.toString())
+            }
+    }
+
+    fun signInWithEmailAndPassword(
+        email: String,
+        password: String,
+        callback: (String?) -> Unit,
+    ) {
+        auth.signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener(activity) { task ->
+                if (task.isSuccessful) {
+                    val user = auth.currentUser
+                    MainActivity.intentFor(activity)
+                    sharedPreferencesManager.setRegistered(true)
                 } else {
-                    Toast.makeText(
-                        activity,
-                        "Authentication failed.",
-                        Toast.LENGTH_SHORT,
-                    ).show()
+                    callback(task.exception!!.message.toString())
                 }
             }
     }

@@ -36,33 +36,33 @@ class FilteredInfoRecyclerAdapter @Inject constructor(
         override fun bind(item: BaseInfoModel) {
             binding.run {
                 name.text = item.name
-                savedSticker.setImageResource(if (item.saved) R.drawable.ic_saved_sticker else R.drawable.ic_unsaved_sticker)
+//                savedSticker.setImageResource(if (item.saved) R.drawable.ic_saved_sticker else R.drawable.ic_unsaved_sticker)
                 location.text = item.location
-                openStatus.text = item.openStatus
-                openEndTime.text = context.resources.getString(
-                    R.string.open_and_close_times,
-                    item.openTime,
-                    item.closeTime
-                )
-                rate.text = item.rating.toString()
+//                openStatus.text = item.openStatus
+//                openEndTime.text = context.resources.getString(
+//                    R.string.open_and_close_times,
+//                    item.openTime,
+//                    item.closeTime
+//                )
+//                rate.text = item.rating.toString()
                 reviews.text =
                     context.resources.getString(R.string.reviews, item.reviews)
 
-                Glide.with(context).load(item.imageUrl).into(mainImage)
+//                Glide.with(context).load(item.imageUrl).into(mainImage)
             }
         }
 
         override fun clickListener(position: Int) {
             binding.savedSticker.setOnClickListener {
                 dataList[position].apply {
-                    this.saved = !this.saved
-                    viewModel.setSavedInfo(id,referenceId, saved)
+//                    this.saved = !this.saved
+//                    viewModel.setSavedInfo(id,referenceId, saved)
                     notifyItemChanged(position)
                 }
             }
 
             binding.itemFrame.setOnClickListener {
-                DetailedInfoActivity.intentFor(context,dataList[position].referenceId)
+//                DetailedInfoActivity.intentFor(context,dataList[position].referenceId)
             }
         }
     }
