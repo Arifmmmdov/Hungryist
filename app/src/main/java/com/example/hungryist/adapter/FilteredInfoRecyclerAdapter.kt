@@ -11,6 +11,10 @@ import com.example.hungryist.generics.BaseViewHolder
 import com.example.hungryist.model.BaseInfoModel
 import com.example.hungryist.ui.activity.detailedinfo.DetailedInfoActivity
 import com.example.hungryist.ui.fragment.home.HomeViewModel
+import com.example.hungryist.utils.RestaurantStatusChecker
+import com.example.hungryist.utils.extension.setSaved
+import com.example.hungryist.utils.extension.setStatus
+import com.example.hungryist.utils.extension.triggerVisibility
 import javax.inject.Inject
 
 class FilteredInfoRecyclerAdapter @Inject constructor(
@@ -34,22 +38,28 @@ class FilteredInfoRecyclerAdapter @Inject constructor(
     inner class ViewHolder(val binding: ItemRecyclerDetailedInfoBinding) :
         BaseViewHolder<BaseInfoModel, ItemRecyclerDetailedInfoBinding>(binding) {
         override fun bind(item: BaseInfoModel) {
+            setVisibilities(item)
             binding.run {
                 name.text = item.name
-//                savedSticker.setImageResource(if (item.saved) R.drawable.ic_saved_sticker else R.drawable.ic_unsaved_sticker)
+                val statusColor = openStatus.setStatus(item.openCloseTimes)
+                binding.dot.setBackgroundColor(context.getColor(statusColor))
+                savedSticker.setSaved()
                 location.text = item.location
-//                openStatus.text = item.openStatus
-//                openEndTime.text = context.resources.getString(
-//                    R.string.open_and_close_times,
-//                    item.openTime,
-//                    item.closeTime
-//                )
-//                rate.text = item.rating.toString()
+                openEndTime.text =
+                    RestaurantStatusChecker.getTimesToday(context, item.openCloseTimes)
+                rate.text = item.overallRating.toString()
                 reviews.text =
                     context.resources.getString(R.string.reviews, item.reviews)
 
-//                Glide.with(context).load(item.imageUrl).into(mainImage)
+                Glide.with(context).load(item.baseImage).into(mainImage)
             }
+        }
+
+        private fun setVisibilities(item: BaseInfoModel) {
+            binding.reviews.triggerVisibility(item.reviews.isNotEmpty())
+            binding.imageReviews.triggerVisibility(item.reviews.isNotEmpty())
+            binding.starLight.triggerVisibility(item.overallRating != 0.0)
+            binding.rate.triggerVisibility(item.overallRating != 0.0)
         }
 
         override fun clickListener(position: Int) {
@@ -62,7 +72,7 @@ class FilteredInfoRecyclerAdapter @Inject constructor(
             }
 
             binding.itemFrame.setOnClickListener {
-//                DetailedInfoActivity.intentFor(context,dataList[position].referenceId)
+                DetailedInfoActivity.intentFor(context, dataList[position].id)
             }
         }
     }

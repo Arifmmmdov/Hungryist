@@ -18,7 +18,7 @@ object RestaurantStatusChecker {
         LocalTime.now()
     }
 
-    fun isRestaurantOpen(times: List<OpenCloseStatusModel>?): Boolean {
+    fun isRestaurantOpen(times: List<OpenCloseStatusModel>?,): Boolean {
         return try {
             val dayOfWeek = currentDate.dayOfWeek
             val currentDay = times?.find {
@@ -51,7 +51,7 @@ object RestaurantStatusChecker {
                 close.format(formatter)
             )
         } catch (e: Exception) {
-            return e.message.toString()
+            return ""
         }
 
     }

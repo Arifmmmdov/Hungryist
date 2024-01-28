@@ -10,9 +10,11 @@ import com.example.hungryist.ui.fragment.home.HomeViewModel
 import com.example.hungryist.generics.BaseRecyclerAdapter
 import com.example.hungryist.generics.BaseViewHolder
 import com.example.hungryist.model.BaseInfoModel
+import com.example.hungryist.ui.activity.detailedinfo.DetailedInfoActivity
 import com.example.hungryist.utils.RestaurantStatusChecker
 import com.example.hungryist.utils.extension.setStatus
 import com.example.hungryist.utils.extension.setSaved
+import com.example.hungryist.utils.extension.triggerVisibility
 import javax.inject.Inject
 
 class TopPlacesRecyclerAdapter @Inject constructor(
@@ -36,19 +38,31 @@ class TopPlacesRecyclerAdapter @Inject constructor(
     inner class ViewHolder(val binding: ItemRecyclerTopPlacesBinding) :
         BaseViewHolder<BaseInfoModel, ItemRecyclerTopPlacesBinding>(binding) {
         override fun bind(item: BaseInfoModel) {
+            setVisibilities(item)
             binding.title.text = item.titleName
             binding.itemRecyclerDetailedInfo.run {
                 name.text = item.name
-                openStatus.setStatus(item.openCloseTimes)
+                val statusColor = openStatus.setStatus(item.openCloseTimes)
+                dot.setBackgroundColor(context.getColor(statusColor))
                 savedSticker.setSaved()
                 location.text = item.location
                 openEndTime.text =
                     RestaurantStatusChecker.getTimesToday(context, item.openCloseTimes)
                 rate.text = item.overallRating.toString()
+
                 reviews.text =
                     context.resources.getString(R.string.reviews, item.reviews)
 
                 Glide.with(context).load(item.baseImage).into(mainImage)
+            }
+        }
+
+        private fun setVisibilities(item: BaseInfoModel) {
+            binding.itemRecyclerDetailedInfo.apply {
+                reviews.triggerVisibility(item.reviews.isNotEmpty())
+                imageReviews.triggerVisibility(item.reviews.isNotEmpty())
+                starLight.triggerVisibility(item.overallRating != 0.0)
+                rate.triggerVisibility(item.overallRating != 0.0)
             }
         }
 
@@ -62,7 +76,7 @@ class TopPlacesRecyclerAdapter @Inject constructor(
             }
 
             binding.itemRecyclerDetailedInfo.itemFrame.setOnClickListener {
-//                DetailedInfoActivity.intentFor(context, dataList[position].referenceId)
+                DetailedInfoActivity.intentFor(context, dataList[position].id)
             }
         }
     }

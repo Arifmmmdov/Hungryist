@@ -8,6 +8,7 @@ import com.example.hungryist.model.SelectStringModel
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.tasks.await
 
 class BaseRepository {
@@ -21,11 +22,11 @@ class BaseRepository {
                 for (document in task.result) {
                     val baseInfoModel = document.toObject(BaseInfoModel::class.java)
                     baseInfoModel.id = document.id
-                    getOpenCloseDate(document.id).addOnSuccessListener {
-                        baseInfoModel.openCloseTimes = it
-                    }.addOnFailureListener {
-                        Log.d("MyTagHere", "getBaseInfoList: ${it.message.toString()}")
-                    }
+
+//                    runBlocking {
+//                        val openCloseList = getOpenCloseDate(document.id).await()
+//                        baseInfoModel.openCloseTimes = openCloseList
+//                    }
 
                     resultList.add(baseInfoModel)
                 }

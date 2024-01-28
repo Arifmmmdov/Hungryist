@@ -60,7 +60,7 @@ class HomeFragment : Fragment() {
         }
 
         viewModel.baseInfoList.observe(requireActivity()) {
-            setPlacesAdapter(it.filter { !it.titleName.isNullOrEmpty() }, false)
+            setPlacesAdapter(it.filter { it.titleName.isNotEmpty() }, false)
             HomePageFilterUtils.setBaseInfoList(it)
         }
 
@@ -73,7 +73,10 @@ class HomeFragment : Fragment() {
     }
 
     private fun changeFilteredPlaceVisibility(visibleStatusEnum: VisibleStatusEnum) {
-        visibleStatusEnum.triggerVisibility(binding.shimmerSelectPlaces,binding.recyclerSelectPlaces)
+        visibleStatusEnum.triggerVisibility(
+            binding.shimmerSelectPlaces,
+            binding.recyclerSelectPlaces
+        )
     }
 
     private fun changeTopPlacesVisibility(visibleStatusEnum: VisibleStatusEnum) {
@@ -90,7 +93,7 @@ class HomeFragment : Fragment() {
             setSelectedTextAdapter(it.toMutableList())
         }
 
-        viewModel.getBaseInfoList()
+        viewModel.getBaseList()
 
         viewModel.getDealsOfMonth {
             setDealsOfMonthAdapter(it)

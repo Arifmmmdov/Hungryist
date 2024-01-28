@@ -1,17 +1,22 @@
 package com.example.hungryist.ui.fragment.home
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.hungryist.model.BaseInfoModel
+import com.example.hungryist.model.OpenCloseStatusModel
 import com.example.hungryist.model.SelectPairString
 import com.example.hungryist.model.SelectStringModel
 import com.example.hungryist.repo.BaseRepository
+import com.example.hungryist.utils.extension.showToastMessage
 import com.example.hungryist.utils.filterutils.HomePageFilterUtils
-import dagger.hilt.android.scopes.ViewModelScoped
+import com.google.android.gms.tasks.Task
+import com.google.android.gms.tasks.Tasks
 import javax.inject.Inject
 
 class HomeViewModel @Inject constructor(
+    private val context: Context,
     private val repository: BaseRepository,
 ) : ViewModel() {
 
@@ -32,32 +37,52 @@ class HomeViewModel @Inject constructor(
 
     private val selectedPairString = MutableLiveData<SelectPairString>()
 
-    fun getBaseInfoList() {
+    fun getBaseList() {
         _isTopPlacesLoading.value = true
-        repository.getBaseInfoList()
+        repository.getBaseInfoList().addOnSuccessListener {
+            getOpenCloseDateList(it)
+        }.addOnFailureListener {
+            _baseInfoList.value = listOf()
+        }.addOnCompleteListener {
+            _isTopPlacesLoading.value = false
+        }
+
+    }
+
+    private fun getOpenCloseDateList(baseInfoModels: MutableList<BaseInfoModel>) {
+        val tasks = mutableListOf<Task<List<OpenCloseStatusModel>>>()
+
+        baseInfoModels.forEach { baseList ->
+            val task = repository.getOpenCloseDate(baseList.id)
+                .addOnSuccessListener {
+                    baseList.openCloseTimes = it
+                }
+                .addOnFailureListener {
+                    context.showToastMessage(it.message.toString())
+                }
+
+            tasks.add(task)
+        }
+
+        Tasks.whenAll(tasks)
             .addOnSuccessListener {
-                _baseInfoList.value = it
+                _baseInfoList.value = baseInfoModels
             }
             .addOnFailureListener {
-                _baseInfoList.value = listOf()
-            }.addOnCompleteListener {
-                _isTopPlacesLoading.value = false
+                context.showToastMessage(it.message.toString())
             }
 
     }
 
     fun getPlaces(callback: (List<SelectStringModel>) -> Unit) {
         _isPlacesLoading.value = true
-        repository.getPlacesList()
-            .addOnSuccessListener {
-                callback(it)
-            }
-            .addOnFailureListener {
-                callback(listOf())
-            }
-            .addOnCompleteListener {
-                _isPlacesLoading.value = false
-            }
+        repository.getPlacesList().addOnSuccessListener {
+            callback(it)
+        }.addOnFailureListener {
+            callback(listOf())
+        }.addOnCompleteListener {
+            _isPlacesLoading.value = false
+        }
 
     }
 
@@ -72,16 +97,13 @@ class HomeViewModel @Inject constructor(
 
     fun getDealsOfMonth(callback: (List<String>) -> Unit) {
         _isDealsOfMonthLoading.value = true
-        repository.getDealsOfMonths()
-            .addOnSuccessListener {
-                callback(it)
-            }
-            .addOnFailureListener {
-                callback(listOf())
-            }
-            .addOnCompleteListener {
-                _isDealsOfMonthLoading.value = false
-            }
+        repository.getDealsOfMonths().addOnSuccessListener {
+            callback(it)
+        }.addOnFailureListener {
+            callback(listOf())
+        }.addOnCompleteListener {
+            _isDealsOfMonthLoading.value = false
+        }
     }
 
     fun onTextTyped(text: String) {

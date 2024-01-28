@@ -51,8 +51,8 @@ object ViewModelModule {
 
     @Provides
     @Singleton
-    fun homeViewModel(repository: BaseRepository): HomeViewModel =
-        HomeViewModel(repository)
+    fun homeViewModel(@ApplicationContext context: Context,repository: BaseRepository): HomeViewModel =
+        HomeViewModel(context,repository)
 
     @Provides
     @Singleton

@@ -2,10 +2,10 @@
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/itemFrame"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="16dp"
-    android:id="@+id/itemFrame"
     app:cardCornerRadius="4dp"
     app:strokeColor="@color/grey"
     app:strokeWidth="1dp">
@@ -56,18 +56,26 @@
                 android:textColor="@color/black"
                 android:textSize="16sp" />
 
-            <TextView
-                android:id="@+id/location"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_marginTop="24dp"
                 android:layout_marginBottom="20dp"
-                android:layout_weight="7"
-                android:gravity="center"
-                android:text="@string/_220_dilara_aliyeva_baku"
-                android:textColor="@color/black"
-                android:textSize="12sp"
-                app:drawableStartCompat="@drawable/ic_nearby_places" />
+                android:layout_weight="7">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_nearby_places" />
+
+                <TextView
+                    android:id="@+id/location"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:textSize="12sp"
+                    tools:text="@string/location" />
+            </LinearLayout>
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="wrap_content"
@@ -84,6 +92,7 @@
                     android:textSize="12sp" />
 
                 <View
+                    android:id="@+id/dot"
                     android:layout_width="3dp"
                     android:layout_height="3dp"
                     android:layout_marginHorizontal="5dp"
@@ -93,7 +102,7 @@
                     android:id="@+id/open_end_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/open_and_close_times"
+                    android:lines="1"
                     android:textColor="@color/black"
                     android:textSize="12sp" />
 
@@ -124,6 +133,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:id="@+id/imageReviews"
                     android:layout_marginEnd="5dp"
                     android:src="@drawable/ic_reviews" />
 

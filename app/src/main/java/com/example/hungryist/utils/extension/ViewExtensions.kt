@@ -9,6 +9,7 @@ import com.example.hungryist.R
 import com.example.hungryist.model.OpenCloseStatusModel
 import com.example.hungryist.utils.RestaurantStatusChecker
 import com.google.firebase.auth.FirebaseAuth
+import kotlin.properties.Delegates
 
 
 fun View.triggerVisibility(isVisible: Boolean) {
@@ -19,17 +20,25 @@ fun Context.showToastMessage(message: String) {
     Toast.makeText(this, message, Toast.LENGTH_LONG).show()
 }
 
-fun TextView.setStatus(openCloseTimes: List<OpenCloseStatusModel>?) {
-    val isCurrentlyOpen = RestaurantStatusChecker.isRestaurantOpen(openCloseTimes)
-    val placeStatus = if (isCurrentlyOpen) R.string.open_now else R.string.closed_now
-    val statusColor = if (isCurrentlyOpen) R.color.main_color else R.color.red
+fun TextView.setStatus(openCloseTimes: List<OpenCloseStatusModel>?): Int {
+    val placeStatus =
+        if (openCloseTimes.isNullOrEmpty()) R.string.unknown else if (RestaurantStatusChecker.isRestaurantOpen(
+                openCloseTimes
+            )
+        ) R.string.open_now else R.string.closed_now
+    val statusColor =
+        if (openCloseTimes.isNullOrEmpty()) R.color.secondary_color else if (RestaurantStatusChecker.isRestaurantOpen(
+                openCloseTimes
+            )
+        ) R.color.main_color else R.color.red
 
     text = context.getString(placeStatus)
     setTextColor(context.getColor(statusColor))
+    return statusColor
 }
 
 fun ImageView.setSaved() {
     val uid = FirebaseAuth.getInstance().currentUser?.uid
-    visibility = if (uid.isNullOrEmpty()) View.GONE else View.VISIBLE
+    triggerVisibility(!uid.isNullOrEmpty())
 //                savedSticker.setImageResource(if (item.saved) R.drawable.ic_saved_sticker else R.drawable.ic_unsaved_sticker)
 }

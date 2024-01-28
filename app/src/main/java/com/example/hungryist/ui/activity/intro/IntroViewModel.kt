@@ -10,7 +10,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.hungryist.utils.CommonHelper
 import com.example.hungryist.utils.SharedPreferencesManager
-import com.example.hungryist.utils.firebaseutils.FirebaseAuthentication
+import com.example.hungryist.utils.firebaseauth.FirebaseAuthentication
 import com.facebook.CallbackManager
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth

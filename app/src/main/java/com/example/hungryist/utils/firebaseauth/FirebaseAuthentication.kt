@@ -1,4 +1,4 @@
-package com.example.hungryist.utils.firebaseutils
+package com.example.hungryist.utils.firebaseauth
 
 import android.app.Activity
 import android.util.Log
@@ -7,7 +7,6 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.ActivityResultRegistryOwner
 import androidx.activity.result.IntentSenderRequest
 import com.example.hungryist.R
-import com.example.hungryist.ui.activity.intro.IntroActivity
 import com.example.hungryist.ui.activity.main.MainActivity
 import com.example.hungryist.utils.SharedPreferencesManager
 import com.example.hungryist.utils.extension.showToastMessage
