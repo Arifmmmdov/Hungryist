@@ -91,4 +91,9 @@
     <string name="open">Open\n</string>
     <string name="close">Close</string>
     <string name="save_changes">Save changes</string>
+    <string name="name">Name</string>
+    <string name="surname">Surname</string>
+    <string name="current_password">Current password</string>
+    <string name="new_password">New password</string>
+    <string name="name_surname">%s %s</string>
 </resources>

@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.example.hungryist.repo.BaseRepository
 import com.example.hungryist.repo.DetailedInfoRepository
+import com.example.hungryist.repo.ProfileRepository
 import com.example.hungryist.utils.SharedPreferencesManager
 import com.google.firebase.auth.FirebaseAuth
 import dagger.Module
@@ -37,13 +38,16 @@ object BaseModule {
 
     @Provides
     @Singleton
+    fun profileRepository(): ProfileRepository = ProfileRepository()
+
+    @Provides
+    @Singleton
     fun detailedInfoRepository(): DetailedInfoRepository = DetailedInfoRepository()
 
 
     @Provides
     @Singleton
     fun getContext(@ApplicationContext context: Context): Context = context
-
 
 
     @Provides

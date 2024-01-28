@@ -17,6 +17,7 @@ class DetailedInfoRepository {
     private val db = FirebaseFirestore.getInstance()
     private lateinit var id: String
 
+
     fun setDataSaved(baseInfoId: String, detailedInfoId: String, saved: Boolean) {
         db.collection("baseInfoModel").document(baseInfoId)
             .update("saved", saved)

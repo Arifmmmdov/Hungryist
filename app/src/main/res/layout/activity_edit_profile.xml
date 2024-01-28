@@ -40,11 +40,13 @@
         android:id="@+id/edit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="4dp"
         android:src="@drawable/ic_edit"
         app:layout_constraintBottom_toBottomOf="@+id/profileImage"
         app:layout_constraintEnd_toEndOf="@+id/profileImage" />
 
     <RelativeLayout
+        android:id="@+id/relativeLayout"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="10dp"
@@ -110,14 +112,113 @@
 
         </LinearLayout>
 
+
+        <TextView
+            android:id="@+id/reviews"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:textColor="@color/soft_grey"
+            android:textSize="14sp"
+            tools:text="85 reviews" />
     </RelativeLayout>
 
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/bookATable"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputEmail"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:layout_marginTop="18dp"
+        android:hint="@string/e_mail"
+        app:boxCornerRadiusBottomEnd="4sp"
+        app:boxCornerRadiusBottomStart="4sp"
+        app:boxCornerRadiusTopEnd="4sp"
+        app:boxCornerRadiusTopStart="4sp"
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputPhoneNumber"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:hint="@string/phone_number"
+        app:boxCornerRadiusBottomEnd="4sp"
+        app:boxCornerRadiusBottomStart="4sp"
+        app:boxCornerRadiusTopEnd="4sp"
+        app:boxCornerRadiusTopStart="4sp"
+        app:layout_constraintTop_toBottomOf="@+id/textInputEmail">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editPhoneNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="phone"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputName"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:hint="@string/name"
+        app:boxCornerRadiusBottomEnd="4sp"
+        app:boxCornerRadiusBottomStart="4sp"
+        app:boxCornerRadiusTopEnd="4sp"
+        app:boxCornerRadiusTopStart="4sp"
+        app:layout_constraintTop_toBottomOf="@+id/textInputPhoneNumber">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputSurname"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:hint="@string/surname"
+        app:boxCornerRadiusBottomEnd="4sp"
+        app:boxCornerRadiusBottomStart="4sp"
+        app:boxCornerRadiusTopEnd="4sp"
+        app:boxCornerRadiusTopStart="4sp"
+        app:layout_constraintTop_toBottomOf="@+id/textInputName">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editSurname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/saveChanges"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:gravity="center"
         android:paddingVertical="11dp"
         android:text="@string/save_changes"

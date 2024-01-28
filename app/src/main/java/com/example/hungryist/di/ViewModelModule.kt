@@ -3,6 +3,7 @@ package com.example.hungryist.di
 import android.content.Context
 import com.example.hungryist.repo.BaseRepository
 import com.example.hungryist.repo.DetailedInfoRepository
+import com.example.hungryist.repo.ProfileRepository
 import com.example.hungryist.ui.activity.detailedinfo.DetailedInfoViewModel
 import com.example.hungryist.ui.activity.main.MainViewModel
 import com.example.hungryist.ui.activity.splashscreen.SplashScreenViewModel
@@ -38,8 +39,9 @@ object ViewModelModule {
     fun getProfileViewModel(
         @ApplicationContext context: Context,
         sharedPreferencesManager: SharedPreferencesManager,
+        profileRepository: ProfileRepository,
     ): ProfileViewModel {
-        return ProfileViewModel(context,sharedPreferencesManager)
+        return ProfileViewModel(context, sharedPreferencesManager, profileRepository)
     }
 
     @Provides
@@ -51,8 +53,11 @@ object ViewModelModule {
 
     @Provides
     @Singleton
-    fun homeViewModel(@ApplicationContext context: Context,repository: BaseRepository): HomeViewModel =
-        HomeViewModel(context,repository)
+    fun homeViewModel(
+        @ApplicationContext context: Context,
+        repository: BaseRepository,
+    ): HomeViewModel =
+        HomeViewModel(context, repository)
 
     @Provides
     @Singleton
@@ -82,9 +87,9 @@ object ViewModelModule {
     @Singleton
     fun getRegisterViewModel(
         context: Context,
-        sharedPreferencesManager: SharedPreferencesManager
+        sharedPreferencesManager: SharedPreferencesManager,
     ): IntroViewModel =
-        IntroViewModel(context,sharedPreferencesManager)
+        IntroViewModel(context, sharedPreferencesManager)
 
 
 }
