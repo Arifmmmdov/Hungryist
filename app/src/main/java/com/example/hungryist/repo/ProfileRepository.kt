@@ -14,7 +14,7 @@ class ProfileRepository {
 
     fun saveProfileChanges(context: Context, profileInfo: ProfileInfoModel?) {
         if (profileInfo != null) {
-            db.collection("profileInfo").document(uid ?: "").set(profileInfo)
+            db.collection("profileInfo").document(uid ?: "Ic7QHNcYwix9rX5pkehn").set(profileInfo)
                 .addOnCompleteListener {
                     context.showToastMessage("Successfully completed!")
                 }
@@ -25,7 +25,7 @@ class ProfileRepository {
     }
 
     fun getProfileInfo(): Task<ProfileInfoModel?> {
-        return db.collection("profileInfo").document(uid ?: "").get()
+        return db.collection("profileInfo").document(uid ?: "Ic7QHNcYwix9rX5pkehn").get()
             .continueWithTask {
                 if (it.isSuccessful) {
 

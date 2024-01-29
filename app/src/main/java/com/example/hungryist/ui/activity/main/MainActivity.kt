@@ -39,6 +39,11 @@ class MainActivity : AppCompatActivity() {
         setObservers()
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.setSelectedTab(R.id.action_home)
+    }
+
     private fun setObservers() {
         viewModel.selectedTabId.observe(this) {
             onTabSelected(it)

@@ -96,4 +96,6 @@
     <string name="current_password">Current password</string>
     <string name="new_password">New password</string>
     <string name="name_surname">%s %s</string>
+    <string name="e_mail_error">E-mail is not valid!</string>
+    <string name="phone_number_error">Phone number is not valid!</string>
 </resources>

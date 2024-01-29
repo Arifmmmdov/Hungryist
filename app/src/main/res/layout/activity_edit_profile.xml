@@ -58,6 +58,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/name"
             android:textColor="@color/black"
             android:textSize="18sp"
             tools:text="Arif Mammadov" />
@@ -186,7 +187,7 @@
             android:id="@+id/editName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="text"
+            android:inputType="textPersonName"
             android:textColor="@color/black"
             android:textSize="14sp" />
 
@@ -209,7 +210,7 @@
             android:id="@+id/editSurname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="text"
+            android:inputType="textPersonName"
             android:textColor="@color/black"
             android:textSize="14sp" />
 

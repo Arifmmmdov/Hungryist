@@ -7,6 +7,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.ActivityResultRegistryOwner
 import androidx.activity.result.IntentSenderRequest
 import com.example.hungryist.R
+import com.example.hungryist.model.GlobalProfileInfo
 import com.example.hungryist.ui.activity.main.MainActivity
 import com.example.hungryist.utils.SharedPreferencesManager
 import com.example.hungryist.utils.extension.showToastMessage
@@ -189,6 +190,7 @@ class FirebaseAuthentication(
             .addOnCompleteListener(activity) { task ->
                 if (task.isSuccessful) {
                     val userId = auth.currentUser?.uid
+                    GlobalProfileInfo.createProfile(userId, email,true)
                     MainActivity.intentFor(activity)
                     sharedPreferencesManager.setRegistered(true)
                 } else

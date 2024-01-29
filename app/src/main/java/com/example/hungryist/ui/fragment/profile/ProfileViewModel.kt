@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.hungryist.model.ProfileInfoModel
 import com.example.hungryist.repo.ProfileRepository
+import com.example.hungryist.ui.activity.EditProfileActivity
 import com.example.hungryist.ui.activity.intro.IntroActivity
 import com.example.hungryist.ui.activity.main.MainActivity
 import com.example.hungryist.utils.SharedPreferencesManager
@@ -23,7 +24,7 @@ class ProfileViewModel @Inject constructor(
     ViewModel() {
 
     private val _profileInfo = MutableLiveData<ProfileInfoModel>()
-     val profileInfo = _profileInfo
+    val profileInfo = _profileInfo
 
     init {
         profileRepository.getProfileInfo()
@@ -42,8 +43,10 @@ class ProfileViewModel @Inject constructor(
         IntroActivity.intentFor(activity)
     }
 
-    fun saveChanges() {
-        profileRepository.saveProfileChanges(context, profileInfo.value)
+    fun saveChanges(context: Context, profileInfo: ProfileInfoModel) {
+        _profileInfo.value = profileInfo
+        profileRepository.saveProfileChanges(context, profileInfo)
+        MainActivity.intentFor(context)
     }
 
 

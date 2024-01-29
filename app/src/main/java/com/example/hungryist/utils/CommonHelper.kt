@@ -48,7 +48,7 @@ class CommonHelper {
         }
 
         fun isValidPhoneNumber(phoneNumber: String): Boolean {
-            val regex = """(\+994\s?)?([5-9][0-9]{1,2})\s?([0-9]{2})\s?([0-9]{2})\s?([0-9]{2})""".toRegex()
+            val regex = """(\+994\s?)?([5-9][0-9]{1,2})\s?([0-9]{3})\s?([0-9]{2})\s?([0-9]{2})""".toRegex()
             return regex.matches(phoneNumber)
         }
     }
