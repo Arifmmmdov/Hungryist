@@ -12,6 +12,7 @@ import com.example.hungryist.ui.fragment.home.HomeFragment
 import com.example.hungryist.ui.fragment.login.LoginFragment
 import com.example.hungryist.ui.fragment.profile.ProfileFragment
 import com.example.hungryist.utils.Constant
+import com.example.hungryist.utils.UserManager
 import com.google.firebase.FirebaseApp
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -34,6 +35,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+        UserManager.initializeSavedPlaces()
         FirebaseApp.initializeApp(this)
         setBottomNavigationView()
         setObservers()

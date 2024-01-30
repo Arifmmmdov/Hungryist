@@ -70,13 +70,6 @@ class DetailedInfoViewModel @Inject constructor(
             }
     }
 
-    fun savedInfoTrigger() {
-        _detailedInfo.value?.apply {
-            repository.setDataSaved(referenceId, id, !saved)
-            saved = !saved
-        }
-    }
-
     fun setUpMapParameters(googleMap: GoogleMap, context: Context) {
         val location = com.google.android.gms.maps.model.LatLng(
             detailedInfo.value?.geoPoint!!.latitude,

@@ -8,6 +8,7 @@ import android.widget.Toast
 import com.example.hungryist.R
 import com.example.hungryist.model.OpenCloseStatusModel
 import com.example.hungryist.utils.RestaurantStatusChecker
+import com.example.hungryist.utils.UserManager
 import com.google.firebase.auth.FirebaseAuth
 import kotlin.properties.Delegates
 
@@ -37,8 +38,9 @@ fun TextView.setStatus(openCloseTimes: List<OpenCloseStatusModel>?): Int {
     return statusColor
 }
 
-fun ImageView.setSaved() {
+fun ImageView.setSaved(placeId: String) {
     val uid = FirebaseAuth.getInstance().currentUser?.uid
     triggerVisibility(!uid.isNullOrEmpty())
-//                savedSticker.setImageResource(if (item.saved) R.drawable.ic_saved_sticker else R.drawable.ic_unsaved_sticker)
+    setImageResource(if (UserManager.checkSaved(placeId)) R.drawable.ic_saved_sticker else R.drawable.ic_unsaved_sticker)
+
 }

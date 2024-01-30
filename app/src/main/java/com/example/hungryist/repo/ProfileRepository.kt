@@ -1,6 +1,7 @@
 package com.example.hungryist.repo
 
 import android.content.Context
+import android.util.Log
 import com.example.hungryist.model.ProfileInfoModel
 import com.example.hungryist.utils.extension.showToastMessage
 import com.google.android.gms.tasks.Task
@@ -40,6 +41,66 @@ class ProfileRepository {
                 } else
                     Tasks.forException(it.exception!!)
 
+
+            }
+    }
+
+    fun addSaved(placeLink: String) {
+        db.collection("profileInfo").document(uid!!).collection("saved")
+            .document()
+            .set(hashMapOf("saved" to placeLink))
+            .addOnSuccessListener {
+                Log.d("MyTagHere", "addSaved: ")
+            }.addOnFailureListener {
+                Log.d("MyTagHere", "addSaved: ${it.message.toString()}")
+            }
+
+    }
+
+    fun deleteSaved(placeLink: String) {
+        db.collection("profileInfo").document(uid!!).collection("saved")
+            .whereEqualTo("saved", placeLink)
+            .get()
+            .addOnSuccessListener {
+                for (document in it) {
+                    document.reference.delete()
+                        .addOnSuccessListener {
+                            Log.d("MyTagHere", "deleteSaved: ")
+                        }
+                        .addOnFailureListener {
+                            Log.d("MyTagHere", "deleteSaved: ${it.message.toString()}")
+                        }
+                }
+            }
+    }
+
+    fun createProfile(profileInfoModel: ProfileInfoModel) {
+        db.collection("profileInfo").document(uid!!).set(profileInfoModel)
+            .addOnSuccessListener {
+                println("Document link created successfully$it")
+            }
+            .addOnFailureListener { e ->
+                println("Error creating document link: ${e.message.toString()}")
+            }
+    }
+
+    fun initializePlaces(): Task<List<String>> {
+        return db.collection("profileInfo").document(uid!!).collection("saved")
+            .get()
+            .continueWithTask {
+                if (it.isSuccessful) {
+                    val savedList = mutableListOf<String>()
+                    for (document in it.result) {
+                        val saved = document.getString("saved")
+                        saved?.let {
+                            savedList.add(it)
+                        }
+                    }
+                    Tasks.forResult(savedList)
+
+                } else {
+                    Tasks.forException(it.exception!!)
+                }
 
             }
     }

@@ -12,6 +12,7 @@ import com.example.hungryist.model.BaseInfoModel
 import com.example.hungryist.ui.activity.detailedinfo.DetailedInfoActivity
 import com.example.hungryist.ui.fragment.home.HomeViewModel
 import com.example.hungryist.utils.RestaurantStatusChecker
+import com.example.hungryist.utils.UserManager
 import com.example.hungryist.utils.extension.setSaved
 import com.example.hungryist.utils.extension.setStatus
 import com.example.hungryist.utils.extension.triggerVisibility
@@ -43,7 +44,7 @@ class FilteredInfoRecyclerAdapter @Inject constructor(
                 name.text = item.name
                 val statusColor = openStatus.setStatus(item.openCloseTimes)
                 binding.dot.setBackgroundColor(context.getColor(statusColor))
-                savedSticker.setSaved()
+                savedSticker.setSaved(item.id)
                 location.text = item.location
                 openEndTime.text =
                     RestaurantStatusChecker.getTimesToday(context, item.openCloseTimes)
@@ -64,11 +65,8 @@ class FilteredInfoRecyclerAdapter @Inject constructor(
 
         override fun clickListener(position: Int) {
             binding.savedSticker.setOnClickListener {
-                dataList[position].apply {
-//                    this.saved = !this.saved
-//                    viewModel.setSavedInfo(id,referenceId, saved)
-                    notifyItemChanged(position)
-                }
+                UserManager.triggerSavedPlace(dataList[position].id)
+                notifyItemChanged(position)
             }
 
             binding.itemFrame.setOnClickListener {

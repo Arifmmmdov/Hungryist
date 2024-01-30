@@ -1,6 +1,7 @@
 package com.example.hungryist.adapter
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
@@ -12,6 +13,8 @@ import com.example.hungryist.generics.BaseViewHolder
 import com.example.hungryist.model.BaseInfoModel
 import com.example.hungryist.ui.activity.detailedinfo.DetailedInfoActivity
 import com.example.hungryist.utils.RestaurantStatusChecker
+import com.example.hungryist.utils.SharedPreferencesManager
+import com.example.hungryist.utils.UserManager
 import com.example.hungryist.utils.extension.setStatus
 import com.example.hungryist.utils.extension.setSaved
 import com.example.hungryist.utils.extension.triggerVisibility
@@ -44,7 +47,8 @@ class TopPlacesRecyclerAdapter @Inject constructor(
                 name.text = item.name
                 val statusColor = openStatus.setStatus(item.openCloseTimes)
                 dot.setBackgroundColor(context.getColor(statusColor))
-                savedSticker.setSaved()
+                    savedSticker.setSaved(item.id)
+
                 location.text = item.location
                 openEndTime.text =
                     RestaurantStatusChecker.getTimesToday(context, item.openCloseTimes)
@@ -68,11 +72,8 @@ class TopPlacesRecyclerAdapter @Inject constructor(
 
         override fun clickListener(position: Int) {
             binding.itemRecyclerDetailedInfo.savedSticker.setOnClickListener {
-                dataList[position].apply {
-//                    this.saved = !this.saved
-//                    viewModel.setSavedInfo(id, referenceId, saved)
-                    notifyItemChanged(position)
-                }
+                UserManager.triggerSavedPlace(dataList[position].id)
+                notifyItemChanged(position)
             }
 
             binding.itemRecyclerDetailedInfo.itemFrame.setOnClickListener {
