@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.hungryist.repo.BaseRepository
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import javax.inject.Inject
 
 class MainViewModel @Inject constructor(
@@ -18,4 +19,10 @@ class MainViewModel @Inject constructor(
     fun setSelectedTab(selectedTabID: Int) {
         _selectedTabID.value = selectedTabID
     }
+
+    fun getTabSelectedListener()= BottomNavigationView.OnNavigationItemSelectedListener { item ->
+        setSelectedTab(item.itemId)
+        true
+    }
+
 }

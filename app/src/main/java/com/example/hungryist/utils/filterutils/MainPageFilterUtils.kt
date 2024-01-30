@@ -2,10 +2,14 @@ package com.example.hungryist.utils.filterutils
 
 import com.example.hungryist.model.BaseInfoModel
 
-object HomePageFilterUtils : BaseFilterUtils<BaseInfoModel>() {
+object MainPageFilterUtils : BaseFilterUtils<BaseInfoModel>() {
 
     fun setBaseInfoList(list: List<BaseInfoModel>) {
         this.list = list
+        resetData()
+    }
+
+    fun resetData() {
         category = ""
         typed = ""
     }

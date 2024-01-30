@@ -98,4 +98,8 @@
     <string name="name_surname">%s %s</string>
     <string name="e_mail_error">E-mail is not valid!</string>
     <string name="phone_number_error">Phone number is not valid!</string>
+    <string name="no_saved">No saved</string>
+    <string name="to_have_saved_places_you_need_to_register_or_log_in">To have saved places you need to register or log in</string>
+    <string name="must_be_registered_info">To have saved places you need to register or log in</string>
+    <string name="empty_save_list_info">Your saved places will be shown here\n</string>
 </resources>

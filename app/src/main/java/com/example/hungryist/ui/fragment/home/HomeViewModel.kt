@@ -4,16 +4,17 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.hungryist.R
 import com.example.hungryist.model.BaseInfoModel
 import com.example.hungryist.model.OpenCloseStatusModel
-import com.example.hungryist.model.SelectPairString
 import com.example.hungryist.model.SelectStringModel
 import com.example.hungryist.repo.BaseRepository
-import com.example.hungryist.utils.SharedPreferencesManager
+import com.example.hungryist.utils.UserManager
 import com.example.hungryist.utils.extension.showToastMessage
-import com.example.hungryist.utils.filterutils.HomePageFilterUtils
+import com.example.hungryist.utils.filterutils.MainPageFilterUtils
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
+import com.google.firebase.auth.FirebaseAuth
 import javax.inject.Inject
 
 class HomeViewModel @Inject constructor(
@@ -35,8 +36,6 @@ class HomeViewModel @Inject constructor(
 
     private val _filteredBaseInfoList = MutableLiveData<List<BaseInfoModel>>()
     val filteredBaseInfoList: LiveData<List<BaseInfoModel>> = _filteredBaseInfoList
-
-    private val selectedPairString = MutableLiveData<SelectPairString>()
 
     fun getBaseList() {
         _isTopPlacesLoading.value = true
@@ -93,7 +92,7 @@ class HomeViewModel @Inject constructor(
     }
 
     fun onTypeSelected(selectStringModel: SelectStringModel?) {
-        _filteredBaseInfoList.value = HomePageFilterUtils.filterForCategory(selectStringModel?.name)
+        _filteredBaseInfoList.value = MainPageFilterUtils.filterForCategory(selectStringModel?.name)
     }
 
     fun getDealsOfMonth(callback: (List<String>) -> Unit) {
@@ -108,7 +107,28 @@ class HomeViewModel @Inject constructor(
     }
 
     fun onTextTyped(text: String) {
-        _filteredBaseInfoList.value = HomePageFilterUtils.filterForTypedText(text)
+        _filteredBaseInfoList.value = MainPageFilterUtils.filterForTypedText(text)
+    }
+
+    fun onFilterSaved(text: String) {
+        MainPageFilterUtils.resetData()
+        _filteredBaseInfoList.value = MainPageFilterUtils.filterForTypedText(text)
+    }
+
+    fun getSavedList(isFiltered: Boolean): List<BaseInfoModel>? {
+        val list = if (isFiltered) filteredBaseInfoList else baseInfoList
+        return list.value?.filter {
+            UserManager.checkSaved(it.id)
+        }
+    }
+
+    fun getSavedInfoTextResource(): String {
+        val emptySaveInfo = if (FirebaseAuth.getInstance().uid == null) {
+            R.string.must_be_registered_info
+        } else {
+            R.string.empty_save_list_info
+        }
+        return context.getString(emptySaveInfo)
     }
 
 }

@@ -10,11 +10,14 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.example.hungryist.databinding.ActivityIntroBinding
 import com.example.hungryist.ui.fragment.login_or_register.LoginOrRegisterFragment
+import com.example.hungryist.ui.fragment.register.RegisterFragment
+import com.example.hungryist.utils.Constant.FRAGMENT_SELECTED
 import com.example.hungryist.utils.extension.showToastMessage
 import com.facebook.CallbackManager
 import com.facebook.CallbackManager.Factory.create
 import com.facebook.FacebookCallback
 import com.facebook.FacebookException
+import com.facebook.login.LoginFragment
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.identity.Identity
@@ -43,6 +46,10 @@ open class IntroActivity : AppCompatActivity() {
             }
 
         }
+    }
+
+    private val fragmentSelected by lazy {
+        intent.getStringExtra(FRAGMENT_SELECTED)
     }
 
     private lateinit var facebookCallbackManager: CallbackManager
@@ -78,8 +85,13 @@ open class IntroActivity : AppCompatActivity() {
     }
 
     private fun showFragment() {
+        val fragment = when (fragmentSelected) {
+            "login" -> LoginFragment()
+            "register" -> RegisterFragment()
+            else -> LoginOrRegisterFragment()
+        }
         supportFragmentManager.beginTransaction()
-            .replace(binding.fragmentContainer.id, LoginOrRegisterFragment())
+            .replace(binding.fragmentContainer.id, fragment)
             .commit()
     }
 
@@ -87,6 +99,12 @@ open class IntroActivity : AppCompatActivity() {
         fun intentFor(context: Context) {
             val intent = Intent(context, IntroActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            context.startActivity(intent)
+        }
+
+        fun intentFor(context: Context, fragmentSelected: String) {
+            val intent = Intent(context, IntroActivity::class.java)
+            intent.putExtra(FRAGMENT_SELECTED, fragmentSelected)
             context.startActivity(intent)
         }
     }

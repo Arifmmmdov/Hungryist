@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.example.hungryist.R
 import com.example.hungryist.databinding.ItemRecyclerTopPlacesBinding
@@ -46,8 +47,8 @@ class TopPlacesRecyclerAdapter @Inject constructor(
             binding.itemRecyclerDetailedInfo.run {
                 name.text = item.name
                 val statusColor = openStatus.setStatus(item.openCloseTimes)
-                dot.setBackgroundColor(context.getColor(statusColor))
-                    savedSticker.setSaved(item.id)
+                dot.setCardBackgroundColor(ContextCompat.getColor(context, statusColor))
+                savedSticker.setSaved(item.id)
 
                 location.text = item.location
                 openEndTime.text =

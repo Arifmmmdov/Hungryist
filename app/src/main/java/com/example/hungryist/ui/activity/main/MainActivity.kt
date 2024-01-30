@@ -11,7 +11,7 @@ import com.example.hungryist.databinding.CustomBottomNavigationItemBinding
 import com.example.hungryist.ui.fragment.home.HomeFragment
 import com.example.hungryist.ui.fragment.login.LoginFragment
 import com.example.hungryist.ui.fragment.profile.ProfileFragment
-import com.example.hungryist.utils.Constant
+import com.example.hungryist.ui.fragment.saved.SavedFragment
 import com.example.hungryist.utils.UserManager
 import com.google.firebase.FirebaseApp
 import dagger.hilt.android.AndroidEntryPoint
@@ -43,7 +43,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        viewModel.setSelectedTab(R.id.action_home)
     }
 
     private fun setObservers() {
@@ -56,23 +55,33 @@ class MainActivity : AppCompatActivity() {
         val selectedFragment: Fragment? = when (tabId) {
             R.id.action_home -> HomeFragment()
             R.id.action_nearby_places -> LoginFragment()
-            R.id.action_saved -> LoginFragment()
+            R.id.action_saved -> SavedFragment()
             R.id.action_profile -> ProfileFragment()
             else -> null
         }
 
+        changeTabId(tabId)
+
         selectedFragment?.let {
             supportFragmentManager.beginTransaction()
+                .addToBackStack("Main activity")
                 .replace(R.id.container, it)
                 .commit()
         }
     }
 
-    private fun setBottomNavigationView() {
-        binding.bottomNavigationView.setOnItemSelectedListener {
-            viewModel.setSelectedTab(it.itemId)
-            true
+    private fun changeTabId(tabId: Int?) {
+        binding.bottomNavigationView.apply {
+            setOnItemSelectedListener(null)
+            tabId?.let {
+                selectedItemId = it
+            }
+            setOnItemSelectedListener(viewModel.getTabSelectedListener())
         }
+    }
+
+    private fun setBottomNavigationView() {
+        binding.bottomNavigationView.setOnItemSelectedListener(viewModel.getTabSelectedListener())
     }
 
     companion object {

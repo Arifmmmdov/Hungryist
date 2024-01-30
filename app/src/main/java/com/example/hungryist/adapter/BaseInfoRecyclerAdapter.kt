@@ -18,7 +18,7 @@ import com.example.hungryist.utils.extension.setStatus
 import com.example.hungryist.utils.extension.triggerVisibility
 import javax.inject.Inject
 
-class FilteredInfoRecyclerAdapter @Inject constructor(
+class BaseInfoRecyclerAdapter @Inject constructor(
     val context: Context,
     dataList: List<BaseInfoModel>,
     val viewModel: HomeViewModel,
@@ -43,7 +43,7 @@ class FilteredInfoRecyclerAdapter @Inject constructor(
             binding.run {
                 name.text = item.name
                 val statusColor = openStatus.setStatus(item.openCloseTimes)
-                binding.dot.setBackgroundColor(context.getColor(statusColor))
+                binding.dot.setCardBackgroundColor(context.getColor(statusColor))
                 savedSticker.setSaved(item.id)
                 location.text = item.location
                 openEndTime.text =
