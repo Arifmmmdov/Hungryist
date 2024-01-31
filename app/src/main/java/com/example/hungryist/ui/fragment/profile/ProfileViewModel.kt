@@ -31,18 +31,21 @@ class ProfileViewModel @Inject constructor(
 
     private val _profileInfo = MutableLiveData<ProfileInfoModel>()
     val profileInfo = _profileInfo
-    lateinit var imageUrl: String
+    private val _selectedImageUrl = MutableLiveData<String>()
+    val selectedImageUrl: LiveData<String> = _selectedImageUrl
 
     init {
         profileRepository.getProfileInfo()
             .addOnSuccessListener {
                 _profileInfo.value = it
-                imageUrl = it?.imageUrl.toString()
             }
             .addOnFailureListener {
                 context.showToastMessage(it.message.toString())
             }
+    }
 
+    fun setSelectedImageUrl(imageUrl: String) {
+        _selectedImageUrl.value = imageUrl
     }
 
     fun logOut(activity: Activity) {
@@ -64,11 +67,10 @@ class ProfileViewModel @Inject constructor(
     fun uploadImage(imageUri: Uri) {
         profileRepository.uploadImage(imageUri)
             .addOnSuccessListener {
-                imageUrl = it.toString()
+                setSelectedImageUrl(it.toString())
             }
             .addOnFailureListener {
                 context.showToastMessage(it.message.toString())
             }
-
     }
 }

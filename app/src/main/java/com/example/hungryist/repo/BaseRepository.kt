@@ -81,9 +81,4 @@ class BaseRepository {
         }
     }
 
-    fun setDataSaved(baseInfoId: String, detailedInfoId: String, saved: Boolean) {
-        db.collection("baseInfoModel").document(baseInfoId).update("saved", saved)
-
-        db.collection("detailedInfoModel").document(detailedInfoId).update("saved", saved)
-    }
 }

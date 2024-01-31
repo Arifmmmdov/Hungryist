@@ -7,6 +7,7 @@ import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
@@ -18,6 +19,7 @@ import com.example.hungryist.ui.fragment.profile.ProfileViewModel
 import com.example.hungryist.utils.CommonHelper
 import com.example.hungryist.utils.DynamicStarFillUtil
 import com.example.hungryist.utils.extension.showToastMessage
+import com.example.hungryist.utils.extension.triggerVisibility
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import dagger.hilt.android.AndroidEntryPoint
@@ -50,10 +52,8 @@ class EditProfileActivity : AppCompatActivity() {
     private val getContentLauncher =
         registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
             uri?.let {
-                Glide.with(this).load(it)
-                    .apply(RequestOptions.bitmapTransform(CircleCrop()))
-                    .into(binding.profileImage)
                 viewModel.uploadImage(it)
+                binding.progressBar.visibility = View.VISIBLE
             }
         }
 
@@ -62,7 +62,17 @@ class EditProfileActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         setListeners()
+        setObservers()
         setViews()
+    }
+
+    private fun setObservers() {
+        viewModel.selectedImageUrl.observe(this) {
+            Glide.with(this).load(it)
+                .apply(RequestOptions.bitmapTransform(CircleCrop()))
+                .into(binding.profileImage)
+            binding.progressBar.visibility = View.GONE
+        }
     }
 
     private fun setViews() {
@@ -75,14 +85,11 @@ class EditProfileActivity : AppCompatActivity() {
             )
             binding.reviews.text =
                 getString(R.string.reviews, info.reviews.toString())
-            Glide.with(this).load(info.imageUrl)
-                .apply(RequestOptions.bitmapTransform(CircleCrop()))
-                .into(binding.profileImage)
             binding.editEmail.setText(info.email)
             binding.editPhoneNumber.setText(info.phoneNumber)
             binding.editName.setText(info.name)
             binding.editSurname.setText(info.surname)
-            viewModel.imageUrl = info.imageUrl.toString()
+            viewModel.setSelectedImageUrl(info.imageUrl.toString())
         }
     }
 
@@ -94,7 +101,7 @@ class EditProfileActivity : AppCompatActivity() {
         }
 
         binding.profileImage.setOnClickListener {
-            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.TIRAMISU) {
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
                 requestPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
             } else {
                 requestPermissionLauncher.launch(Manifest.permission.READ_MEDIA_IMAGES)
@@ -108,7 +115,7 @@ class EditProfileActivity : AppCompatActivity() {
             phoneNumber = binding.editPhoneNumber.text.toString(),
             name = binding.editName.text.toString(),
             surname = binding.editSurname.text.toString(),
-            imageUrl = viewModel.imageUrl
+            imageUrl = viewModel.selectedImageUrl.value
         )!!
     }
 

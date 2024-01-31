@@ -29,7 +29,7 @@ class ProfileRepository {
         if (profileInfo != null) {
             db.collection("profileInfo").document(uid ?: "Ic7QHNcYwix9rX5pkehn").set(profileInfo)
                 .addOnCompleteListener {
-                    context.showToastMessage("Successfully completed!")
+                    Log.d("MyTagHere", "Successfully completed!")
                 }
                 .addOnFailureListener {
                     context.showToastMessage(it.message.toString())

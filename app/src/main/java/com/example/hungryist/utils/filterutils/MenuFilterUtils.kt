@@ -2,7 +2,7 @@ package com.example.hungryist.utils.filterutils
 
 import com.example.hungryist.model.MenuModel
 
-object MenuFilterUtils : BaseFilterUtils<MenuModel>() {
+class MenuFilterUtils : BaseFilterUtils<MenuModel>() {
 
 
     fun setMenuList(list: List<MenuModel>) {

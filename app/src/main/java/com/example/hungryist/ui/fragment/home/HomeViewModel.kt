@@ -37,6 +37,10 @@ class HomeViewModel @Inject constructor(
     private val _filteredBaseInfoList = MutableLiveData<List<BaseInfoModel>>()
     val filteredBaseInfoList: LiveData<List<BaseInfoModel>> = _filteredBaseInfoList
 
+    private val filterUtils by lazy {
+        MainPageFilterUtils()
+    }
+
     fun getBaseList() {
         _isTopPlacesLoading.value = true
         repository.getBaseInfoList().addOnSuccessListener {
@@ -44,6 +48,7 @@ class HomeViewModel @Inject constructor(
         }.addOnFailureListener {
             _baseInfoList.value = listOf()
         }.addOnCompleteListener {
+            baseInfoList.value?.let { it1 -> filterUtils.setBaseInfoList(it1) }
             _isTopPlacesLoading.value = false
         }
 
@@ -87,12 +92,8 @@ class HomeViewModel @Inject constructor(
     }
 
 
-    fun setSavedInfo(id: String, referenceId: String, saved: Boolean) {
-        repository.setDataSaved(id, referenceId, saved)
-    }
-
     fun onTypeSelected(selectStringModel: SelectStringModel?) {
-        _filteredBaseInfoList.value = MainPageFilterUtils.filterForCategory(selectStringModel?.name)
+        _filteredBaseInfoList.value = filterUtils.filterForCategory(selectStringModel?.name)
     }
 
     fun getDealsOfMonth(callback: (List<String>) -> Unit) {
@@ -107,12 +108,12 @@ class HomeViewModel @Inject constructor(
     }
 
     fun onTextTyped(text: String) {
-        _filteredBaseInfoList.value = MainPageFilterUtils.filterForTypedText(text)
+        _filteredBaseInfoList.value = filterUtils.filterForTypedText(text)
     }
 
     fun onFilterSaved(text: String) {
-        MainPageFilterUtils.resetData()
-        _filteredBaseInfoList.value = MainPageFilterUtils.filterForTypedText(text)
+        filterUtils.resetData()
+        _filteredBaseInfoList.value = filterUtils.filterForTypedText(text)
     }
 
     fun getSavedList(isFiltered: Boolean): List<BaseInfoModel>? {

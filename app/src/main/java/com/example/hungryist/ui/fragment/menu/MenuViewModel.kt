@@ -20,15 +20,19 @@ class MenuViewModel @Inject constructor(
     private val _categoriesList = MutableLiveData<List<SelectStringModel>>()
     val categoriesList: LiveData<List<SelectStringModel>> = _categoriesList
 
+    private val menuFilterUtils by lazy {
+        MenuFilterUtils()
+    }
+
     fun getMenuList() {
         repository.getMenuList()
             .addOnSuccessListener {
                 _menuList.value = it
-                MenuFilterUtils.setMenuList(it)
+                menuFilterUtils.setMenuList(it)
             }
             .addOnFailureListener {
                 _menuList.value = listOf()
-                MenuFilterUtils.setMenuList(listOf())
+                menuFilterUtils.setMenuList(listOf())
             }
     }
 
@@ -45,10 +49,10 @@ class MenuViewModel @Inject constructor(
     }
 
     fun filterForCategory(category: String?) {
-        _menuList.value = MenuFilterUtils.filterForCategory(category)
+        _menuList.value = menuFilterUtils.filterForCategory(category)
     }
 
     fun filterForTyped(typed: String?) {
-        _menuList.value = MenuFilterUtils.filterForTypedText(typed)
+        _menuList.value = menuFilterUtils.filterForTypedText(typed)
     }
 }
