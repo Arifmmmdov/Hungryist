@@ -102,4 +102,5 @@
     <string name="to_have_saved_places_you_need_to_register_or_log_in">To have saved places you need to register or log in</string>
     <string name="must_be_registered_info">To have saved places you need to register or log in</string>
     <string name="empty_save_list_info">Your saved places will be shown here\n</string>
+    <string name="denied_info">Permission denied. Please allow access to continue!</string>
 </resources>

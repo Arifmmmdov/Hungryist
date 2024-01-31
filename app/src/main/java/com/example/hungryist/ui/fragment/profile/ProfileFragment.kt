@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CircleCrop
+import com.bumptech.glide.request.RequestOptions
 import com.example.hungryist.R
 import com.example.hungryist.databinding.FragmentProfileBinding
 import com.example.hungryist.model.ProfileInfoModel
@@ -48,7 +50,9 @@ class ProfileFragment : Fragment() {
         starFillUtil.fillStars(info.rate ?: 0.0, true)
         binding.name.text = getString(R.string.name_surname, info.name, info.surname)
         binding.reviews.text = getString(R.string.reviews, info.reviews ?: 0)
-        Glide.with(requireContext()).load(info.imageUrl).into(binding.mainImage)
+        Glide.with(requireContext()).load(info.imageUrl)
+            .apply(RequestOptions.bitmapTransform(CircleCrop()))
+            .into(binding.mainImage)
     }
 
     private fun setListeners() {

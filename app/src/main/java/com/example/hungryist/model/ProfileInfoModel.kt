@@ -5,7 +5,7 @@ data class ProfileInfoModel(
     val surname: String?,
     val email: String?,
     val phoneNumber: String?,
-    val imageUrl: String?,
+    var imageUrl: String?,
     val rate: Double?,
     val reviews: Double?,
     val savedList: List<String>?,

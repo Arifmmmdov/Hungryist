@@ -1,6 +1,7 @@
 package com.example.hungryist.repo
 
 import android.content.Context
+import android.net.Uri
 import android.util.Log
 import com.example.hungryist.model.ProfileInfoModel
 import com.example.hungryist.utils.extension.showToastMessage
@@ -8,10 +9,21 @@ import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageTask
+import com.google.firebase.storage.UploadTask
+import java.util.UUID
 
 class ProfileRepository {
-    private val db = FirebaseFirestore.getInstance()
-    private val uid = FirebaseAuth.getInstance().uid
+    private val db by lazy {
+        FirebaseFirestore.getInstance()
+    }
+    private val uid by lazy {
+        FirebaseAuth.getInstance().uid
+    }
+    private val storage by lazy {
+        FirebaseStorage.getInstance()
+    }
 
     fun saveProfileChanges(context: Context, profileInfo: ProfileInfoModel?) {
         if (profileInfo != null) {
@@ -104,4 +116,25 @@ class ProfileRepository {
 
             }
     }
+
+    fun uploadImage(imageUri: Uri): Task<String> {
+        val imageRef = storage.reference.child("profileImages/${UUID.randomUUID()}.jpg")
+
+        return imageRef.putFile(imageUri)
+            .continueWithTask { task ->
+                if (task.isSuccessful) {
+                    imageRef.downloadUrl
+                } else {
+                    Tasks.forException(task.exception!!)
+                }
+            }
+            .continueWith { downloadUrlTask ->
+                if (downloadUrlTask.isSuccessful) {
+                    downloadUrlTask.result.toString()
+                } else {
+                    throw downloadUrlTask.exception!!
+                }
+            }
+    }
+
 }
