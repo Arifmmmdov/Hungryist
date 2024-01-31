@@ -53,9 +53,9 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefresh"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:id="@+id/swipeRefresh"
         android:layout_marginVertical="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/filterButton">
@@ -86,6 +86,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:text="@string/no_saved"
             android:textColor="@color/black"
             android:textSize="16sp" />
@@ -94,6 +95,7 @@
             android:id="@+id/emptyInfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
             android:textColor="@color/medium_grey"
             android:textSize="14sp"
             tools:text="@string/to_have_saved_places_you_need_to_register_or_log_in" />

@@ -24,10 +24,6 @@ class MainActivity : AppCompatActivity() {
         ActivityMainBinding.inflate(layoutInflater)
     }
 
-    private val bindingBottomNavItem by lazy {
-        CustomBottomNavigationItemBinding.inflate(layoutInflater)
-    }
-
     @Inject
     lateinit var viewModel: MainViewModel
 

@@ -9,6 +9,7 @@ import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.example.hungryist.databinding.ActivityIntroBinding
+import com.example.hungryist.ui.fragment.login.LoginFragment
 import com.example.hungryist.ui.fragment.login_or_register.LoginOrRegisterFragment
 import com.example.hungryist.ui.fragment.register.RegisterFragment
 import com.example.hungryist.utils.Constant.FRAGMENT_SELECTED
@@ -17,7 +18,6 @@ import com.facebook.CallbackManager
 import com.facebook.CallbackManager.Factory.create
 import com.facebook.FacebookCallback
 import com.facebook.FacebookException
-import com.facebook.login.LoginFragment
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.identity.Identity

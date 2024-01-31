@@ -47,7 +47,7 @@ class HomeViewModel @Inject constructor(
             getOpenCloseDateList(it)
         }.addOnFailureListener {
             _baseInfoList.value = listOf()
-        }.addOnCompleteListener {
+        }.addOnCompleteListener {   
             baseInfoList.value?.let { it1 -> filterUtils.setBaseInfoList(it1) }
             _isTopPlacesLoading.value = false
         }

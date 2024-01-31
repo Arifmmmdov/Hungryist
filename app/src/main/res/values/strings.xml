@@ -103,4 +103,6 @@
     <string name="must_be_registered_info">To have saved places you need to register or log in</string>
     <string name="empty_save_list_info">Your saved places will be shown here\n</string>
     <string name="denied_info">Permission denied. Please allow access to continue!</string>
+    <string name="no_results_found">No results found</string>
+    <string name="no_filter_info">There is no match for this filter</string>
 </resources>

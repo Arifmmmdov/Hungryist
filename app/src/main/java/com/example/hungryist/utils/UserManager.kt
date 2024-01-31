@@ -2,6 +2,7 @@ package com.example.hungryist.utils
 
 import com.example.hungryist.model.ProfileInfoModel
 import com.example.hungryist.repo.ProfileRepository
+import com.google.android.gms.tasks.Tasks
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -10,6 +11,10 @@ object UserManager {
     lateinit var savedList: MutableList<String>
 
     fun initializeSavedPlaces() {
+        if (FirebaseAuth.getInstance().uid == null) {
+            savedList = mutableListOf()
+            return
+        }
         ProfileRepository().initializePlaces()
             .addOnSuccessListener {
                 println("Document link created successfully$it")

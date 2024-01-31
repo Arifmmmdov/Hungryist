@@ -67,7 +67,7 @@ class HomeFragment : Fragment() {
             setPlacesAdapter(it, true)
             changeDealsOfMonthVisibility(VisibleStatusEnum.INVISIBLE)
             binding.dealsOfMonth.triggerVisibility(false)
-
+            binding.lnrEmptyFilter.triggerVisibility(it.isEmpty())
         }
     }
 
