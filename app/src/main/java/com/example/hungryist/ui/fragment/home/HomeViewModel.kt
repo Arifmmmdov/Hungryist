@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import com.example.hungryist.R
 import com.example.hungryist.model.BaseInfoModel
 import com.example.hungryist.model.OpenCloseStatusModel
+import com.example.hungryist.model.PlaceFilterModel
 import com.example.hungryist.model.SelectStringModel
 import com.example.hungryist.repo.BaseRepository
 import com.example.hungryist.utils.UserManager
@@ -130,6 +131,10 @@ class HomeViewModel @Inject constructor(
             R.string.empty_save_list_info
         }
         return context.getString(emptySaveInfo)
+    }
+
+    fun filterPlaces(filterItems: PlaceFilterModel) {
+        filterUtils.filterForPlaces(filterItems)
     }
 
 }

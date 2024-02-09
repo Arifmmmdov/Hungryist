@@ -43,6 +43,7 @@ class HomeFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         getItems()
+        binding.lnrEmptyFilter.triggerVisibility(false)
     }
 
     private fun setObservers() {
@@ -60,6 +61,7 @@ class HomeFragment : Fragment() {
         }
 
         viewModel.baseInfoList.observe(requireActivity()) {
+            binding.lnrEmptyFilter.triggerVisibility(it.isEmpty())
             setPlacesAdapter(it.filter { it.titleName.isNotEmpty() }, false)
         }
 
@@ -135,6 +137,7 @@ class HomeFragment : Fragment() {
     private fun setListeners() {
         binding.swipeRefresh.setOnRefreshListener {
             getItems()
+            binding.lnrEmptyFilter.triggerVisibility(false)
             binding.swipeRefresh.isRefreshing = false
             binding.editText.setText("")
         }

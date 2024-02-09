@@ -105,4 +105,13 @@
     <string name="denied_info">Permission denied. Please allow access to continue!</string>
     <string name="no_results_found">No results found</string>
     <string name="no_filter_info">There is no match for this filter</string>
+    <string name="filter">Filter</string>
+    <string name="place">Place</string>
+    <string name="meal">Meal</string>
+    <string name="restaurant">Restaurant</string>
+    <string name="enter_location">Enter location</string>
+    <string name="distance">Distance</string>
+    <string name="price">Price</string>
+    <string name="choose_meal">Choose meal</string>
+    <string name="apply_filter">Apply filter</string>
 </resources>
