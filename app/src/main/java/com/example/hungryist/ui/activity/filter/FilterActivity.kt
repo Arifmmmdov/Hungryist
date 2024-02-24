@@ -1,5 +1,7 @@
 package com.example.hungryist.ui.activity.filter
 
+import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -34,6 +36,13 @@ class FilterActivity : AppCompatActivity() {
             Pair(PlaceFilterFragment(), getString(R.string.place)),
             Pair(MealFilterFragment(), getString(R.string.meal))
         )
+    }
+
+    companion object{
+        fun intentFor(context: Context){
+            val intent = Intent(context,FilterActivity::class.java)
+            context.startActivity(intent)
+        }
     }
 
 }
