@@ -27,7 +27,7 @@ class MainPageFilterUtils : BaseFilterUtils<BaseInfoModel>() {
 
     private fun checkPlaceFilter(baseInfoModel: BaseInfoModel): Boolean {
         return ((baseInfoModel.type == "Restaurant") == placeFilter?.isRestaurant)
-                || ()
+//                || ()
     }
 
     fun filterForPlaces(filterItems: PlaceFilterModel) {

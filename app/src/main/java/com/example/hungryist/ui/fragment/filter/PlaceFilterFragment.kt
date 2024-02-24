@@ -52,7 +52,7 @@ class PlaceFilterFragment : Fragment() {
     private fun getFilterItems(): PlaceFilterModel {
         return PlaceFilterModel(
             isRestaurant,
-            binding.editText.text.toString(),
+            binding.edidrotText.text.toString(),
             IntRange(
                 binding.sliderDistance.values[0].toInt(),
                 binding.sliderDistance.values[1].toInt()
