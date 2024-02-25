@@ -48,8 +48,8 @@ class HomeViewModel @Inject constructor(
             getOpenCloseDateList(it)
         }.addOnFailureListener {
             _baseInfoList.value = listOf()
-        }.addOnCompleteListener {   
-            baseInfoList.value?.let { it1 -> filterUtils.setBaseInfoList(it1) }
+        }.addOnCompleteListener {
+            filterUtils.setBaseInfoList(it.result)
             _isTopPlacesLoading.value = false
         }
 
@@ -134,7 +134,7 @@ class HomeViewModel @Inject constructor(
     }
 
     fun filterPlaces(filterItems: PlaceFilterModel) {
-        filterUtils.filterForPlaces(filterItems)
+        _filteredBaseInfoList.value = filterUtils.filterForPlaces(filterItems)
     }
 
 }

@@ -17,19 +17,17 @@
         android:textColor="@color/soft_grey"
         android:textSize="16sp" />
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="14dp"
-        android:gravity="center_vertical">
+        android:layout_marginTop="14dp">
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textInput"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
-            android:layout_weight="1"
             app:boxBackgroundColor="@android:color/transparent"
             app:boxBackgroundMode="outline"
             app:boxCornerRadiusBottomEnd="4dp"
@@ -37,18 +35,17 @@
             app:boxCornerRadiusTopEnd="4dp"
             app:boxCornerRadiusTopStart="4dp"
             app:boxStrokeColor="@color/grey"
-            app:layout_constraintBottom_toBottomOf="@+id/filterButton"
-            app:layout_constraintEnd_toStartOf="@+id/filterButton"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btnChooseMeal"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/filterButton">
+            app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editText"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:imeOptions="actionDone"
-                android:inputType="text"
-                android:maxLines="1" />
+                android:inputType="text" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <ImageView
@@ -57,11 +54,59 @@
             android:layout_height="48dp"
             android:background="@drawable/round_background_4dp"
             android:clickable="true"
-            android:src="@drawable/ic_choose_meal"
             android:padding="10dp"
+            android:src="@drawable/ic_choose_meal"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-    </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/txtPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="@string/price"
+        android:textColor="@color/soft_grey"
+        android:textSize="16sp" />
+
+    <com.google.android.material.slider.RangeSlider
+        android:id="@+id/sliderPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:theme="@style/SliderTrackTheme"
+        android:valueFrom="0"
+        android:valueTo="1000"
+        app:labelBehavior="gone"
+        app:thumbColor="@color/white"
+        app:thumbStrokeColor="@color/secondary_color"
+        app:thumbStrokeWidth="2.5dp"
+        app:tickColor="@color/secondary_color" />
+
+    <RelativeLayout
+        android:id="@+id/priceLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/price_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/price_azn"
+            android:textColor="@color/soft_grey"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/price_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:text="@string/price_azn"
+            android:textColor="@color/soft_grey"
+            android:textSize="14sp" />
+    </RelativeLayout>
+
 
 </LinearLayout>

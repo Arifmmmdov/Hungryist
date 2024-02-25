@@ -114,4 +114,7 @@
     <string name="price">Price</string>
     <string name="choose_meal">Choose meal</string>
     <string name="apply_filter">Apply filter</string>
+    <string name="distance_m">%s m</string>
+    <string name="price_azn">%d AZN</string>
+    <string name="cafe">Café</string>
 </resources>

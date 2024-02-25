@@ -14,6 +14,7 @@ import com.example.hungryist.adapter.TopPlacesRecyclerAdapter
 import com.example.hungryist.databinding.FragmentHomeBinding
 import com.example.hungryist.model.BaseInfoModel
 import com.example.hungryist.model.SelectStringModel
+import com.example.hungryist.ui.activity.filter.FilterActivity
 import com.example.hungryist.utils.enum.VisibleStatusEnum
 import com.example.hungryist.utils.extension.triggerVisibility
 import com.example.hungryist.utils.filterutils.MainPageFilterUtils
@@ -144,6 +145,10 @@ class HomeFragment : Fragment() {
 
         binding.editText.addTextChangedListener {
             viewModel.onTextTyped(it.toString())
+        }
+
+        binding.filterButton.setOnClickListener {
+            FilterActivity.intentFor(requireContext())
         }
 
     }

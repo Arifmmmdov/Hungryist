@@ -12,6 +12,11 @@ class MainPageFilterUtils : BaseFilterUtils<BaseInfoModel>() {
         resetData()
     }
 
+    fun setBaseInfoAndFilter(list: List<BaseInfoModel>): List<BaseInfoModel> {
+        this.list = list
+        return filter()
+    }
+
     fun resetData() {
         category = ""
         typed = ""
@@ -27,10 +32,11 @@ class MainPageFilterUtils : BaseFilterUtils<BaseInfoModel>() {
 
     private fun checkPlaceFilter(baseInfoModel: BaseInfoModel): Boolean {
         return ((baseInfoModel.type == "Restaurant") == placeFilter?.isRestaurant)
-                || ()
+//                || ()
     }
 
-    fun filterForPlaces(filterItems: PlaceFilterModel) {
+    fun filterForPlaces(filterItems: PlaceFilterModel): List<BaseInfoModel> {
         placeFilter = filterItems
+        return filter()
     }
 }

@@ -1,5 +1,7 @@
 package com.example.hungryist.ui.activity.filter
 
+import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -9,11 +11,17 @@ import com.example.hungryist.databinding.ActivityFilterBinding
 import com.example.hungryist.ui.fragment.filter.MealFilterFragment
 import com.example.hungryist.ui.fragment.filter.PlaceFilterFragment
 import com.google.android.material.tabs.TabLayoutMediator
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class FilterActivity : AppCompatActivity() {
     private val binding by lazy {
         ActivityFilterBinding.inflate(layoutInflater)
     }
+
+    @Inject
+    lateinit var viewModel: FilterViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,6 +42,13 @@ class FilterActivity : AppCompatActivity() {
             Pair(PlaceFilterFragment(), getString(R.string.place)),
             Pair(MealFilterFragment(), getString(R.string.meal))
         )
+    }
+
+    companion object {
+        fun intentFor(context: Context) {
+            val intent = Intent(context,FilterActivity::class.java)
+            context.startActivity(intent)
+        }
     }
 
 }
