@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.annotation.FloatRange
 import androidx.fragment.app.Fragment
 import com.example.hungryist.R
 import com.example.hungryist.databinding.FragmentPlaceFilterBinding
@@ -48,6 +49,7 @@ class PlaceFilterFragment : Fragment() {
     private fun setListeners() {
         binding.btnApplyFilter.setOnClickListener {
             viewModel.filterPlaces(getFilterItems())
+            requireActivity().finish()
         }
 
         binding.layoutExpandDistance.setOnClickListener {
@@ -65,8 +67,7 @@ class PlaceFilterFragment : Fragment() {
         })
 
         binding.sliderPrice.addOnChangeListener(RangeSlider.OnChangeListener { slider, value, fromUser ->
-            binding.priceStart.text =
-                getString(R.string.price_azn, slider.values[0].toInt())
+            binding.priceStart.text = getString(R.string.price_azn, slider.values[0].toInt())
             binding.priceEnd.text = getString(R.string.price_azn, slider.values[1].toInt())
         })
 
@@ -103,8 +104,9 @@ class PlaceFilterFragment : Fragment() {
 
     private fun getFilterItems(): PlaceFilterModel {
         return PlaceFilterModel(
-            restaurantSelected, binding.editText.text.toString(), IntRange(
-                binding.sliderDistance.values[0].toInt(), binding.sliderDistance.values[1].toInt()
+            restaurantSelected, cafeSelected, binding.editText.text.toString(), FloatRange(
+                binding.sliderDistance.values[0].toDouble(),
+                binding.sliderDistance.values[1].toDouble()
             ), IntRange(
                 binding.sliderPrice.values[0].toInt(), binding.sliderPrice.values[1].toInt()
             )
@@ -112,14 +114,29 @@ class PlaceFilterFragment : Fragment() {
     }
 
     private fun setViews() {
-        binding.sliderDistance.values = listOf(0f, 1000f).also {
+        val filterPlace = viewModel.getFilterPlace()
+        val distanceStartValue = filterPlace?.distanceRange?.from?.toFloat() ?: 0f
+        val distanceEndValue = filterPlace?.distanceRange?.to?.toFloat() ?: 1000f
+
+        binding.sliderDistance.values = listOf(distanceStartValue, distanceEndValue).also {
             binding.distanceStart.text = getString(R.string.distance_m, it[0].format())
             binding.distanceEnd.text = getString(R.string.distance_m, it[1].format())
         }
-        binding.sliderPrice.values = listOf(0f, 800f).also {
+
+
+        val priceStartValue = filterPlace?.priceRange?.first?.toFloat() ?: 0f
+        val priceEndValue = filterPlace?.priceRange?.last?.toFloat() ?: 800f
+        binding.sliderPrice.values = listOf(priceStartValue, priceEndValue).also {
             binding.priceStart.text = getString(R.string.price_azn, it[0].toInt())
             binding.priceEnd.text = getString(R.string.price_azn, it[1].toInt())
         }
+
+        cafeSelected = filterPlace?.isCafe ?: true
+        restaurantSelected = filterPlace?.isRestaurant ?: true
+
+        binding.btnCafe.toggleSelection(cafeSelected)
+        binding.btnRestaurant.toggleSelection(restaurantSelected)
+
         setAnimatedDistanceExpand()
         setAnimatedPriceExpand()
     }

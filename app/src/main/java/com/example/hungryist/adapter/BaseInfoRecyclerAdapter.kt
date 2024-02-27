@@ -23,7 +23,7 @@ class BaseInfoRecyclerAdapter @Inject constructor(
     dataList: List<BaseInfoModel>,
     val viewModel: HomeViewModel,
 ) :
-    BaseRecyclerAdapter<BaseInfoModel, ItemRecyclerDetailedInfoBinding>(dataList) {
+    BaseRecyclerAdapter<BaseInfoModel, ItemRecyclerDetailedInfoBinding>(dataList.toMutableList()) {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int,

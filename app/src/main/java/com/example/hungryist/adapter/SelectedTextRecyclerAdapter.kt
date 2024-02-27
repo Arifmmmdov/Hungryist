@@ -11,15 +11,16 @@ import com.example.hungryist.ui.fragment.home.HomeViewModel
 import com.example.hungryist.generics.BaseRecyclerAdapter
 import com.example.hungryist.generics.BaseViewHolder
 import com.example.hungryist.model.SelectStringModel
+import com.example.hungryist.utils.filterutils.FilterableBaseViewModel
 import javax.inject.Inject
 
-class SelectedTextRecyclerAdapter @Inject constructor(
+class SelectedTextRecyclerAdapter(
     val context: Context,
     dataList: MutableList<SelectStringModel>,
-    val callback: (SelectStringModel?) -> Unit,
+    val viewModel: FilterableBaseViewModel,
 ) : BaseRecyclerAdapter<SelectStringModel, ItemRecyclerFilterBinding>(dataList) {
 
-    private var selectedIndex = 0
+    private var selectedIndex = dataList.size - 1
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -46,22 +47,41 @@ class SelectedTextRecyclerAdapter @Inject constructor(
             binding.title.setTextColor(ContextCompat.getColor(context, textColor))
         }
 
-        @SuppressLint("NotifyDataSetChanged")
         override fun clickListener(position: Int) {
             binding.mainFrame.setOnClickListener {
-                if (selectedIndex == position) {
-                    dataList[selectedIndex].isSelected = !dataList[selectedIndex].isSelected
-                    notifyItemChanged(selectedIndex)
-                    selectedIndex = 0
-                } else {
-                    dataList[selectedIndex].isSelected = false
-                    dataList[position].isSelected = true
-                    selectedIndex = position
-                    notifyDataSetChanged()
+                if (dataList[position].name == context.getString(R.string.customFilter))
+                    removeCustomFilter(position)
+                else {
+
+                    if (selectedIndex == position) {
+                        dataList[selectedIndex].isSelected = !dataList[selectedIndex].isSelected
+                        notifyItemChanged(selectedIndex)
+                        selectedIndex = 0
+                    } else {
+                        dataList[selectedIndex].isSelected = false
+                        dataList[position].isSelected = true
+                        selectedIndex = position
+                        notifyDataSetChanged()
+                    }
+                    dataList[selectedIndex].takeIf { it.isSelected }?.name?.let { it1 ->
+                        viewModel.onTypeSelected(
+                            it1
+                        )
+                    }
                 }
-                callback(dataList[selectedIndex].takeIf { it.isSelected })
             }
         }
+
+        private fun removeCustomFilter(position: Int) {
+            dataList.removeAt(position)
+            notifyItemRemoved(position)
+            viewModel.removeCustomFilter()
+        }
+    }
+
+    fun addItem(selectStringModel: SelectStringModel) {
+        dataList.add(selectStringModel)
+        notifyItemInserted(dataList.size - 1)
     }
 
 }

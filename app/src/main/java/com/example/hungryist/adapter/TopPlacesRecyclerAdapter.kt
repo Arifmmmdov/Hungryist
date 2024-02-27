@@ -26,7 +26,7 @@ class TopPlacesRecyclerAdapter @Inject constructor(
     dataList: List<BaseInfoModel>,
     val viewModel: HomeViewModel,
 ) :
-    BaseRecyclerAdapter<BaseInfoModel, ItemRecyclerTopPlacesBinding>(dataList) {
+    BaseRecyclerAdapter<BaseInfoModel, ItemRecyclerTopPlacesBinding>(dataList.toMutableList()) {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int,

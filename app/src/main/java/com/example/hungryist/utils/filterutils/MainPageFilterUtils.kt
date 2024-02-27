@@ -1,25 +1,23 @@
 package com.example.hungryist.utils.filterutils
 
 import com.example.hungryist.model.BaseInfoModel
+import com.example.hungryist.model.MealFilterModel
 import com.example.hungryist.model.PlaceFilterModel
 
 class MainPageFilterUtils : BaseFilterUtils<BaseInfoModel>() {
 
-    private var placeFilter: PlaceFilterModel? = null
+    var placeFilter: PlaceFilterModel? = null
+    var mealFilter: MealFilterModel? = null
 
     fun setBaseInfoList(list: List<BaseInfoModel>) {
         this.list = list
-        resetData()
     }
 
-    fun setBaseInfoAndFilter(list: List<BaseInfoModel>): List<BaseInfoModel> {
-        this.list = list
-        return filter()
-    }
-
-    fun resetData() {
+    fun clearFilter() {
         category = ""
         typed = ""
+        placeFilter = null
+        mealFilter = null
     }
 
     override fun filter(): List<BaseInfoModel> {
@@ -27,16 +25,44 @@ class MainPageFilterUtils : BaseFilterUtils<BaseInfoModel>() {
             (category.isNullOrEmpty() || category == it.type)
                     && (typed.isNullOrEmpty() || it.name.lowercase().contains(typed!!.lowercase()))
                     && (placeFilter == null || checkPlaceFilter(it))
+                    && (mealFilter == null || checkMealFilter(it) == true)
         }
     }
 
+    private fun checkMealFilter(baseInfo: BaseInfoModel): Boolean? {
+        return baseInfo.prices.any { it.toInt() in mealFilter!!.priceRange }
+    }
+
     private fun checkPlaceFilter(baseInfoModel: BaseInfoModel): Boolean {
-        return ((baseInfoModel.type == "Restaurant") == placeFilter?.isRestaurant)
-//                || ()
+        return ((baseInfoModel.type == "Restaurants") == placeFilter?.isRestaurant)
+                || ((baseInfoModel.type == "Cafés") == placeFilter?.isCafe)
     }
 
     fun filterForPlaces(filterItems: PlaceFilterModel): List<BaseInfoModel> {
         placeFilter = filterItems
         return filter()
     }
+
+
+    fun filterForMeals(filterItems: MealFilterModel): List<BaseInfoModel> {
+        mealFilter = filterItems
+        return filter()
+    }
+
+    fun filterable(): Boolean {
+        return !(placeFilter == null
+                && mealFilter == null
+                && category == ""
+                && typed == "")
+    }
+
+    fun customFilterActive(): Boolean {
+        return placeFilter != null || mealFilter != null
+    }
+
+    fun removeCustomFilter() {
+        placeFilter = null
+        mealFilter = null
+    }
+
 }

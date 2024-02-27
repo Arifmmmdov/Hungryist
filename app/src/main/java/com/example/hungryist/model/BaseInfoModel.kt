@@ -12,7 +12,8 @@ data class BaseInfoModel(
     val name: String,
     val reviews: String,
     val overallRating: Double,
-    var openCloseTimes:List<OpenCloseStatusModel>
+    var openCloseTimes: List<OpenCloseStatusModel>,
+    var prices: List<Double>,
 ) {
-    constructor() : this("","", "", "", "", "", "",0.0, listOf())
+    constructor() : this("", "", "", "", "", "", "", 0.0, listOf(), listOf())
 }

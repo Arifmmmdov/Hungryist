@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import com.example.hungryist.model.MenuModel
 import com.example.hungryist.model.SelectStringModel
 import com.example.hungryist.repo.DetailedInfoRepository
+import com.example.hungryist.utils.filterutils.FilterableBaseViewModel
 import com.example.hungryist.utils.filterutils.MenuFilterUtils
 import javax.inject.Inject
 
@@ -14,7 +15,7 @@ class MenuViewModel @Inject constructor(
     val context: Context,
     val repository: DetailedInfoRepository,
 ) :
-    ViewModel() {
+    FilterableBaseViewModel() {
     private val _menuList = MutableLiveData<List<MenuModel>>()
     val menuList: LiveData<List<MenuModel>> = _menuList
     private val _categoriesList = MutableLiveData<List<SelectStringModel>>()
@@ -48,11 +49,13 @@ class MenuViewModel @Inject constructor(
         getMenuList()
     }
 
-    fun filterForCategory(category: String?) {
-        _menuList.value = menuFilterUtils.filterForCategory(category)
-    }
-
     fun filterForTyped(typed: String?) {
         _menuList.value = menuFilterUtils.filterForTypedText(typed)
     }
+
+    override fun onTypeSelected(name: String) {
+        _menuList.value = menuFilterUtils.filterForCategory(name)
+    }
+
+    override fun removeCustomFilter() {}
 }

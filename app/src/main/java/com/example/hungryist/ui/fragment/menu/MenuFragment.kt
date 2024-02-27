@@ -107,9 +107,7 @@ class MenuFragment : Fragment() {
     private fun setTypeSelectedRecycler(categoriesList: List<SelectStringModel>) {
         binding.recyclerSelectTypes.run {
             adapter =
-                SelectedTextRecyclerAdapter(requireContext(), categoriesList.toMutableList()) {
-                    viewModel.filterForCategory(it?.name)
-                }
+                SelectedTextRecyclerAdapter(requireContext(), categoriesList.toMutableList(),viewModel)
             layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         }

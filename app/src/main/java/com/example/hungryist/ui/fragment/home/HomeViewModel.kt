@@ -6,12 +6,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.hungryist.R
 import com.example.hungryist.model.BaseInfoModel
+import com.example.hungryist.model.MealFilterModel
 import com.example.hungryist.model.OpenCloseStatusModel
 import com.example.hungryist.model.PlaceFilterModel
 import com.example.hungryist.model.SelectStringModel
 import com.example.hungryist.repo.BaseRepository
 import com.example.hungryist.utils.UserManager
 import com.example.hungryist.utils.extension.showToastMessage
+import com.example.hungryist.utils.filterutils.FilterableBaseViewModel
 import com.example.hungryist.utils.filterutils.MainPageFilterUtils
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
@@ -21,7 +23,7 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val context: Context,
     private val repository: BaseRepository,
-) : ViewModel() {
+) : FilterableBaseViewModel() {
 
     private val _isDealsOfMonthLoading = MutableLiveData(false)
     val isDealsOfMonthLoading: LiveData<Boolean> = _isDealsOfMonthLoading
@@ -32,8 +34,20 @@ class HomeViewModel @Inject constructor(
     private val _isPlacesLoading = MutableLiveData(false)
     val isPlacesLoading: LiveData<Boolean> = _isPlacesLoading
 
-    private val _baseInfoList = MutableLiveData<List<BaseInfoModel>>()
-    val baseInfoList: LiveData<List<BaseInfoModel>> = _baseInfoList
+    private var fullList: MutableList<BaseInfoModel>? = mutableListOf()
+
+    val isFilterable: Boolean
+        get() {
+            return filterUtils.filterable()
+        }
+
+    val customApplied: Boolean
+        get() {
+            return filterUtils.customFilterActive()
+        }
+
+    private val _filteredList = MutableLiveData<List<BaseInfoModel>>()
+    val filteredList: LiveData<List<BaseInfoModel>> = _filteredList
 
     private val _filteredBaseInfoList = MutableLiveData<List<BaseInfoModel>>()
     val filteredBaseInfoList: LiveData<List<BaseInfoModel>> = _filteredBaseInfoList
@@ -42,23 +56,51 @@ class HomeViewModel @Inject constructor(
         MainPageFilterUtils()
     }
 
+    fun clearFilter() {
+        filterUtils.clearFilter()
+    }
+
     fun getBaseList() {
         _isTopPlacesLoading.value = true
         repository.getBaseInfoList().addOnSuccessListener {
             getOpenCloseDateList(it)
+            getMenuCostList(it)
         }.addOnFailureListener {
-            _baseInfoList.value = listOf()
+            initializeFullList(mutableListOf())
         }.addOnCompleteListener {
-            filterUtils.setBaseInfoList(it.result)
             _isTopPlacesLoading.value = false
         }
 
     }
 
-    private fun getOpenCloseDateList(baseInfoModels: MutableList<BaseInfoModel>) {
+    private fun getMenuCostList(baseInfo: MutableList<BaseInfoModel>) {
+        val tasks = mutableListOf<Task<List<Double>>>()
+
+        baseInfo.forEach { baseList ->
+            val task = repository.getMenuCost(baseList.id)
+                .addOnSuccessListener {
+                    baseList.prices = it
+                }
+                .addOnFailureListener {
+                    context.showToastMessage(it.message.toString())
+                }
+
+            tasks.add(task)
+        }
+
+        Tasks.whenAll(tasks)
+            .addOnSuccessListener {
+                initializeFullList(baseInfo)
+            }
+            .addOnFailureListener {
+                context.showToastMessage(it.message.toString())
+            }
+    }
+
+    private fun getOpenCloseDateList(baseInfo: MutableList<BaseInfoModel>) {
         val tasks = mutableListOf<Task<List<OpenCloseStatusModel>>>()
 
-        baseInfoModels.forEach { baseList ->
+        baseInfo.forEach { baseList ->
             val task = repository.getOpenCloseDate(baseList.id)
                 .addOnSuccessListener {
                     baseList.openCloseTimes = it
@@ -72,12 +114,22 @@ class HomeViewModel @Inject constructor(
 
         Tasks.whenAll(tasks)
             .addOnSuccessListener {
-                _baseInfoList.value = baseInfoModels
+                initializeFullList(baseInfo)
             }
             .addOnFailureListener {
                 context.showToastMessage(it.message.toString())
             }
+    }
 
+    private fun initializeFullList(fullList: MutableList<BaseInfoModel>) {
+        this.fullList = fullList
+        filterUtils.setBaseInfoList(this.fullList as MutableList<BaseInfoModel>)
+        _filteredBaseInfoList.postValue(
+            if (isFilterable)
+                filterUtils.filter()
+            else
+                fullList
+        )
     }
 
     fun getPlaces(callback: (List<SelectStringModel>) -> Unit) {
@@ -90,11 +142,6 @@ class HomeViewModel @Inject constructor(
             _isPlacesLoading.value = false
         }
 
-    }
-
-
-    fun onTypeSelected(selectStringModel: SelectStringModel?) {
-        _filteredBaseInfoList.value = filterUtils.filterForCategory(selectStringModel?.name)
     }
 
     fun getDealsOfMonth(callback: (List<String>) -> Unit) {
@@ -113,13 +160,13 @@ class HomeViewModel @Inject constructor(
     }
 
     fun onFilterSaved(text: String) {
-        filterUtils.resetData()
+        filterUtils.clearFilter()
         _filteredBaseInfoList.value = filterUtils.filterForTypedText(text)
     }
 
     fun getSavedList(isFiltered: Boolean): List<BaseInfoModel>? {
-        val list = if (isFiltered) filteredBaseInfoList else baseInfoList
-        return list.value?.filter {
+        val list = if (isFiltered) filteredBaseInfoList.value else fullList
+        return list?.filter {
             UserManager.checkSaved(it.id)
         }
     }
@@ -135,6 +182,21 @@ class HomeViewModel @Inject constructor(
 
     fun filterPlaces(filterItems: PlaceFilterModel) {
         _filteredBaseInfoList.value = filterUtils.filterForPlaces(filterItems)
+    }
+
+    fun filterMeals(filterItems: MealFilterModel) {
+        _filteredBaseInfoList.value = filterUtils.filterForMeals(filterItems)
+    }
+
+    fun getFilterPlace() = filterUtils.placeFilter
+    fun getFilterMeal() = filterUtils.mealFilter
+    override fun removeCustomFilter() {
+        filterUtils.removeCustomFilter()
+        _filteredBaseInfoList.value = filterUtils.filter()
+    }
+
+    override fun onTypeSelected(name: String) {
+        _filteredBaseInfoList.value = filterUtils.filterForCategory(name)
     }
 
 }

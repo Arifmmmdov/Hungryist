@@ -5,7 +5,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 
 
-abstract class BaseRecyclerAdapter<Item, ItemBinding : ViewBinding>(val dataList: List<Item>) :
+abstract class BaseRecyclerAdapter<Item, ItemBinding : ViewBinding>(val dataList: MutableList<Item>) :
     RecyclerView.Adapter<BaseViewHolder<Item, ItemBinding>>() {
 
     abstract override fun onCreateViewHolder(

@@ -8,9 +8,6 @@ data class SelectStringModel(
     constructor() : this("", "", false)
 
     constructor(name:String) : this("", name,false)
-}
 
-data class SelectPairString(
-    var place:String,
-    var typed:String
-)
+    constructor(name:String,isSelected: Boolean) : this("", name,isSelected)
+}

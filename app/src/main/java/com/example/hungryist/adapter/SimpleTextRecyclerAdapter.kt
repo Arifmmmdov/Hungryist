@@ -8,7 +8,7 @@ import com.example.hungryist.generics.BaseRecyclerAdapter
 import com.example.hungryist.generics.BaseViewHolder
 
 class SimpleTextRecyclerAdapter(dataList: List<String>) :
-    BaseRecyclerAdapter<String, ItemSimpleTextBinding>(dataList) {
+    BaseRecyclerAdapter<String, ItemSimpleTextBinding>(dataList.toMutableList()) {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int,

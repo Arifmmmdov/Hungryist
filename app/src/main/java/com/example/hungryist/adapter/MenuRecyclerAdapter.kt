@@ -11,7 +11,7 @@ import com.example.hungryist.generics.BaseViewHolder
 import com.example.hungryist.model.MenuModel
 
 class MenuRecyclerAdapter(val context: Context, dataList: List<MenuModel>) :
-    BaseRecyclerAdapter<MenuModel, ItemMenuBinding>(dataList) {
+    BaseRecyclerAdapter<MenuModel, ItemMenuBinding>(dataList.toMutableList()) {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
