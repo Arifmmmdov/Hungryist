@@ -2,6 +2,7 @@ package com.example.hungryist.repo
 
 import com.example.hungryist.model.BaseInfoModel
 import com.example.hungryist.model.DealsOfMonth
+import com.example.hungryist.model.MealModel
 import com.example.hungryist.model.MenuModel
 import com.example.hungryist.model.OpenCloseStatusModel
 import com.example.hungryist.model.SelectStringModel
@@ -51,16 +52,17 @@ class BaseRepository {
             }
     }
 
-    fun getMenuCost(id: String): Task<List<Double>> {
+    fun getMenuCost(id: String): Task<List<MealModel>> {
         return db.collection("detailedInfoModel").document(id).collection("menuModel").get()
             .continueWithTask {
                 if (it.isSuccessful) {
-                    val openCloseTimes = mutableListOf<Double>()
+                    val meals = mutableListOf<MealModel>()
                     for (document in it.result) {
-                        val menuModel = document.toObject(MenuModel::class.java)
-                        openCloseTimes.add(menuModel.cost)
+                        val mealModel = document.toObject(MealModel::class.java)
+                        mealModel.id = id
+                        meals.add(mealModel)
                     }
-                    Tasks.forResult(openCloseTimes)
+                    Tasks.forResult(meals)
                 } else {
                     Tasks.forException(it.exception!!)
                 }

@@ -13,7 +13,7 @@ data class BaseInfoModel(
     val reviews: String,
     val overallRating: Double,
     var openCloseTimes: List<OpenCloseStatusModel>,
-    var prices: List<Double>,
+    var meals: List<MealModel>,
 ) {
     constructor() : this("", "", "", "", "", "", "", 0.0, listOf(), listOf())
 }

@@ -3,10 +3,10 @@ package com.example.hungryist.ui.fragment.home
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.example.hungryist.R
 import com.example.hungryist.model.BaseInfoModel
 import com.example.hungryist.model.MealFilterModel
+import com.example.hungryist.model.MealModel
 import com.example.hungryist.model.OpenCloseStatusModel
 import com.example.hungryist.model.PlaceFilterModel
 import com.example.hungryist.model.SelectStringModel
@@ -64,7 +64,7 @@ class HomeViewModel @Inject constructor(
         _isTopPlacesLoading.value = true
         repository.getBaseInfoList().addOnSuccessListener {
             getOpenCloseDateList(it)
-            getMenuCostList(it)
+            getMealsList(it)
         }.addOnFailureListener {
             initializeFullList(mutableListOf())
         }.addOnCompleteListener {
@@ -73,13 +73,13 @@ class HomeViewModel @Inject constructor(
 
     }
 
-    private fun getMenuCostList(baseInfo: MutableList<BaseInfoModel>) {
-        val tasks = mutableListOf<Task<List<Double>>>()
+    private fun getMealsList(baseInfo: MutableList<BaseInfoModel>) {
+        val tasks = mutableListOf<Task<List<MealModel>>>()
 
         baseInfo.forEach { baseList ->
             val task = repository.getMenuCost(baseList.id)
                 .addOnSuccessListener {
-                    baseList.prices = it
+                    baseList.meals = it
                 }
                 .addOnFailureListener {
                     context.showToastMessage(it.message.toString())
@@ -197,6 +197,12 @@ class HomeViewModel @Inject constructor(
 
     override fun onTypeSelected(name: String) {
         _filteredBaseInfoList.value = filterUtils.filterForCategory(name)
+    }
+
+    fun getMealNames(): List<MealModel> {
+        return fullList?.flatMap {
+            it.meals
+        } ?: listOf()
     }
 
 }

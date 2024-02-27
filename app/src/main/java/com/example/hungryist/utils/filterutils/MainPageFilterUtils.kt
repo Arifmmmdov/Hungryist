@@ -30,12 +30,14 @@ class MainPageFilterUtils : BaseFilterUtils<BaseInfoModel>() {
     }
 
     private fun checkMealFilter(baseInfo: BaseInfoModel): Boolean? {
-        return baseInfo.prices.any { it.toInt() in mealFilter!!.priceRange }
+        return baseInfo.meals.any { it.cost.toInt() in mealFilter!!.priceRange }
+                || baseInfo.meals.any { it.name.contains(mealFilter!!.name) }
     }
 
     private fun checkPlaceFilter(baseInfoModel: BaseInfoModel): Boolean {
         return ((baseInfoModel.type == "Restaurants") == placeFilter?.isRestaurant)
                 || ((baseInfoModel.type == "Cafés") == placeFilter?.isCafe)
+                || baseInfoModel.meals.any { it.cost.toInt() in placeFilter!!.priceRange }
     }
 
     fun filterForPlaces(filterItems: PlaceFilterModel): List<BaseInfoModel> {
