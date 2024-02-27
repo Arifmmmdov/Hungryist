@@ -75,13 +75,16 @@ class SelectedTextRecyclerAdapter(
         private fun removeCustomFilter(position: Int) {
             dataList.removeAt(position)
             notifyItemRemoved(position)
+            notifyItemRangeChanged(position, dataList.size);
             viewModel.removeCustomFilter()
         }
     }
 
     fun addItem(selectStringModel: SelectStringModel) {
-        dataList.add(selectStringModel)
-        notifyItemInserted(dataList.size - 1)
+        if (dataList[dataList.size - 1] != selectStringModel){
+            dataList.add(selectStringModel)
+            notifyItemInserted(dataList.size - 1)
+        }
     }
 
 }
