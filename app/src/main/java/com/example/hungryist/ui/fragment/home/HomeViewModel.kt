@@ -34,6 +34,9 @@ class HomeViewModel @Inject constructor(
     private val _isPlacesLoading = MutableLiveData(false)
     val isPlacesLoading: LiveData<Boolean> = _isPlacesLoading
 
+    private val _places = MutableLiveData(mutableListOf<SelectStringModel>())
+    val places: LiveData<MutableList<SelectStringModel>> = _places
+
     private var fullList: MutableList<BaseInfoModel>? = mutableListOf()
 
     val isFilterable: Boolean
@@ -43,7 +46,7 @@ class HomeViewModel @Inject constructor(
 
     val customApplied: Boolean
         get() {
-            return filterUtils.customFilterActive()
+            return filterUtils.isCustomFilterActive()
         }
 
     private val _filteredList = MutableLiveData<List<BaseInfoModel>>()
@@ -126,18 +129,18 @@ class HomeViewModel @Inject constructor(
         filterUtils.setBaseInfoList(this.fullList as MutableList<BaseInfoModel>)
         _filteredBaseInfoList.postValue(
             if (isFilterable)
-                filterUtils.filter()
+                filterUtils.filterRequest()
             else
                 fullList
         )
     }
 
-    fun getPlaces(callback: (List<SelectStringModel>) -> Unit) {
+    fun callPlaces() {
         _isPlacesLoading.value = true
         repository.getPlacesList().addOnSuccessListener {
-            callback(it)
+            _places.value = it.toMutableList()
         }.addOnFailureListener {
-            callback(listOf())
+            _places.value = mutableListOf()
         }.addOnCompleteListener {
             _isPlacesLoading.value = false
         }
@@ -192,11 +195,14 @@ class HomeViewModel @Inject constructor(
     fun getFilterMeal() = filterUtils.mealFilter
     override fun removeCustomFilter() {
         filterUtils.removeCustomFilter()
-        _filteredBaseInfoList.value = filterUtils.filter()
+        _filteredBaseInfoList.value = fullList
     }
 
     override fun onTypeSelected(name: String) {
-        _filteredBaseInfoList.value = filterUtils.filterForCategory(name)
+        if (name == context.getString(R.string.customFilter))
+            _filteredBaseInfoList.value = filterUtils.filterCustom()
+        else
+            _filteredBaseInfoList.value = filterUtils.filterForCategory(name)
     }
 
     fun getMealNames(): List<MealModel> {

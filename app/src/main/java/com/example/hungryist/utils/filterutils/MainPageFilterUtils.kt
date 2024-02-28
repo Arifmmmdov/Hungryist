@@ -24,31 +24,38 @@ class MainPageFilterUtils : BaseFilterUtils<BaseInfoModel>() {
         return list.filter {
             (category.isNullOrEmpty() || category == it.type)
                     && (typed.isNullOrEmpty() || it.name.lowercase().contains(typed!!.lowercase()))
-                    && (placeFilter == null || checkPlaceFilter(it))
-                    && (mealFilter == null || checkMealFilter(it) == true)
         }
     }
 
-    private fun checkMealFilter(baseInfo: BaseInfoModel): Boolean? {
-        return baseInfo.meals.any { it.cost.toInt() in mealFilter!!.priceRange }
-                || baseInfo.meals.any { it.name.contains(mealFilter!!.name) }
+    fun filterRequest(): List<BaseInfoModel> {
+        return if (isCustomFilterActive())
+            filterCustom()
+        else
+            this.list
     }
 
-    private fun checkPlaceFilter(baseInfoModel: BaseInfoModel): Boolean {
-        return ((baseInfoModel.type == "Restaurants") == placeFilter?.isRestaurant)
-                || ((baseInfoModel.type == "Cafés") == placeFilter?.isCafe)
-                || baseInfoModel.meals.any { it.cost.toInt() in placeFilter!!.priceRange }
+    fun filterCustom(): List<BaseInfoModel> {
+        return list.filter {
+            (mealFilter == null || it.meals.any { it.cost.toInt() in mealFilter!!.priceRange }
+                    && it.meals.any { it.name.contains(mealFilter!!.name) })
+                    && (typed.isNullOrEmpty() || it.name.lowercase().contains(typed!!.lowercase()))
+                    && (placeFilter == null || (((it.type == "Restaurants") == placeFilter?.isRestaurant)
+                    || ((it.type == "Cafés") == placeFilter?.isCafe)
+                    && it.meals.any { it.cost.toInt() in placeFilter!!.priceRange }))
+        }
     }
 
     fun filterForPlaces(filterItems: PlaceFilterModel): List<BaseInfoModel> {
+        category = null
         placeFilter = filterItems
-        return filter()
+        return filterCustom()
     }
 
 
     fun filterForMeals(filterItems: MealFilterModel): List<BaseInfoModel> {
+        category = null
         mealFilter = filterItems
-        return filter()
+        return filterCustom()
     }
 
     fun filterable(): Boolean {
@@ -58,7 +65,7 @@ class MainPageFilterUtils : BaseFilterUtils<BaseInfoModel>() {
                 && typed == "")
     }
 
-    fun customFilterActive(): Boolean {
+    fun isCustomFilterActive(): Boolean {
         return placeFilter != null || mealFilter != null
     }
 

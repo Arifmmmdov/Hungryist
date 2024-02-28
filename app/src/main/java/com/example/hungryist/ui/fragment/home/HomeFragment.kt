@@ -18,7 +18,6 @@ import com.example.hungryist.model.SelectStringModel
 import com.example.hungryist.ui.activity.filter.FilterActivity
 import com.example.hungryist.utils.enum.VisibleStatusEnum
 import com.example.hungryist.utils.extension.triggerVisibility
-import com.example.hungryist.utils.filterutils.MainPageFilterUtils
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -40,6 +39,9 @@ class HomeFragment : Fragment() {
     ): View {
         getItems()
         binding.lnrEmptyFilter.triggerVisibility(false)
+        selectedTextAdapter =
+            SelectedTextRecyclerAdapter(requireContext(), mutableListOf(), viewModel)
+        setSelectedTextAdapter()
         setListeners()
         setObservers()
         return binding.root
@@ -59,6 +61,11 @@ class HomeFragment : Fragment() {
             changeFilteredPlaceVisibility(if (it) VisibleStatusEnum.SHIMMER else VisibleStatusEnum.VISIBLE)
         }
 
+        viewModel.places.observe(requireActivity()) {
+            selectedTextAdapter.updateDataSet(it?: mutableListOf())
+            checkCustomFilter()
+        }
+
 //        viewModel.baseInfoList.observe(requireActivity()) {
 //            binding.lnrEmptyFilter.triggerVisibility(it.isEmpty())
 //            setPlacesAdapter(it.filter { it.titleName.isNotEmpty() }, false)
@@ -69,9 +76,12 @@ class HomeFragment : Fragment() {
                 changeDealsOfMonthVisibility(VisibleStatusEnum.INVISIBLE)
                 binding.dealsOfMonth.triggerVisibility(false)
                 setPlacesAdapter(it, true)
-            } else
+            } else {
                 setPlacesAdapter(it.filter { it.titleName.isNotEmpty() }, false)
-
+                viewModel.getDealsOfMonth {
+                    setDealsOfMonthAdapter(it)
+                }
+            }
             binding.lnrEmptyFilter.triggerVisibility(it.isEmpty())
             checkCustomFilter()
         }
@@ -107,22 +117,17 @@ class HomeFragment : Fragment() {
             }
         }
 
-        viewModel.getPlaces {
-            setSelectedTextAdapter(it.toMutableList())
-        }
+        viewModel.callPlaces()
 
     }
 
-    private fun setSelectedTextAdapter(places: MutableList<SelectStringModel>) {
-        selectedTextAdapter = SelectedTextRecyclerAdapter(requireContext(), places, viewModel)
+    private fun setSelectedTextAdapter() {
         binding.recyclerSelectPlaces.apply {
             adapter = selectedTextAdapter
             layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 
         }
-        if (viewModel.customApplied)
-            selectedTextAdapter.addItem(SelectStringModel(getString(R.string.customFilter), true))
     }
 
     private fun setPlacesAdapter(places: List<BaseInfoModel>, isFiltered: Boolean) {

@@ -2,6 +2,7 @@ package com.example.hungryist.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
@@ -20,7 +21,7 @@ class SelectedTextRecyclerAdapter(
     val viewModel: FilterableBaseViewModel,
 ) : BaseRecyclerAdapter<SelectStringModel, ItemRecyclerFilterBinding>(dataList) {
 
-    private var selectedIndex = dataList.size - 1
+    private var selectedIndex = -1
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -49,31 +50,44 @@ class SelectedTextRecyclerAdapter(
 
         override fun clickListener(position: Int) {
             binding.mainFrame.setOnClickListener {
-                if (dataList[position].name == context.getString(R.string.customFilter))
+                if (dataList[position].name == context.getString(R.string.customFilter) && dataList[position].isSelected)
                     removeCustomFilter(position)
                 else {
 
                     if (selectedIndex == position) {
                         dataList[selectedIndex].isSelected = !dataList[selectedIndex].isSelected
                         notifyItemChanged(selectedIndex)
-                        selectedIndex = 0
+                        selectedIndex = -1
                     } else {
-                        dataList[selectedIndex].isSelected = false
+                        Log.d("MyTagHere", "clickListener: $selectedIndex")
+                        if (selectedIndex != -1) {
+                            dataList[selectedIndex].isSelected = false
+                            notifyItemChanged(selectedIndex)
+                        } else {
+                            dataList[dataList.size - 1].isSelected = false
+                            notifyItemChanged(dataList.size - 1)
+                        }
                         dataList[position].isSelected = true
                         selectedIndex = position
-                        notifyDataSetChanged()
+                        notifyItemChanged(selectedIndex)
                     }
-                    dataList[selectedIndex].takeIf { it.isSelected }?.name?.let { it1 ->
+                    if (selectedIndex != -1)
+                        dataList[selectedIndex].takeIf { it.isSelected }?.name?.let { it1 ->
+                            viewModel.onTypeSelected(
+                                it1
+                            )
+                        }
+                    else
                         viewModel.onTypeSelected(
-                            it1
+                            ""
                         )
-                    }
                 }
             }
         }
 
         private fun removeCustomFilter(position: Int) {
             dataList.removeAt(position)
+            selectedIndex = -1
             notifyItemRemoved(position)
             notifyItemRangeChanged(position, dataList.size);
             viewModel.removeCustomFilter()
@@ -81,10 +95,23 @@ class SelectedTextRecyclerAdapter(
     }
 
     fun addItem(selectStringModel: SelectStringModel) {
-        if (dataList[dataList.size - 1] != selectStringModel){
+        if (dataList[dataList.size - 1].name != selectStringModel.name) {
+            Log.d("MyTagHere", "addItem: $dataList")
+            if (selectedIndex != -1) {
+                dataList[selectedIndex].isSelected = false
+                notifyItemChanged(selectedIndex)
+            }
             dataList.add(selectStringModel)
-            notifyItemInserted(dataList.size - 1)
+            selectedIndex = dataList.size - 1
+            Log.d("MyTagHere", "addItem: $dataList, selectedIndex = $selectedIndex")
+            notifyItemInserted(selectedIndex)
         }
+    }
+
+    fun updateDataSet(newItems: MutableList<SelectStringModel>) {
+        dataList = newItems
+        selectedIndex = -1
+        notifyDataSetChanged()
     }
 
 }
