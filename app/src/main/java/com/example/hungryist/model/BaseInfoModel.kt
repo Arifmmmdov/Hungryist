@@ -7,6 +7,7 @@ data class BaseInfoModel(
     var id: String,
     val baseImage: String,
     val titleName: String,
+    val geoPoint: GeoPoint?,
     val type: String,
     val location: String,
     val name: String,
@@ -15,5 +16,5 @@ data class BaseInfoModel(
     var openCloseTimes: List<OpenCloseStatusModel>,
     var meals: List<MealModel>,
 ) {
-    constructor() : this("", "", "", "", "", "", "", 0.0, listOf(), listOf())
+    constructor() : this("", "", "",null, "", "", "", "", 0.0, listOf(), listOf())
 }

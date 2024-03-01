@@ -27,6 +27,13 @@ class FilterActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         setViews()
+        setListeners()
+    }
+
+    private fun setListeners() {
+        binding.backButton.setOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
+        }
     }
 
     private fun setViews() {
@@ -46,7 +53,7 @@ class FilterActivity : AppCompatActivity() {
 
     companion object {
         fun intentFor(context: Context) {
-            val intent = Intent(context,FilterActivity::class.java)
+            val intent = Intent(context, FilterActivity::class.java)
             context.startActivity(intent)
         }
     }

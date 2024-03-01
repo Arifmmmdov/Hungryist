@@ -36,14 +36,26 @@ class MainPageFilterUtils : BaseFilterUtils<BaseInfoModel>() {
 
     fun filterCustom(): List<BaseInfoModel> {
         return list.filter {
-            (mealFilter == null || it.meals.any { it.cost.toInt() in mealFilter!!.priceRange }
-                    && it.meals.any { it.name.contains(mealFilter!!.name) })
-                    && (typed.isNullOrEmpty() || it.name.lowercase().contains(typed!!.lowercase()))
-                    && (placeFilter == null || (((it.type == "Restaurants") == placeFilter?.isRestaurant)
-                    || ((it.type == "Cafés") == placeFilter?.isCafe)
-                    && it.meals.any { it.cost.toInt() in placeFilter!!.priceRange }))
+            checkTypedText(it)
+                    && checkMeal(it)
+                    && checkPlace(it)
         }
     }
+
+    private fun checkPlace(baseInfo: BaseInfoModel): Boolean =
+        placeFilter == null
+                || (((baseInfo.type == "Restaurants") == placeFilter?.isRestaurant) || ((baseInfo.type == "Cafés") == placeFilter?.isCafe))
+                && baseInfo.meals.any { it.cost.toInt() in placeFilter!!.priceRange }
+                && (placeFilter?.location == null || DistanceCalculator().checkDistance(
+            placeFilter?.location?.latLng, baseInfo.geoPoint, placeFilter?.distanceRange
+        ))
+
+    private fun checkTypedText(baseInfo: BaseInfoModel): Boolean =
+        typed.isNullOrEmpty() || baseInfo.name.lowercase().contains(typed!!.lowercase())
+
+    private fun checkMeal(baseInfo: BaseInfoModel): Boolean =
+        mealFilter == null || baseInfo.meals.any { it.cost.toInt() in mealFilter!!.priceRange }
+                && baseInfo.meals.any { it.name.contains(mealFilter!!.name) }
 
     fun filterForPlaces(filterItems: PlaceFilterModel): List<BaseInfoModel> {
         category = null

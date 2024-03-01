@@ -18,6 +18,7 @@
 
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="start"
             android:orientation="vertical">
 
             <LinearLayout
@@ -93,6 +94,8 @@
                         android:textSize="14sp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
+
+
                 <ImageView
                     android:id="@+id/btnSearchLocation"
                     android:layout_width="48dp"
@@ -106,6 +109,17 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/round_background_4dp"
+                android:backgroundTint="@color/white"
+                android:translationZ="1dp"
+                tools:itemCount="3"
+                tools:listitem="@layout/item_select_map_place" />
 
             <RelativeLayout
                 android:id="@+id/layoutExpandDistance"

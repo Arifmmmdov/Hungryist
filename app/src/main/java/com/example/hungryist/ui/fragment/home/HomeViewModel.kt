@@ -17,6 +17,7 @@ import com.example.hungryist.utils.filterutils.FilterableBaseViewModel
 import com.example.hungryist.utils.filterutils.MainPageFilterUtils
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
+import com.google.android.libraries.places.api.model.AutocompletePrediction
 import com.google.firebase.auth.FirebaseAuth
 import javax.inject.Inject
 
@@ -183,7 +184,10 @@ class HomeViewModel @Inject constructor(
         return context.getString(emptySaveInfo)
     }
 
-    fun filterPlaces(filterItems: PlaceFilterModel) {
+    fun filterPlaces(
+        filterItems: PlaceFilterModel,
+    ) {
+
         _filteredBaseInfoList.value = filterUtils.filterForPlaces(filterItems)
     }
 

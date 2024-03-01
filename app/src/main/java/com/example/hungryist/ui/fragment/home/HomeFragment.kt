@@ -32,6 +32,11 @@ class HomeFragment : Fragment() {
     lateinit var viewModel: HomeViewModel
     lateinit var selectedTextAdapter: SelectedTextRecyclerAdapter
 
+    override fun onResume() {
+        super.onResume()
+        binding.lnrEmptyFilter.triggerVisibility(false)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

@@ -1,9 +1,7 @@
 package com.example.hungryist.ui.fragment.filter
 
 import android.animation.ObjectAnimator
-import android.location.LocationManager
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,11 +9,17 @@ import android.widget.Button
 import androidx.annotation.FloatRange
 import androidx.fragment.app.Fragment
 import com.example.hungryist.R
+import com.example.hungryist.adapter.SelectMapPlaceAdapter
 import com.example.hungryist.databinding.FragmentPlaceFilterBinding
 import com.example.hungryist.model.PlaceFilterModel
+import com.example.hungryist.model.SearchMapPlaceModel
+import com.example.hungryist.ui.activity.searchlocation.SearchLocationActivity
+import com.example.hungryist.ui.activity.searchlocation.SearchLocationViewModel
 import com.example.hungryist.ui.fragment.home.HomeViewModel
+import com.example.hungryist.utils.CustomTextWatcher
 import com.example.hungryist.utils.extension.format
 import com.example.hungryist.utils.extension.triggerVisibility
+import com.example.hungryist.utils.mapsearchplace.MapSearchPlaceUtils
 import com.google.android.material.slider.RangeSlider
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -29,12 +33,25 @@ class PlaceFilterFragment : Fragment() {
     }
 
     @Inject
-    lateinit var viewModel: HomeViewModel
+    lateinit var homeViewModel: HomeViewModel
+
+    @Inject
+    lateinit var searchLocationViewModel: SearchLocationViewModel
+
+    private val selectMapPlaceAdapter by lazy {
+        SelectMapPlaceAdapter(mutableListOf()) {
+            searchLocationViewModel.setPlaceSelected(it, searchPlaceUtils)
+        }
+    }
 
     private var restaurantSelected: Boolean = true
     private var cafeSelected: Boolean = true
     private var distanceRotationAngle = 180.0f
     private var priceRotationAngle = 180.0f
+
+    private val searchPlaceUtils by lazy {
+        MapSearchPlaceUtils(requireContext())
+    }
 
 
     override fun onCreateView(
@@ -43,12 +60,20 @@ class PlaceFilterFragment : Fragment() {
     ): View {
         setViews()
         setListeners()
+        setObservers()
         return binding.root
+    }
+
+    private fun setObservers() {
+        searchLocationViewModel.selectedLocation.observe(requireActivity()) {
+            binding.editText.setText(it.placeName)
+            binding.recyclerView.triggerVisibility(false)
+        }
     }
 
     private fun setListeners() {
         binding.btnApplyFilter.setOnClickListener {
-            viewModel.filterPlaces(getFilterItems())
+            homeViewModel.filterPlaces(getFilterItems())
             requireActivity().finish()
         }
 
@@ -84,6 +109,21 @@ class PlaceFilterFragment : Fragment() {
                 toggleSelection(cafeSelected)
             }
         }
+
+        binding.btnSearchLocation.setOnClickListener {
+            SearchLocationActivity.intentFor(requireContext())
+        }
+
+        binding.editText.addTextChangedListener(CustomTextWatcher {
+            binding.recyclerView.triggerVisibility(it.isNotEmpty())
+            searchPlaceUtils.searchPlaces(it) {
+                selectMapPlaceAdapter.update(it.toMutableList())
+            }
+        })
+
+        binding.editText.setOnFocusChangeListener { _, hasFocus ->
+            if (!hasFocus) binding.recyclerView.triggerVisibility(false)
+        }
     }
 
     private fun Button.toggleSelection(isSelected: Boolean) {
@@ -104,17 +144,21 @@ class PlaceFilterFragment : Fragment() {
 
     private fun getFilterItems(): PlaceFilterModel {
         return PlaceFilterModel(
-            restaurantSelected, cafeSelected, binding.editText.text.toString(), FloatRange(
+            restaurantSelected,
+            cafeSelected,
+            searchLocationViewModel.selectedLocation.value,
+            FloatRange(
                 binding.sliderDistance.values[0].toDouble(),
                 binding.sliderDistance.values[1].toDouble()
-            ), IntRange(
+            ),
+            IntRange(
                 binding.sliderPrice.values[0].toInt(), binding.sliderPrice.values[1].toInt()
             )
         )
     }
 
     private fun setViews() {
-        val filterPlace = viewModel.getFilterPlace()
+        val filterPlace = homeViewModel.getFilterPlace()
         val distanceStartValue = filterPlace?.distanceRange?.from?.toFloat() ?: 0f
         val distanceEndValue = filterPlace?.distanceRange?.to?.toFloat() ?: 1000f
 
@@ -123,6 +167,7 @@ class PlaceFilterFragment : Fragment() {
             binding.distanceEnd.text = getString(R.string.distance_m, it[1].format())
         }
 
+        filterPlace?.location?.let { searchLocationViewModel.setPlaceSelected(it) }
 
         val priceStartValue = filterPlace?.priceRange?.first?.toFloat() ?: 0f
         val priceEndValue = filterPlace?.priceRange?.last?.toFloat() ?: 800f

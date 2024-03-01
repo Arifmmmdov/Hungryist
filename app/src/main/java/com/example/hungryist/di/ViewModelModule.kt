@@ -11,6 +11,7 @@ import com.example.hungryist.ui.activity.splashscreen.SplashScreenViewModel
 import com.example.hungryist.ui.fragment.home.HomeViewModel
 import com.example.hungryist.ui.fragment.menu.MenuViewModel
 import com.example.hungryist.ui.activity.intro.IntroViewModel
+import com.example.hungryist.ui.activity.searchlocation.SearchLocationViewModel
 import com.example.hungryist.ui.fragment.profile.ProfileViewModel
 import com.example.hungryist.ui.fragment.reviews.ReviewsViewModel
 import com.example.hungryist.utils.SharedPreferencesManager
@@ -97,5 +98,9 @@ object ViewModelModule {
     ): IntroViewModel =
         IntroViewModel(context, sharedPreferencesManager)
 
+
+    @Provides
+    @Singleton
+    fun getSearchLocationViewModel():SearchLocationViewModel = SearchLocationViewModel()
 
 }
