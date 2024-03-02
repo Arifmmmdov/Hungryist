@@ -2,6 +2,7 @@ package com.example.hungryist.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
@@ -11,15 +12,16 @@ import com.example.hungryist.ui.fragment.home.HomeViewModel
 import com.example.hungryist.generics.BaseRecyclerAdapter
 import com.example.hungryist.generics.BaseViewHolder
 import com.example.hungryist.model.SelectStringModel
+import com.example.hungryist.utils.filterutils.FilterableBaseViewModel
 import javax.inject.Inject
 
-class SelectedTextRecyclerAdapter @Inject constructor(
+class SelectedTextRecyclerAdapter(
     val context: Context,
     dataList: MutableList<SelectStringModel>,
-    val callback: (SelectStringModel?) -> Unit,
+    val viewModel: FilterableBaseViewModel,
 ) : BaseRecyclerAdapter<SelectStringModel, ItemRecyclerFilterBinding>(dataList) {
 
-    private var selectedIndex = 0
+    private var selectedIndex = -1
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -46,22 +48,70 @@ class SelectedTextRecyclerAdapter @Inject constructor(
             binding.title.setTextColor(ContextCompat.getColor(context, textColor))
         }
 
-        @SuppressLint("NotifyDataSetChanged")
         override fun clickListener(position: Int) {
             binding.mainFrame.setOnClickListener {
-                if (selectedIndex == position) {
-                    dataList[selectedIndex].isSelected = !dataList[selectedIndex].isSelected
-                    notifyItemChanged(selectedIndex)
-                    selectedIndex = 0
-                } else {
-                    dataList[selectedIndex].isSelected = false
-                    dataList[position].isSelected = true
-                    selectedIndex = position
-                    notifyDataSetChanged()
+                if (dataList[position].name == context.getString(R.string.customFilter) && dataList[position].isSelected)
+                    removeCustomFilter(position)
+                else {
+
+                    if (selectedIndex == position) {
+                        dataList[selectedIndex].isSelected = !dataList[selectedIndex].isSelected
+                        notifyItemChanged(selectedIndex)
+                        selectedIndex = -1
+                    } else {
+                        Log.d("MyTagHere", "clickListener: $selectedIndex")
+                        if (selectedIndex != -1) {
+                            dataList[selectedIndex].isSelected = false
+                            notifyItemChanged(selectedIndex)
+                        } else {
+                            dataList[dataList.size - 1].isSelected = false
+                            notifyItemChanged(dataList.size - 1)
+                        }
+                        dataList[position].isSelected = true
+                        selectedIndex = position
+                        notifyItemChanged(selectedIndex)
+                    }
+                    if (selectedIndex != -1)
+                        dataList[selectedIndex].takeIf { it.isSelected }?.name?.let { it1 ->
+                            viewModel.onTypeSelected(
+                                it1
+                            )
+                        }
+                    else
+                        viewModel.onTypeSelected(
+                            ""
+                        )
                 }
-                callback(dataList[selectedIndex].takeIf { it.isSelected })
             }
         }
+
+        private fun removeCustomFilter(position: Int) {
+            dataList.removeAt(position)
+            selectedIndex = -1
+            notifyItemRemoved(position)
+            notifyItemRangeChanged(position, dataList.size);
+            viewModel.removeCustomFilter()
+        }
+    }
+
+    fun addItem(selectStringModel: SelectStringModel) {
+        if (dataList[dataList.size - 1].name != selectStringModel.name) {
+            Log.d("MyTagHere", "addItem: $dataList")
+            if (selectedIndex != -1) {
+                dataList[selectedIndex].isSelected = false
+                notifyItemChanged(selectedIndex)
+            }
+            dataList.add(selectStringModel)
+            selectedIndex = dataList.size - 1
+            Log.d("MyTagHere", "addItem: $dataList, selectedIndex = $selectedIndex")
+            notifyItemInserted(selectedIndex)
+        }
+    }
+
+    fun updateDataSet(newItems: MutableList<SelectStringModel>) {
+        dataList = newItems
+        selectedIndex = -1
+        notifyDataSetChanged()
     }
 
 }

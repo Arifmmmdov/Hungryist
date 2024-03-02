@@ -10,7 +10,7 @@ import com.example.hungryist.generics.BaseViewHolder
 import com.example.hungryist.model.OpenCloseStatusModel
 
 class OpenCloseRecyclerAdapter(val context: Context, timesList: List<OpenCloseStatusModel>) :
-    BaseRecyclerAdapter<OpenCloseStatusModel, ItemOpenCloseTimesBinding>(timesList) {
+    BaseRecyclerAdapter<OpenCloseStatusModel, ItemOpenCloseTimesBinding>(timesList.toMutableList()) {
 
 
     override fun onCreateViewHolder(

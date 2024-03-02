@@ -37,6 +37,9 @@ android {
     viewBinding {
         enabled = true
     }
+    buildFeatures {
+        viewBinding true
+    }
 }
 
 dependencies {
@@ -84,7 +87,9 @@ dependencies {
     //Maps
     implementation 'com.google.android.gms:play-services-maps:18.2.0'
     implementation 'com.google.android.gms:play-services-identity:18.0.1'
-    implementation 'com.google.android.gms:play-services-auth:20.7.0'
+    implementation 'com.google.android.gms:play-services-auth:21.0.0'
+    implementation 'com.google.android.gms:play-services-location:21.1.0'
+
 
 
     //Firebase
@@ -95,5 +100,13 @@ dependencies {
     implementation 'com.facebook.android:facebook-login:16.3.0'
 
 
+    //Places
+    implementation 'com.google.android.libraries.places:places:3.3.0'
+
+
 
 }
+
+//secrets{
+//    defaultProperties "local.properties"
+//}

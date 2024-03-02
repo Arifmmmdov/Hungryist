@@ -11,7 +11,7 @@ import com.example.hungryist.model.RatingModel
 import com.example.hungryist.utils.extension.triggerVisibility
 
 class RatingRecyclerAdapter(val context: Context, ratingList: List<RatingModel>) :
-    BaseRecyclerAdapter<RatingModel, ItemOpenCloseTimesBinding>(ratingList) {
+    BaseRecyclerAdapter<RatingModel, ItemOpenCloseTimesBinding>(ratingList.toMutableList()) {
 
 
     override fun onCreateViewHolder(

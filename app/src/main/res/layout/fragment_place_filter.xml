@@ -18,6 +18,7 @@
 
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="start"
             android:orientation="vertical">
 
             <LinearLayout
@@ -43,7 +44,7 @@
                     android:layout_marginStart="5dp"
                     android:layout_weight="1"
                     android:padding="10dp"
-                    android:text="@string/restaurant"
+                    android:text="@string/cafe"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
                     android:textSize="16sp" />
@@ -58,7 +59,7 @@
                 android:textColor="@color/soft_grey"
                 android:textSize="16sp" />
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="14dp"
@@ -68,7 +69,7 @@
                     android:id="@+id/textInput"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginEnd="10dp"
                     android:layout_weight="1"
                     app:boxBackgroundColor="@android:color/transparent"
@@ -78,32 +79,47 @@
                     app:boxCornerRadiusTopEnd="4dp"
                     app:boxCornerRadiusTopStart="4dp"
                     app:boxStrokeColor="@color/grey"
-                    app:layout_constraintBottom_toBottomOf="@+id/filterButton"
-                    app:layout_constraintEnd_toStartOf="@+id/filterButton"
+                    app:hintEnabled="false"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/btnSearchLocation"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/filterButton">
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/editText"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:imeOptions="actionDone"
                         android:inputType="text"
-                        android:maxLines="1" />
+                        android:textColor="@color/black"
+                        android:textSize="14sp" />
                 </com.google.android.material.textfield.TextInputLayout>
+
 
                 <ImageView
                     android:id="@+id/btnSearchLocation"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
+                    android:layout_width="50dp"
+                    android:layout_height="0dp"
                     android:background="@drawable/round_background_4dp"
                     android:clickable="true"
                     android:padding="10dp"
                     android:src="@drawable/ic_search_location"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-            </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/round_background_4dp"
+                android:backgroundTint="@color/white"
+                android:translationZ="1dp"
+                tools:itemCount="3"
+                tools:listitem="@layout/item_select_map_place" />
 
             <RelativeLayout
                 android:id="@+id/layoutExpandDistance"
@@ -111,7 +127,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="14dp"
                 android:paddingVertical="5dp"
-                android:visibility="gone"
+                android:visibility="visible"
                 tools:visibility="visible">
 
                 <TextView
@@ -138,15 +154,38 @@
                 android:id="@+id/sliderDistance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/secondary_color"
+                android:theme="@style/SliderTrackTheme"
                 android:valueFrom="0"
                 android:valueTo="1000"
+                app:labelBehavior="gone"
                 app:thumbColor="@color/white"
                 app:thumbStrokeColor="@color/secondary_color"
                 app:thumbStrokeWidth="2.5dp"
-                app:tickColor="@color/secondary_color"
-                app:tickColorActive="@color/secondary_color"
-                app:trackColor="@color/secondary_color" />
+                app:tickColor="@color/secondary_color" />
+
+
+            <RelativeLayout
+                android:id="@+id/distanceLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/distance_start"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/distance_m"
+                    android:textColor="@color/soft_grey"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/distance_end"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:text="@string/distance_m"
+                    android:textColor="@color/soft_grey"
+                    android:textSize="14sp" />
+            </RelativeLayout>
 
 
             <RelativeLayout
@@ -155,7 +194,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="14dp"
                 android:paddingVertical="5dp"
-                android:visibility="gone"
+                android:visibility="visible"
                 tools:visibility="visible">
 
                 <TextView
@@ -182,15 +221,37 @@
                 android:id="@+id/sliderPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/secondary_color"
+                android:theme="@style/SliderTrackTheme"
                 android:valueFrom="0"
                 android:valueTo="800"
+                app:labelBehavior="gone"
                 app:thumbColor="@color/white"
                 app:thumbStrokeColor="@color/secondary_color"
                 app:thumbStrokeWidth="2.5dp"
-                app:tickColor="@color/secondary_color"
-                app:tickColorActive="@color/secondary_color"
-                app:trackColor="@color/secondary_color" />
+                app:tickColor="@color/secondary_color" />
+
+            <RelativeLayout
+                android:id="@+id/priceLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/price_start"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/price_azn"
+                    android:textColor="@color/soft_grey"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/price_end"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:text="@string/price_azn"
+                    android:textColor="@color/soft_grey"
+                    android:textSize="14sp" />
+            </RelativeLayout>
 
 
         </LinearLayout>

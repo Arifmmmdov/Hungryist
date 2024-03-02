@@ -19,7 +19,7 @@ class ReviewsAdapter(
     val fragmentManager: FragmentManager,
     val context: Context,
     dataList: List<ReviewsModel>,
-) : BaseRecyclerAdapter<ReviewsModel, ItemRecyclerReviewsBinding>(dataList) {
+) : BaseRecyclerAdapter<ReviewsModel, ItemRecyclerReviewsBinding>(dataList.toMutableList()) {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int,

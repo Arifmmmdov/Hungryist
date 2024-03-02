@@ -1,15 +1,14 @@
 package com.example.hungryist.repo
 
-import android.util.Log
 import com.example.hungryist.model.BaseInfoModel
 import com.example.hungryist.model.DealsOfMonth
+import com.example.hungryist.model.MealModel
+import com.example.hungryist.model.MenuModel
 import com.example.hungryist.model.OpenCloseStatusModel
 import com.example.hungryist.model.SelectStringModel
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.tasks.await
 
 class BaseRepository {
 
@@ -47,6 +46,23 @@ class BaseRepository {
                         openCloseTimes.add(openCloseTime)
                     }
                     Tasks.forResult(openCloseTimes)
+                } else {
+                    Tasks.forException(it.exception!!)
+                }
+            }
+    }
+
+    fun getMenuCost(id: String): Task<List<MealModel>> {
+        return db.collection("detailedInfoModel").document(id).collection("menuModel").get()
+            .continueWithTask {
+                if (it.isSuccessful) {
+                    val meals = mutableListOf<MealModel>()
+                    for (document in it.result) {
+                        val mealModel = document.toObject(MealModel::class.java)
+                        mealModel.id = id
+                        meals.add(mealModel)
+                    }
+                    Tasks.forResult(meals)
                 } else {
                     Tasks.forException(it.exception!!)
                 }

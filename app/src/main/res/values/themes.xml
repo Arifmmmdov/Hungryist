@@ -24,4 +24,12 @@
         <item name="textAllCaps">false</item>
         <item name="android:textAllCaps">false</item>
     </style>
+
+    <style name="SliderTrackTheme" parent="@style/Widget.MaterialComponents.Slider">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.Slider</item>
+    </style>
+
+    <style name="ThemeOverlay.Slider" parent="">
+        <item name="colorPrimary">@color/secondary_color</item>
+    </style>
 </resources>

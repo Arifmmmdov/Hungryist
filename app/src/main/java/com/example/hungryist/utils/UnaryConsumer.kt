@@ -1,5 +1,5 @@
 package com.example.hungryist.utils
 
 interface UnaryConsumer<T> {
-    fun invoke(value: T)
+    operator fun invoke(value: T)
 }

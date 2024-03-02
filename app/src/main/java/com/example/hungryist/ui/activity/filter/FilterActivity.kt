@@ -11,16 +11,29 @@ import com.example.hungryist.databinding.ActivityFilterBinding
 import com.example.hungryist.ui.fragment.filter.MealFilterFragment
 import com.example.hungryist.ui.fragment.filter.PlaceFilterFragment
 import com.google.android.material.tabs.TabLayoutMediator
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class FilterActivity : AppCompatActivity() {
     private val binding by lazy {
         ActivityFilterBinding.inflate(layoutInflater)
     }
 
+    @Inject
+    lateinit var viewModel: FilterViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         setViews()
+        setListeners()
+    }
+
+    private fun setListeners() {
+        binding.backButton.setOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
+        }
     }
 
     private fun setViews() {
@@ -38,9 +51,9 @@ class FilterActivity : AppCompatActivity() {
         )
     }
 
-    companion object{
-        fun intentFor(context: Context){
-            val intent = Intent(context,FilterActivity::class.java)
+    companion object {
+        fun intentFor(context: Context) {
+            val intent = Intent(context, FilterActivity::class.java)
             context.startActivity(intent)
         }
     }

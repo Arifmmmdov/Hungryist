@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.hungryist.R
 import com.example.hungryist.adapter.DealsOfMonthAdapter
 import com.example.hungryist.adapter.BaseInfoRecyclerAdapter
 import com.example.hungryist.adapter.SelectedTextRecyclerAdapter
@@ -17,7 +18,6 @@ import com.example.hungryist.model.SelectStringModel
 import com.example.hungryist.ui.activity.filter.FilterActivity
 import com.example.hungryist.utils.enum.VisibleStatusEnum
 import com.example.hungryist.utils.extension.triggerVisibility
-import com.example.hungryist.utils.filterutils.MainPageFilterUtils
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -30,21 +30,26 @@ class HomeFragment : Fragment() {
 
     @Inject
     lateinit var viewModel: HomeViewModel
+    lateinit var selectedTextAdapter: SelectedTextRecyclerAdapter
+
+    override fun onResume() {
+        super.onResume()
+        binding.lnrEmptyFilter.triggerVisibility(false)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
+        getItems()
+        binding.lnrEmptyFilter.triggerVisibility(false)
+        selectedTextAdapter =
+            SelectedTextRecyclerAdapter(requireContext(), mutableListOf(), viewModel)
+        setSelectedTextAdapter()
         setListeners()
         setObservers()
         return binding.root
-    }
-
-    override fun onResume() {
-        super.onResume()
-        getItems()
-        binding.lnrEmptyFilter.triggerVisibility(false)
     }
 
     private fun setObservers() {
@@ -61,17 +66,35 @@ class HomeFragment : Fragment() {
             changeFilteredPlaceVisibility(if (it) VisibleStatusEnum.SHIMMER else VisibleStatusEnum.VISIBLE)
         }
 
-        viewModel.baseInfoList.observe(requireActivity()) {
-            binding.lnrEmptyFilter.triggerVisibility(it.isEmpty())
-            setPlacesAdapter(it.filter { it.titleName.isNotEmpty() }, false)
+        viewModel.places.observe(requireActivity()) {
+            selectedTextAdapter.updateDataSet(it?: mutableListOf())
+            checkCustomFilter()
         }
 
+//        viewModel.baseInfoList.observe(requireActivity()) {
+//            binding.lnrEmptyFilter.triggerVisibility(it.isEmpty())
+//            setPlacesAdapter(it.filter { it.titleName.isNotEmpty() }, false)
+//        }
+
         viewModel.filteredBaseInfoList.observe(requireActivity()) {
-            setPlacesAdapter(it, true)
-            changeDealsOfMonthVisibility(VisibleStatusEnum.INVISIBLE)
-            binding.dealsOfMonth.triggerVisibility(false)
+            if (viewModel.isFilterable) {
+                changeDealsOfMonthVisibility(VisibleStatusEnum.INVISIBLE)
+                binding.dealsOfMonth.triggerVisibility(false)
+                setPlacesAdapter(it, true)
+            } else {
+                setPlacesAdapter(it.filter { it.titleName.isNotEmpty() }, false)
+                viewModel.getDealsOfMonth {
+                    setDealsOfMonthAdapter(it)
+                }
+            }
             binding.lnrEmptyFilter.triggerVisibility(it.isEmpty())
+            checkCustomFilter()
         }
+    }
+
+    private fun checkCustomFilter() {
+        if (viewModel.customApplied)
+            selectedTextAdapter.addItem(SelectStringModel(getString(R.string.customFilter), true))
     }
 
     private fun changeFilteredPlaceVisibility(visibleStatusEnum: VisibleStatusEnum) {
@@ -91,27 +114,24 @@ class HomeFragment : Fragment() {
 
     private fun getItems() {
 
-        viewModel.getPlaces {
-            setSelectedTextAdapter(it.toMutableList())
-        }
-
         viewModel.getBaseList()
 
-        viewModel.getDealsOfMonth {
-            setDealsOfMonthAdapter(it)
+        if (!viewModel.isFilterable) {
+            viewModel.getDealsOfMonth {
+                setDealsOfMonthAdapter(it)
+            }
         }
+
+        viewModel.callPlaces()
 
     }
 
-    private fun setSelectedTextAdapter(places: MutableList<SelectStringModel>) {
-
+    private fun setSelectedTextAdapter() {
         binding.recyclerSelectPlaces.apply {
-            adapter =
-                SelectedTextRecyclerAdapter(requireContext(), places) {
-                    viewModel.onTypeSelected(it)
-                }
+            adapter = selectedTextAdapter
             layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+
         }
     }
 
@@ -140,7 +160,6 @@ class HomeFragment : Fragment() {
             getItems()
             binding.lnrEmptyFilter.triggerVisibility(false)
             binding.swipeRefresh.isRefreshing = false
-            binding.editText.setText("")
         }
 
         binding.editText.addTextChangedListener {

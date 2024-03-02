@@ -15,7 +15,7 @@ class PicturesViewPagerAdapter(
     private val context: Context,
     images: List<String>,
 ) :
-    BaseRecyclerAdapter<String, ItemPagerPicturesBinding>(images) {
+    BaseRecyclerAdapter<String, ItemPagerPicturesBinding>(images.toMutableList()) {
     private lateinit var binding: ItemPagerPicturesBinding
 
     override fun onCreateViewHolder(
