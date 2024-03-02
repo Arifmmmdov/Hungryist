@@ -30,6 +30,7 @@ class MealFilterFragment : Fragment() {
     private val selectMenuAdapter by lazy {
         SelectMealRecyclerAdapter(viewModel.getMealNames()) {
             binding.editText.setText(it)
+            binding.editText.clearFocus()
         }
     }
 

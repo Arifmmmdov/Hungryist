@@ -27,6 +27,7 @@ class SelectMealRecyclerAdapter(
 
     override fun onBindViewHolder(holder: MViewHolder, position: Int) {
         holder.bind(filteredList[position])
+        holder.clickListener(position)
     }
 
     inner class MViewHolder(val binding: ItemSelectMealBinding) :

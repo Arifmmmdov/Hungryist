@@ -97,7 +97,7 @@ class SelectedTextRecyclerAdapter(
     fun addItem(selectStringModel: SelectStringModel) {
         if (dataList[dataList.size - 1].name != selectStringModel.name) {
             Log.d("MyTagHere", "addItem: $dataList")
-            if (selectedIndex != -1) {
+            if (selectedIndex in 0 until dataList.size) {
                 dataList[selectedIndex].isSelected = false
                 notifyItemChanged(selectedIndex)
             }
