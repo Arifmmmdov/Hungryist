@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.annotation.FloatRange
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.hungryist.R
 import com.example.hungryist.adapter.SelectMapPlaceAdapter
 import com.example.hungryist.databinding.FragmentPlaceFilterBinding
@@ -182,15 +184,30 @@ class PlaceFilterFragment : Fragment() {
         binding.btnCafe.toggleSelection(cafeSelected)
         binding.btnRestaurant.toggleSelection(restaurantSelected)
 
+        setAdapter()
         setAnimatedDistanceExpand()
         setAnimatedPriceExpand()
+    }
+
+    private fun setAdapter() {
+        binding.recyclerView.apply {
+            adapter = selectMapPlaceAdapter
+            layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+            addItemDecoration(
+                DividerItemDecoration(
+                    requireContext(),
+                    DividerItemDecoration.VERTICAL
+                )
+            )
+        }
     }
 
     private fun setAnimatedDistanceExpand() {
         val anim: ObjectAnimator = ObjectAnimator.ofFloat(
             binding.icExpandDistance, "rotation", distanceRotationAngle, distanceRotationAngle + 180
         )
-        anim.setDuration(500)
+        anim.setDuration(250)
         anim.start()
         distanceRotationAngle += 180
         distanceRotationAngle %= 360
@@ -203,7 +220,7 @@ class PlaceFilterFragment : Fragment() {
         val anim: ObjectAnimator = ObjectAnimator.ofFloat(
             binding.icExpandPrice, "rotation", priceRotationAngle, priceRotationAngle + 180
         )
-        anim.setDuration(500)
+        anim.setDuration(250)
         anim.start()
         priceRotationAngle += 180
         priceRotationAngle %= 360

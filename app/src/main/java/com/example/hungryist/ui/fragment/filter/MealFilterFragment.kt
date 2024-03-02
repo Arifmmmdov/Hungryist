@@ -5,11 +5,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.addTextChangedListener
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.hungryist.R
+import com.example.hungryist.adapter.SelectMealRecyclerAdapter
+import com.example.hungryist.adapter.SimpleTextRecyclerAdapter
 import com.example.hungryist.databinding.FragmentMealFilterBinding
 import com.example.hungryist.model.MealFilterModel
-import com.example.hungryist.ui.activity.main.MainViewModel
+import com.example.hungryist.model.MealModel
 import com.example.hungryist.ui.fragment.home.HomeViewModel
+import com.example.hungryist.utils.extension.triggerVisibility
 import com.google.android.material.slider.RangeSlider
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -19,6 +25,12 @@ class MealFilterFragment : Fragment() {
 
     private val binding by lazy {
         FragmentMealFilterBinding.inflate(layoutInflater)
+    }
+
+    private val selectMenuAdapter by lazy {
+        SelectMealRecyclerAdapter(viewModel.getMealNames()) {
+            binding.editText.setText(it)
+        }
     }
 
     @Inject
@@ -44,6 +56,14 @@ class MealFilterFragment : Fragment() {
             viewModel.filterMeals(getFilterModel())
             requireActivity().finish()
         }
+
+        binding.editText.addTextChangedListener { editable ->
+            selectMenuAdapter.filter.filter(editable.toString())
+        }
+
+        binding.editText.setOnFocusChangeListener { view, b ->
+            binding.recyclerView.triggerVisibility(b)
+        }
     }
 
     private fun getFilterModel(): MealFilterModel {
@@ -64,5 +84,20 @@ class MealFilterFragment : Fragment() {
         }
 
         binding.editText.setText(filterMeal?.name ?: "")
+        setRecyclerAdapter()
+    }
+
+    private fun setRecyclerAdapter() {
+        binding.recyclerView.apply {
+            adapter = selectMenuAdapter
+            layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+            addItemDecoration(
+                DividerItemDecoration(
+                    requireContext(),
+                    DividerItemDecoration.VERTICAL
+                )
+            )
+        }
     }
 }

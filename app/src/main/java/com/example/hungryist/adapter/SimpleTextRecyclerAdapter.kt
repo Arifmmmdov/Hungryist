@@ -1,6 +1,5 @@
 package com.example.hungryist.adapter
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.example.hungryist.databinding.ItemSimpleTextBinding

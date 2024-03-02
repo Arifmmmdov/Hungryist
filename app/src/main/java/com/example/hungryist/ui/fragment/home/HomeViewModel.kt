@@ -17,7 +17,6 @@ import com.example.hungryist.utils.filterutils.FilterableBaseViewModel
 import com.example.hungryist.utils.filterutils.MainPageFilterUtils
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
-import com.google.android.libraries.places.api.model.AutocompletePrediction
 import com.google.firebase.auth.FirebaseAuth
 import javax.inject.Inject
 
@@ -49,9 +48,6 @@ class HomeViewModel @Inject constructor(
         get() {
             return filterUtils.isCustomFilterActive()
         }
-
-    private val _filteredList = MutableLiveData<List<BaseInfoModel>>()
-    val filteredList: LiveData<List<BaseInfoModel>> = _filteredList
 
     private val _filteredBaseInfoList = MutableLiveData<List<BaseInfoModel>>()
     val filteredBaseInfoList: LiveData<List<BaseInfoModel>> = _filteredBaseInfoList
@@ -209,9 +205,11 @@ class HomeViewModel @Inject constructor(
             _filteredBaseInfoList.value = filterUtils.filterForCategory(name)
     }
 
-    fun getMealNames(): List<MealModel> {
+    fun getMealNames(): List<String> {
         return fullList?.flatMap {
-            it.meals
+            it.meals.map {
+                it.name
+            }
         } ?: listOf()
     }
 

@@ -2,7 +2,6 @@ package com.example.hungryist.ui.fragment.details
 
 import android.animation.ObjectAnimator
 import android.content.Intent
-import android.graphics.BitmapFactory.decodeResource
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -23,10 +22,7 @@ import com.example.hungryist.ui.activity.MapsActivity
 import com.example.hungryist.ui.activity.detailedinfo.DetailedInfoViewModel
 import com.example.hungryist.utils.extension.setStatus
 import com.example.hungryist.utils.extension.triggerVisibility
-import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.google.android.gms.maps.model.MarkerOptions
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 

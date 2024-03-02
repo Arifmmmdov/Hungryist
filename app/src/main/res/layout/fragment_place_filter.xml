@@ -79,6 +79,7 @@
                     app:boxCornerRadiusTopEnd="4dp"
                     app:boxCornerRadiusTopStart="4dp"
                     app:boxStrokeColor="@color/grey"
+                    app:hintEnabled="false"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/btnSearchLocation"
                     app:layout_constraintStart_toStartOf="parent"
@@ -95,11 +96,10 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
 
-
                 <ImageView
                     android:id="@+id/btnSearchLocation"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
+                    android:layout_width="50dp"
+                    android:layout_height="0dp"
                     android:background="@drawable/round_background_4dp"
                     android:clickable="true"
                     android:padding="10dp"
