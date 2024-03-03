@@ -6,11 +6,13 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/container"
-        android:name="com.example.hungryist.ui.fragment.home.HomeFragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        app:defaultNavHost="true"
         app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:navGraph="@navigation/nav_graph" />
 
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -21,6 +23,7 @@
         app:itemActiveIndicatorStyle="@color/main_color"
         app:itemBackground="@android:color/white"
         app:itemTextColor="@color/main_color"
+        app:labelVisibilityMode="selected"
         app:layout_constraintBottom_toBottomOf="parent"
         app:menu="@menu/bottom_nav_menu" />
 

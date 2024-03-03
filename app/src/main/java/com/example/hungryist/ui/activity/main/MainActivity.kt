@@ -5,6 +5,8 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.NavigationUI
 import com.example.hungryist.R
 import com.example.hungryist.databinding.ActivityMainBinding
 import com.example.hungryist.databinding.CustomBottomNavigationItemBinding
@@ -24,60 +26,21 @@ class MainActivity : AppCompatActivity() {
         ActivityMainBinding.inflate(layoutInflater)
     }
 
-    @Inject
-    lateinit var viewModel: MainViewModel
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         UserManager.initializeSavedPlaces()
         FirebaseApp.initializeApp(this)
         setBottomNavigationView()
-        setObservers()
-    }
-
-    override fun onResume() {
-        super.onResume()
-    }
-
-    private fun setObservers() {
-        viewModel.selectedTabId.observe(this) {
-            onTabSelected(it)
-        }
-    }
-
-    private fun onTabSelected(tabId: Int?) {
-        val selectedFragment: Fragment? = when (tabId) {
-            R.id.action_home -> HomeFragment()
-            R.id.action_nearby_places -> LoginFragment()
-            R.id.action_saved -> SavedFragment()
-            R.id.action_profile -> ProfileFragment()
-            else -> null
-        }
-
-        changeTabId(tabId)
-
-        selectedFragment?.let {
-            supportFragmentManager.beginTransaction()
-                .addToBackStack("Main activity")
-                .replace(R.id.container, it)
-                .commit()
-        }
-    }
-
-    private fun changeTabId(tabId: Int?) {
-        binding.bottomNavigationView.apply {
-            setOnItemSelectedListener(null)
-            tabId?.let {
-                selectedItemId = it
-            }
-            setOnItemSelectedListener(viewModel.getTabSelectedListener())
-        }
     }
 
     private fun setBottomNavigationView() {
-        binding.bottomNavigationView.setOnItemSelectedListener(viewModel.getTabSelectedListener())
+        val navHost = supportFragmentManager.findFragmentById(R.id.container) as NavHostFragment
+        val navController = navHost.navController
+
+        NavigationUI.setupWithNavController(
+            binding.bottomNavigationView, navController
+        )
     }
 
     companion object {

@@ -6,7 +6,6 @@ import com.example.hungryist.repo.DetailedInfoRepository
 import com.example.hungryist.repo.ProfileRepository
 import com.example.hungryist.ui.activity.detailedinfo.DetailedInfoViewModel
 import com.example.hungryist.ui.activity.filter.FilterViewModel
-import com.example.hungryist.ui.activity.main.MainViewModel
 import com.example.hungryist.ui.activity.splashscreen.SplashScreenViewModel
 import com.example.hungryist.ui.fragment.home.HomeViewModel
 import com.example.hungryist.ui.fragment.menu.MenuViewModel
@@ -45,13 +44,6 @@ object ViewModelModule {
     ): ProfileViewModel {
         return ProfileViewModel(context, sharedPreferencesManager, profileRepository)
     }
-
-    @Provides
-    @Singleton
-    fun mainViewModel(
-        @ApplicationContext context: Context,
-        repository: BaseRepository,
-    ): MainViewModel = MainViewModel(context, repository)
 
     @Provides
     @Singleton
@@ -101,6 +93,6 @@ object ViewModelModule {
 
     @Provides
     @Singleton
-    fun getSearchLocationViewModel():SearchLocationViewModel = SearchLocationViewModel()
+    fun getSearchLocationViewModel(): SearchLocationViewModel = SearchLocationViewModel()
 
 }
