@@ -21,7 +21,6 @@ import com.google.firebase.auth.FirebaseAuth
 import javax.inject.Inject
 
 class HomeViewModel @Inject constructor(
-    private val context: Context,
     private val repository: BaseRepository,
 ) : FilterableBaseViewModel() {
 
@@ -37,7 +36,7 @@ class HomeViewModel @Inject constructor(
     private val _places = MutableLiveData(mutableListOf<SelectStringModel>())
     val places: LiveData<MutableList<SelectStringModel>> = _places
 
-    private var fullList: MutableList<BaseInfoModel>? = mutableListOf()
+    private var fullList: MutableList<BaseInfoModel> = mutableListOf()
 
     val isFilterable: Boolean
         get() {
@@ -60,11 +59,11 @@ class HomeViewModel @Inject constructor(
         filterUtils.clearFilter()
     }
 
-    fun getBaseList() {
+    fun getBaseList(context: Context) {
         _isTopPlacesLoading.value = true
         repository.getBaseInfoList().addOnSuccessListener {
-            getOpenCloseDateList(it)
-            getMealsList(it)
+            getOpenCloseDateList(context, it)
+            getMealsList(context, it)
         }.addOnFailureListener {
             initializeFullList(mutableListOf())
         }.addOnCompleteListener {
@@ -73,7 +72,7 @@ class HomeViewModel @Inject constructor(
 
     }
 
-    private fun getMealsList(baseInfo: MutableList<BaseInfoModel>) {
+    private fun getMealsList(context: Context, baseInfo: MutableList<BaseInfoModel>) {
         val tasks = mutableListOf<Task<List<MealModel>>>()
 
         baseInfo.forEach { baseList ->
@@ -97,7 +96,7 @@ class HomeViewModel @Inject constructor(
             }
     }
 
-    private fun getOpenCloseDateList(baseInfo: MutableList<BaseInfoModel>) {
+    private fun getOpenCloseDateList(context: Context, baseInfo: MutableList<BaseInfoModel>) {
         val tasks = mutableListOf<Task<List<OpenCloseStatusModel>>>()
 
         baseInfo.forEach { baseList ->
@@ -171,7 +170,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun getSavedInfoTextResource(): String {
+    fun getSavedInfoTextResource(context: Context): String {
         val emptySaveInfo = if (FirebaseAuth.getInstance().uid == null) {
             R.string.must_be_registered_info
         } else {
@@ -198,7 +197,7 @@ class HomeViewModel @Inject constructor(
         _filteredBaseInfoList.value = fullList
     }
 
-    override fun onTypeSelected(name: String) {
+    override fun onTypeSelected(context: Context, name: String) {
         if (name == context.getString(R.string.customFilter))
             _filteredBaseInfoList.value = filterUtils.filterCustom()
         else
@@ -206,11 +205,13 @@ class HomeViewModel @Inject constructor(
     }
 
     fun getMealNames(): List<String> {
-        return fullList?.flatMap {
+        return fullList.flatMap {
             it.meals.map {
                 it.name
             }
-        } ?: listOf()
+        }
     }
+
+    fun getFullList() = fullList
 
 }

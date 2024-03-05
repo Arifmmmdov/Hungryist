@@ -55,7 +55,7 @@ class SavedFragment : Fragment() {
 
     private fun setViews(savedList: MutableList<String>) {
         if (savedList.isEmpty()) {
-            binding.emptyInfo.text = viewModel.getSavedInfoTextResource()
+            binding.emptyInfo.text = viewModel.getSavedInfoTextResource(requireContext())
         } else {
             setRecyclerAdapter(false)
         }
@@ -64,7 +64,7 @@ class SavedFragment : Fragment() {
     private fun setRecyclerAdapter(isFiltered: Boolean) {
         binding.recyclerSaved.apply {
             adapter = viewModel.getSavedList(isFiltered)
-                ?.let { BaseInfoRecyclerAdapter(requireContext(), it, viewModel) }
+                ?.let { BaseInfoRecyclerAdapter(requireContext(), it) }
             layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         }

@@ -19,4 +19,9 @@ abstract class BaseRecyclerAdapter<Item, ItemBinding : ViewBinding>(var dataList
         holder.bind(dataList[position])
         holder.clickListener(position)
     }
+
+    fun update(dataList: List<Item>) {
+        this.dataList = dataList.toMutableList()
+        notifyDataSetChanged()
+    }
 }

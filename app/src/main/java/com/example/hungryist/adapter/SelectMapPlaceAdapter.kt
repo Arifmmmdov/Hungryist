@@ -21,11 +21,6 @@ class SelectMapPlaceAdapter(
         return MViewHolder(binding)
     }
 
-    fun update(predictions: MutableList<AutocompletePrediction>) {
-        dataList = predictions
-        notifyDataSetChanged()
-    }
-
     inner class MViewHolder(val binding: ItemSelectMapPlaceBinding) :
         BaseViewHolder<AutocompletePrediction, ItemSelectMapPlaceBinding>(binding) {
         override fun bind(item: AutocompletePrediction) {

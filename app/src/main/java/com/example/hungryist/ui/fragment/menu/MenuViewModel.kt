@@ -12,7 +12,6 @@ import com.example.hungryist.utils.filterutils.MenuFilterUtils
 import javax.inject.Inject
 
 class MenuViewModel @Inject constructor(
-    val context: Context,
     val repository: DetailedInfoRepository,
 ) :
     FilterableBaseViewModel() {
@@ -53,7 +52,7 @@ class MenuViewModel @Inject constructor(
         _menuList.value = menuFilterUtils.filterForTypedText(typed)
     }
 
-    override fun onTypeSelected(name: String) {
+    override fun onTypeSelected(context: Context,name: String) {
         _menuList.value = menuFilterUtils.filterForCategory(name)
     }
 

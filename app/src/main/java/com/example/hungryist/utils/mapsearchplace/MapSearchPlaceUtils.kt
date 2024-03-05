@@ -48,7 +48,6 @@ class MapSearchPlaceUtils(val context: Context) {
             .addOnSuccessListener {
                 val latLng = it.place.latLng
                 if (latLng != null) {
-                    context.showToastMessage(latLng.toString())
                     callback(latLng)
                 }
 

@@ -126,4 +126,6 @@
     <!--    Todo must be held secret -->
     <string name="api_key">AIzaSyBWEUyQrrFsc4aOraG87hnFwZAKDdN96n4</string>
     <string name="empty_location_info">You must set a location</string>
+    <string name="empty_profile_title">You didn’t log in</string>
+    <string name="empty_profile_description">You can’t see any profile details until you register or log in</string>
 </resources>

@@ -5,12 +5,12 @@ import com.example.hungryist.repo.BaseRepository
 import com.example.hungryist.repo.DetailedInfoRepository
 import com.example.hungryist.repo.ProfileRepository
 import com.example.hungryist.ui.activity.detailedinfo.DetailedInfoViewModel
-import com.example.hungryist.ui.activity.filter.FilterViewModel
 import com.example.hungryist.ui.activity.splashscreen.SplashScreenViewModel
 import com.example.hungryist.ui.fragment.home.HomeViewModel
 import com.example.hungryist.ui.fragment.menu.MenuViewModel
 import com.example.hungryist.ui.activity.intro.IntroViewModel
 import com.example.hungryist.ui.activity.searchlocation.SearchLocationViewModel
+import com.example.hungryist.ui.fragment.nearby_places.NearbyPlacesViewModel
 import com.example.hungryist.ui.fragment.profile.ProfileViewModel
 import com.example.hungryist.ui.fragment.reviews.ReviewsViewModel
 import com.example.hungryist.utils.SharedPreferencesManager
@@ -38,20 +38,18 @@ object ViewModelModule {
     @Provides
     @Singleton
     fun getProfileViewModel(
-        @ApplicationContext context: Context,
         sharedPreferencesManager: SharedPreferencesManager,
         profileRepository: ProfileRepository,
     ): ProfileViewModel {
-        return ProfileViewModel(context, sharedPreferencesManager, profileRepository)
+        return ProfileViewModel(sharedPreferencesManager, profileRepository)
     }
 
     @Provides
     @Singleton
     fun homeViewModel(
-        @ApplicationContext context: Context,
         repository: BaseRepository,
     ): HomeViewModel =
-        HomeViewModel(context, repository)
+        HomeViewModel( repository)
 
     @Provides
     @Singleton
@@ -64,8 +62,13 @@ object ViewModelModule {
 
     @Provides
     @Singleton
-    fun getMenuViewModel(context: Context, repository: DetailedInfoRepository): MenuViewModel =
-        MenuViewModel(context, repository)
+    fun getMenuViewModel( repository: DetailedInfoRepository): MenuViewModel =
+        MenuViewModel( repository)
+
+    @Provides
+    @Singleton
+    fun getNearbyPlacesViewModel(): NearbyPlacesViewModel =
+        NearbyPlacesViewModel()
 
 
     @Provides
@@ -76,10 +79,6 @@ object ViewModelModule {
     ): ReviewsViewModel =
         ReviewsViewModel(context, repository)
 
-    @Provides
-    @Singleton
-    fun getFilterViewModel(): FilterViewModel =
-        FilterViewModel()
 
 
     @Provides

@@ -31,7 +31,8 @@ class SearchLocationViewModel @Inject constructor() : ViewModel() {
         context: Context,
     ) {
         if (currentLocation != null) {
-            _selectedLocation.value = searchPlaceUtils.getPlaceNameFromLatLng(context,currentLocation)
+            _selectedLocation.value =
+                searchPlaceUtils.getPlaceNameFromLatLng(context, currentLocation)
         } else
             context.showToastMessage("Your current location is not available!")
 
@@ -47,9 +48,9 @@ class SearchLocationViewModel @Inject constructor() : ViewModel() {
         prediction: AutocompletePrediction,
         searchPlaceUtils: MapSearchPlaceUtils,
     ) {
-        _selectedLocation.postValue(SearchMapPlaceModel(prediction.getPrimaryText(null).toString()))
         searchPlaceUtils.getLatLngPlace(prediction.placeId) {
-            _selectedLocation.value?.latLng = it
+            _selectedLocation.value =
+                SearchMapPlaceModel(it, prediction.getPrimaryText(null).toString())
         }
     }
 

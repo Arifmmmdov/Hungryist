@@ -20,9 +20,6 @@ class FilterActivity : AppCompatActivity() {
         ActivityFilterBinding.inflate(layoutInflater)
     }
 
-    @Inject
-    lateinit var viewModel: FilterViewModel
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)

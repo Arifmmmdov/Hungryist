@@ -12,8 +12,15 @@ class DistanceCalculator {
     private val EARTH_RADIUS = 6371
 
     fun checkDistance(from: LatLng?, to: GeoPoint?, givenDistance: FloatRange?): Boolean {
-        if (from == null || to == null || givenDistance == null)
-            return true
+
+        val distance = to?.let { from?.let { it1 -> calculateDistance(it1, it) } }
+
+        return if (distance != null) {
+            distance >= givenDistance?.from!! && distance <= givenDistance?.to!!
+        } else  true
+    }
+
+    fun calculateDistance(from: LatLng, to: GeoPoint): Double {
         val dLat = Math.toRadians(to.latitude - from.latitude)
         val dLon = Math.toRadians(to.longitude - from.longitude)
         val lat1 = Math.toRadians(from.latitude)
@@ -23,6 +30,6 @@ class DistanceCalculator {
                 sin(dLon / 2) * sin(dLon / 2) * cos(lat1) * cos(lat2)
         val c = 2 * atan2(sqrt(a), sqrt(1 - a))
 
-        return EARTH_RADIUS * c in givenDistance.from..givenDistance.to
+        return EARTH_RADIUS * c
     }
 }

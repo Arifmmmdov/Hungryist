@@ -3,6 +3,7 @@ package com.example.hungryist.ui.fragment.profile
 import android.app.Activity
 import android.content.Context
 import android.net.Uri
+import android.util.Log
 import androidx.activity.result.ActivityResultLauncher
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -23,25 +24,27 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
-    private val context: Context,
     private val sharedPreferencesManager: SharedPreferencesManager,
     private val profileRepository: ProfileRepository,
 ) :
     ViewModel() {
 
-    private val _profileInfo = MutableLiveData<ProfileInfoModel>()
+    private val _profileInfo = MutableLiveData<ProfileInfoModel?>()
     val profileInfo = _profileInfo
     private val _selectedImageUrl = MutableLiveData<String>()
     val selectedImageUrl: LiveData<String> = _selectedImageUrl
 
     init {
-        profileRepository.getProfileInfo()
-            .addOnSuccessListener {
-                _profileInfo.value = it
-            }
-            .addOnFailureListener {
-                context.showToastMessage(it.message.toString())
-            }
+        if (profileRepository.uid == null)
+            _profileInfo.value = null
+        else
+            profileRepository.getProfileInfo()
+                .addOnSuccessListener {
+                    _profileInfo.value = it
+                }
+                .addOnFailureListener {
+                    Log.d("MyTagHere", "Failed call: ${it.message.toString()}")
+                }
     }
 
     fun setSelectedImageUrl(imageUrl: String) {
@@ -70,7 +73,7 @@ class ProfileViewModel @Inject constructor(
                 setSelectedImageUrl(it.toString())
             }
             .addOnFailureListener {
-                context.showToastMessage(it.message.toString())
+                Log.e("MyTagHere", "uploadImage: ${it.message.toString()}")
             }
     }
 }

@@ -6,194 +6,268 @@
     android:layout_height="match_parent"
     tools:context=".ui.fragment.profile.ProfileFragment">
 
-    <ImageButton
-        android:id="@+id/mainImage"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="50dp"
-        android:background="@drawable/round_background"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintEmptyInfo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="16dp">
 
-    <TextView
-        android:id="@+id/name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:textColor="@color/black"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mainImage"
-        tools:text="Eleanor Pena" />
+        <LinearLayout
+            android:id="@+id/lnrEmptyInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@+id/register"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-    <LinearLayout
-        android:id="@+id/groupRating"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:gravity="center"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/name">
+            <ImageView
+                android:id="@+id/emptySaveInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_profile_empty_info" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/empty_profile_title"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
 
-        <ImageView
-            android:id="@+id/star1"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:src="@drawable/ic_unfilled_star" />
+            <TextView
+                android:id="@+id/emptyInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="25dp"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:text="@string/empty_profile_description"
+                android:textColor="@color/medium_grey"
+                android:textSize="14sp" />
+        </LinearLayout>
 
-        <ImageView
-            android:id="@+id/star2"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:src="@drawable/ic_unfilled_star" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/register"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="@string/register"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@id/login" />
 
-        <ImageView
-            android:id="@+id/star3"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:src="@drawable/ic_unfilled_star" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/secondary_color"
+            android:padding="11dp"
+            android:text="@string/log_in"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <ImageView
-            android:id="@+id/star4"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:src="@drawable/ic_unfilled_star" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/profileView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
 
-        <ImageView
-            android:id="@+id/star5"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:src="@drawable/ic_unfilled_star" />
+        <ImageButton
+            android:id="@+id/mainImage"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="50dp"
+            android:background="@drawable/round_background"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/rating"
+            android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:textColor="@color/black"
-            android:textSize="12sp"
-            tools:text="4.2" />
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mainImage"
+            tools:text="Eleanor Pena" />
 
-    </LinearLayout>
+        <LinearLayout
+            android:id="@+id/groupRating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/name">
 
-    <TextView
-        android:id="@+id/reviews"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="3dp"
-        android:textColor="@color/soft_grey"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/groupRating"
-        tools:text="85 reviews" />
 
-    <LinearLayout
-        android:id="@+id/details"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="45dp"
-        android:divider="@drawable/divider"
-        android:gravity="bottom"
-        android:orientation="vertical"
-        android:showDividers="middle"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/reviews">
+            <ImageView
+                android:id="@+id/star1"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_unfilled_star" />
+
+            <ImageView
+                android:id="@+id/star2"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_unfilled_star" />
+
+            <ImageView
+                android:id="@+id/star3"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_unfilled_star" />
+
+            <ImageView
+                android:id="@+id/star4"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_unfilled_star" />
+
+            <ImageView
+                android:id="@+id/star5"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_unfilled_star" />
+
+            <TextView
+                android:id="@+id/rating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                tools:text="4.2" />
+
+        </LinearLayout>
 
         <TextView
-            android:id="@+id/editProfile"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:drawablePadding="24dp"
-            android:gravity="center_vertical"
-            android:padding="15dp"
-            android:text="@string/edit_profile"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            app:drawableStartCompat="@drawable/ic_edit_profile" />
+            android:id="@+id/reviews"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:textColor="@color/soft_grey"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/groupRating"
+            tools:text="85 reviews" />
 
-        <TextView
-            android:id="@+id/notifications"
+        <LinearLayout
+            android:id="@+id/details"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
-            android:drawablePadding="24dp"
-            android:gravity="center_vertical"
-            android:padding="15dp"
-            android:text="@string/notifications"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            app:drawableStartCompat="@drawable/ic_notifications" />
+            android:layout_marginTop="45dp"
+            android:divider="@drawable/divider"
+            android:gravity="bottom"
+            android:orientation="vertical"
+            android:showDividers="middle"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/reviews">
 
-        <TextView
-            android:id="@+id/settings"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:drawablePadding="24dp"
-            android:gravity="center_vertical"
-            android:padding="15dp"
-            android:text="@string/settings"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            app:drawableStartCompat="@drawable/ic_settings" />
+            <TextView
+                android:id="@+id/editProfile"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:drawablePadding="24dp"
+                android:gravity="center_vertical"
+                android:padding="15dp"
+                android:text="@string/edit_profile"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:drawableStartCompat="@drawable/ic_edit_profile" />
 
-        <TextView
-            android:id="@+id/aboutUs"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:drawablePadding="24dp"
-            android:gravity="center_vertical"
-            android:padding="15dp"
-            android:text="@string/about_us"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            app:drawableStartCompat="@drawable/ic_about_us" />
+            <TextView
+                android:id="@+id/notifications"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:drawablePadding="24dp"
+                android:gravity="center_vertical"
+                android:padding="15dp"
+                android:text="@string/notifications"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:drawableStartCompat="@drawable/ic_notifications" />
 
-        <TextView
-            android:id="@+id/termsAndConditions"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:drawablePadding="24dp"
-            android:gravity="center_vertical"
-            android:padding="15dp"
-            android:text="@string/terms_of_conditions"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            app:drawableStartCompat="@drawable/ic_terms_and_conditions" />
+            <TextView
+                android:id="@+id/settings"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:drawablePadding="24dp"
+                android:gravity="center_vertical"
+                android:padding="15dp"
+                android:text="@string/settings"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:drawableStartCompat="@drawable/ic_settings" />
 
-        <TextView
-            android:id="@+id/contactUs"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:drawablePadding="24dp"
-            android:gravity="center_vertical"
-            android:padding="15dp"
-            android:text="@string/contact_us"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            app:drawableStartCompat="@drawable/ic_contact_us" />
+            <TextView
+                android:id="@+id/aboutUs"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:drawablePadding="24dp"
+                android:gravity="center_vertical"
+                android:padding="15dp"
+                android:text="@string/about_us"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:drawableStartCompat="@drawable/ic_about_us" />
 
-        <TextView
-            android:id="@+id/logOut"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:drawablePadding="24dp"
-            android:gravity="center_vertical"
-            android:padding="15dp"
-            android:text="@string/log_out"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            app:drawableStartCompat="@drawable/ic_log_out" />
-    </LinearLayout>
+            <TextView
+                android:id="@+id/termsAndConditions"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:drawablePadding="24dp"
+                android:gravity="center_vertical"
+                android:padding="15dp"
+                android:text="@string/terms_of_conditions"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:drawableStartCompat="@drawable/ic_terms_and_conditions" />
+
+            <TextView
+                android:id="@+id/contactUs"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:drawablePadding="24dp"
+                android:gravity="center_vertical"
+                android:padding="15dp"
+                android:text="@string/contact_us"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:drawableStartCompat="@drawable/ic_contact_us" />
+
+            <TextView
+                android:id="@+id/logOut"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:drawablePadding="24dp"
+                android:gravity="center_vertical"
+                android:padding="15dp"
+                android:text="@string/log_out"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:drawableStartCompat="@drawable/ic_log_out" />
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

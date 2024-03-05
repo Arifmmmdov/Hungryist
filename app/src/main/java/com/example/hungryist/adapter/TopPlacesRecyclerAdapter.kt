@@ -24,7 +24,6 @@ import javax.inject.Inject
 class TopPlacesRecyclerAdapter @Inject constructor(
     val context: Context,
     dataList: List<BaseInfoModel>,
-    val viewModel: HomeViewModel,
 ) :
     BaseRecyclerAdapter<BaseInfoModel, ItemRecyclerTopPlacesBinding>(dataList.toMutableList()) {
     override fun onCreateViewHolder(

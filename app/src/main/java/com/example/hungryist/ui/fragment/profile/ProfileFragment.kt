@@ -12,7 +12,10 @@ import com.example.hungryist.R
 import com.example.hungryist.databinding.FragmentProfileBinding
 import com.example.hungryist.model.ProfileInfoModel
 import com.example.hungryist.ui.activity.EditProfileActivity
+import com.example.hungryist.ui.activity.intro.IntroActivity
 import com.example.hungryist.utils.DynamicStarFillUtil
+import com.example.hungryist.utils.enum.VisibleStatusEnum
+import com.example.hungryist.utils.extension.triggerVisibility
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -42,7 +45,10 @@ class ProfileFragment : Fragment() {
 
     private fun setObservers() {
         viewModel.profileInfo.observe(requireActivity()) {
-            setViews(it)
+            binding.constraintEmptyInfo.triggerVisibility(it == null)
+            binding.profileView.triggerVisibility(it != null)
+            if (it != null)
+                setViews(it)
         }
     }
 
@@ -62,6 +68,14 @@ class ProfileFragment : Fragment() {
 
         binding.editProfile.setOnClickListener {
             EditProfileActivity.intentFor(requireContext())
+        }
+
+        binding.register.setOnClickListener {
+            IntroActivity.intentFor(requireContext(),"register")
+        }
+
+        binding.login.setOnClickListener {
+            IntroActivity.intentFor(requireContext(),"login")
         }
     }
 

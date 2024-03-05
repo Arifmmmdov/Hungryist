@@ -74,11 +74,13 @@ class SelectedTextRecyclerAdapter(
                     if (selectedIndex != -1)
                         dataList[selectedIndex].takeIf { it.isSelected }?.name?.let { it1 ->
                             viewModel.onTypeSelected(
+                                context,
                                 it1
                             )
                         }
                     else
                         viewModel.onTypeSelected(
+                            context,
                             ""
                         )
                 }

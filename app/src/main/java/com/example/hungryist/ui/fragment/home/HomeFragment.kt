@@ -28,6 +28,14 @@ class HomeFragment : Fragment() {
         FragmentHomeBinding.inflate(layoutInflater)
     }
 
+    private val baseInfoAdapter by lazy {
+        BaseInfoRecyclerAdapter(requireContext(), emptyList())
+    }
+
+    private val topPlacesAdapter by lazy {
+        TopPlacesRecyclerAdapter(requireContext(), emptyList())
+    }
+
     @Inject
     lateinit var viewModel: HomeViewModel
     lateinit var selectedTextAdapter: SelectedTextRecyclerAdapter
@@ -67,7 +75,7 @@ class HomeFragment : Fragment() {
         }
 
         viewModel.places.observe(requireActivity()) {
-            selectedTextAdapter.updateDataSet(it?: mutableListOf())
+            selectedTextAdapter.updateDataSet(it ?: mutableListOf())
             checkCustomFilter()
         }
 
@@ -114,7 +122,7 @@ class HomeFragment : Fragment() {
 
     private fun getItems() {
 
-        viewModel.getBaseList()
+        viewModel.getBaseList(requireContext())
 
         if (!viewModel.isFilterable) {
             viewModel.getDealsOfMonth {
@@ -136,12 +144,12 @@ class HomeFragment : Fragment() {
     }
 
     private fun setPlacesAdapter(places: List<BaseInfoModel>, isFiltered: Boolean) {
+        val adapter = if (isFiltered) baseInfoAdapter else topPlacesAdapter
+        adapter.update(places)
         binding.recyclerInfo.apply {
             layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-            adapter =
-                if (isFiltered) BaseInfoRecyclerAdapter(requireContext(), places, viewModel)
-                else TopPlacesRecyclerAdapter(requireContext(), places, viewModel)
+            this.adapter = adapter
         }
     }
 

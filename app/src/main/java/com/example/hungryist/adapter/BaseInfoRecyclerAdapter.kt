@@ -16,12 +16,12 @@ import com.example.hungryist.utils.UserManager
 import com.example.hungryist.utils.extension.setSaved
 import com.example.hungryist.utils.extension.setStatus
 import com.example.hungryist.utils.extension.triggerVisibility
+import com.example.hungryist.utils.filterutils.FilterableBaseViewModel
 import javax.inject.Inject
 
 class BaseInfoRecyclerAdapter @Inject constructor(
     val context: Context,
     dataList: List<BaseInfoModel>,
-    val viewModel: HomeViewModel,
 ) :
     BaseRecyclerAdapter<BaseInfoModel, ItemRecyclerDetailedInfoBinding>(dataList.toMutableList()) {
     override fun onCreateViewHolder(

@@ -18,7 +18,7 @@ class ProfileRepository {
     private val db by lazy {
         FirebaseFirestore.getInstance()
     }
-    private val uid by lazy {
+    val uid by lazy {
         FirebaseAuth.getInstance().uid
     }
     private val storage by lazy {
@@ -38,7 +38,7 @@ class ProfileRepository {
     }
 
     fun getProfileInfo(): Task<ProfileInfoModel?> {
-        return db.collection("profileInfo").document(uid ?: "Ic7QHNcYwix9rX5pkehn").get()
+        return db.collection("profileInfo").document(uid!!).get()
             .continueWithTask {
                 if (it.isSuccessful) {
 
