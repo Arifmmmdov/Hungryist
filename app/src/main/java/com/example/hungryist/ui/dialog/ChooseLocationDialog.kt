@@ -5,7 +5,11 @@ import android.content.Context
 import android.os.Bundle
 import com.example.hungryist.databinding.DialogChooseLocationBinding
 
-class ChooseLocationDialog(context: Context, val onCurrentLocationClicked: () -> Unit) :
+class ChooseLocationDialog(
+    context: Context,
+    val onChooseFromMapClicked: () -> Unit,
+    val onCurrentLocationClicked: () -> Unit,
+) :
     Dialog(context) {
 
     private val binding by lazy {
@@ -20,7 +24,8 @@ class ChooseLocationDialog(context: Context, val onCurrentLocationClicked: () ->
 
     private fun setListeners() {
         binding.btnChooseFromMap.setOnClickListener {
-            //TODO we will choose from map
+            onChooseFromMapClicked()
+            dismiss()
         }
 
         binding.btnCurrentLocation.setOnClickListener {

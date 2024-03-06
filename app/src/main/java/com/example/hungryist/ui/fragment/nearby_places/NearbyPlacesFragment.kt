@@ -3,6 +3,8 @@ package com.example.hungryist.ui.fragment.nearby_places
 import android.Manifest
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Intent
 import android.location.Location
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -18,6 +20,9 @@ import com.example.hungryist.R
 import com.example.hungryist.adapter.BaseInfoRecyclerAdapter
 import com.example.hungryist.adapter.SelectMapPlaceAdapter
 import com.example.hungryist.databinding.FragmentNearbyPlacesBinding
+import com.example.hungryist.model.PlaceFilterModel
+import com.example.hungryist.model.SearchMapPlaceModel
+import com.example.hungryist.ui.activity.searchlocation.SearchLocationActivity
 import com.example.hungryist.ui.activity.searchlocation.SearchLocationViewModel
 import com.example.hungryist.ui.dialog.ChooseLocationDialog
 import com.example.hungryist.ui.fragment.home.HomeViewModel
@@ -158,7 +163,7 @@ class NearbyPlacesFragment : Fragment() {
         })
 
         binding.btnSearchLocation.setOnClickListener {
-            //TODO move to location
+            SearchLocationActivity.intentFor(requireContext())
         }
     }
 
@@ -183,9 +188,18 @@ class NearbyPlacesFragment : Fragment() {
     }
 
     private fun showChooseLocationDialog() {
-        ChooseLocationDialog(requireContext()) {
+        val onChooseFromMapClicked = {
+            SearchLocationActivity.intentFor(requireContext())
+        }
+
+        val onCurrentLocationClicked = {
             requestLocationPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
-        }.show()
+        }
+        ChooseLocationDialog(
+            requireContext(),
+            onChooseFromMapClicked,
+            onCurrentLocationClicked
+        ).show()
     }
 
     private fun setViews() {
