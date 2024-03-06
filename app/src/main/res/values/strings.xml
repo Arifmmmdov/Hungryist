@@ -128,4 +128,6 @@
     <string name="empty_location_info">You must set a location</string>
     <string name="empty_profile_title">You didn’t log in</string>
     <string name="empty_profile_description">You can’t see any profile details until you register or log in</string>
+    <string name="choose_location_info">Choose the location where you want to find nearby places</string>
+    <string name="choose_from_map">Choose from map</string>
 </resources>

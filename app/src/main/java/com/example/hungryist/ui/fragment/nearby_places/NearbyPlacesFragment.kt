@@ -1,12 +1,10 @@
 package com.example.hungryist.ui.fragment.nearby_places
 
+import android.Manifest
 import android.animation.ObjectAnimator
-import android.app.Activity.RESULT_OK
-import android.content.Intent
+import android.annotation.SuppressLint
+import android.location.Location
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.OnFocusChangeListener
@@ -14,21 +12,27 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.FloatRange
-import androidx.core.widget.addTextChangedListener
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.hungryist.R
 import com.example.hungryist.adapter.BaseInfoRecyclerAdapter
 import com.example.hungryist.adapter.SelectMapPlaceAdapter
 import com.example.hungryist.databinding.FragmentNearbyPlacesBinding
-import com.example.hungryist.model.SearchMapPlaceModel
 import com.example.hungryist.ui.activity.searchlocation.SearchLocationViewModel
+import com.example.hungryist.ui.dialog.ChooseLocationDialog
 import com.example.hungryist.ui.fragment.home.HomeViewModel
 import com.example.hungryist.utils.CustomTextWatcher
 import com.example.hungryist.utils.extension.format
+import com.example.hungryist.utils.extension.showToastMessage
 import com.example.hungryist.utils.extension.triggerVisibility
 import com.example.hungryist.utils.mapsearchplace.MapSearchPlaceUtils
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.material.slider.RangeSlider
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+
 
 @AndroidEntryPoint
 class NearbyPlacesFragment : Fragment() {
@@ -37,6 +41,7 @@ class NearbyPlacesFragment : Fragment() {
         FragmentNearbyPlacesBinding.inflate(layoutInflater)
     }
     private var distanceRotationAngle = 0.0f
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
 
     private val filteredAdapter by lazy {
         BaseInfoRecyclerAdapter(requireContext(), emptyList())
@@ -51,6 +56,15 @@ class NearbyPlacesFragment : Fragment() {
     private val searchPlaceUtils by lazy {
         MapSearchPlaceUtils(requireContext())
     }
+
+    private val requestLocationPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
+            if (isGranted) {
+                getCurrentLocation()
+            } else {
+                requireContext().showToastMessage(getString(R.string.permission_denied_message))
+            }
+        }
 
 //    private val searchMapActivityResultLauncher = registerForActivityResult(
 //        ActivityResultContracts.StartActivityForResult()
@@ -108,17 +122,26 @@ class NearbyPlacesFragment : Fragment() {
             nearbyViewModel.setDistanceSlider(FloatRange(from.toDouble(), to.toDouble()))
         }
 
-        binding.btnCafe.setOnClickListener {
-            nearbyViewModel.setCafeSelected().also {
-//                binding.btnCafe.triggerVisibility(it)
-                binding.btnCafe.toggleSelection(it)
+        binding.sliderDistance.addOnSliderTouchListener(object : RangeSlider.OnSliderTouchListener {
+            override fun onStartTrackingTouch(slider: RangeSlider) {
+                if (binding.editText.text.toString().isEmpty())
+                    showChooseLocationDialog()
             }
 
+            override fun onStopTrackingTouch(slider: RangeSlider) {
+                // Called when touch stops
+            }
+        })
+
+
+        binding.btnCafe.setOnClickListener {
+            nearbyViewModel.setCafeSelected().also {
+                binding.btnCafe.toggleSelection(it)
+            }
         }
 
         binding.btnRestaurant.setOnClickListener {
             nearbyViewModel.setRestaurantSelected().also {
-//                binding.btnRestaurant.triggerVisibility(it)
                 binding.btnRestaurant.toggleSelection(it)
             }
         }
@@ -137,6 +160,32 @@ class NearbyPlacesFragment : Fragment() {
         binding.btnSearchLocation.setOnClickListener {
             //TODO move to location
         }
+    }
+
+    @SuppressLint("MissingPermission")
+    fun getCurrentLocation() {
+        fusedLocationClient.lastLocation
+            .addOnSuccessListener { location: Location? ->
+                if (location != null) {
+                    val currentLocation = LatLng(location.latitude, location.longitude)
+                    searchLocationViewModel.setCurrentLocationClicked(
+                        searchPlaceUtils,
+                        currentLocation,
+                        requireContext()
+                    )
+                } else {
+                    requireContext().showToastMessage("Location data not available")
+                }
+            }
+            .addOnFailureListener { e ->
+                requireContext().showToastMessage("Error getting location: ${e.message}")
+            }
+    }
+
+    private fun showChooseLocationDialog() {
+        ChooseLocationDialog(requireContext()) {
+            requestLocationPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+        }.show()
     }
 
     private fun setViews() {
@@ -162,6 +211,7 @@ class NearbyPlacesFragment : Fragment() {
         }
 
         binding.editText.setText(nearbyFilterInfo.selectedPlace?.placeName)
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
 
         binding.btnRestaurant.toggleSelection(nearbyFilterInfo.isRestaurantSelected)
         binding.btnCafe.toggleSelection(nearbyFilterInfo.isCafeSelected)
@@ -179,6 +229,7 @@ class NearbyPlacesFragment : Fragment() {
         distanceRotationAngle %= 360
 
         binding.sliderDistance.triggerVisibility(distanceRotationAngle == 0.0f)
+        binding.distanceLabel.triggerVisibility(distanceRotationAngle == 0.0f)
     }
 
     private fun Button.toggleSelection(isSelected: Boolean) {
