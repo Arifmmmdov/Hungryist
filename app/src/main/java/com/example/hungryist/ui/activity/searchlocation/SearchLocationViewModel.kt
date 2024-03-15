@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.hungryist.model.PlaceFilterModel
 import com.example.hungryist.model.SearchMapPlaceModel
 import com.example.hungryist.utils.extension.showToastMessage
 import com.example.hungryist.utils.mapsearchplace.MapSearchPlaceUtils
@@ -20,9 +19,9 @@ import javax.inject.Inject
 @HiltViewModel
 class SearchLocationViewModel @Inject constructor() : ViewModel() {
     lateinit var mMap: GoogleMap
-    private var _selectedLocation: MutableLiveData<SearchMapPlaceModel> =
-        MutableLiveData<SearchMapPlaceModel>()
-    var selectedLocation: LiveData<SearchMapPlaceModel> = _selectedLocation
+    private var _selectedLocation: MutableLiveData<SearchMapPlaceModel?> =
+        MutableLiveData<SearchMapPlaceModel?>()
+    var selectedLocation: LiveData<SearchMapPlaceModel?> = _selectedLocation
 
 
     fun setCurrentLocationClicked(
@@ -45,13 +44,16 @@ class SearchLocationViewModel @Inject constructor() : ViewModel() {
     }
 
     fun setPlaceSelected(
-        prediction: AutocompletePrediction,
+        prediction: AutocompletePrediction?,
         searchPlaceUtils: MapSearchPlaceUtils,
     ) {
-        searchPlaceUtils.getLatLngPlace(prediction.placeId) {
-            _selectedLocation.value =
-                SearchMapPlaceModel(it, prediction.getPrimaryText(null).toString())
-        }
+        if (prediction == null)
+            _selectedLocation.value = null
+        else
+            searchPlaceUtils.getLatLngPlace(prediction.placeId) {
+                _selectedLocation.value =
+                    SearchMapPlaceModel(it, prediction.getPrimaryText(null).toString())
+            }
     }
 
     fun placeSelectedActionMap(
@@ -74,6 +76,13 @@ class SearchLocationViewModel @Inject constructor() : ViewModel() {
             }
         )
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 10F))
+    }
+
+    fun validatePlaceSelection(text: String, searchPlaceUtils: MapSearchPlaceUtils) {
+        if (selectedLocation.value == null)
+            searchPlaceUtils.searchPlaces(text) {
+                setPlaceSelected(it[0], searchPlaceUtils)
+            }
     }
 
 

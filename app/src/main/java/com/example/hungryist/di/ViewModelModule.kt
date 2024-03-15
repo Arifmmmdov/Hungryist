@@ -14,6 +14,7 @@ import com.example.hungryist.ui.fragment.nearby_places.NearbyPlacesViewModel
 import com.example.hungryist.ui.fragment.profile.ProfileViewModel
 import com.example.hungryist.ui.fragment.reviews.ReviewsViewModel
 import com.example.hungryist.utils.SharedPreferencesManager
+import com.example.hungryist.utils.UserManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -48,22 +49,25 @@ object ViewModelModule {
     @Singleton
     fun homeViewModel(
         repository: BaseRepository,
+        sharedPreferencesManager: SharedPreferencesManager,
+        userManager: UserManager,
     ): HomeViewModel =
-        HomeViewModel( repository)
+        HomeViewModel(repository, sharedPreferencesManager, userManager)
 
     @Provides
     @Singleton
     fun getDetailedInfoViewModel(
-        context: Context,
+        sharedPreferencesManager: SharedPreferencesManager,
         repository: DetailedInfoRepository,
+        userManager: UserManager,
     ): DetailedInfoViewModel =
-        DetailedInfoViewModel(context, repository)
+        DetailedInfoViewModel(sharedPreferencesManager, repository, userManager)
 
 
     @Provides
     @Singleton
-    fun getMenuViewModel( repository: DetailedInfoRepository): MenuViewModel =
-        MenuViewModel( repository)
+    fun getMenuViewModel(repository: DetailedInfoRepository): MenuViewModel =
+        MenuViewModel(repository)
 
     @Provides
     @Singleton
@@ -80,14 +84,13 @@ object ViewModelModule {
         ReviewsViewModel(context, repository)
 
 
-
     @Provides
     @Singleton
     fun getRegisterViewModel(
-        context: Context,
+        userManager: UserManager,
         sharedPreferencesManager: SharedPreferencesManager,
     ): IntroViewModel =
-        IntroViewModel(context, sharedPreferencesManager)
+        IntroViewModel(userManager, sharedPreferencesManager)
 
 
     @Provides

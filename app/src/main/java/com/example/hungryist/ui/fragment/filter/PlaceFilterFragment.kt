@@ -14,13 +14,13 @@ import com.example.hungryist.R
 import com.example.hungryist.adapter.SelectMapPlaceAdapter
 import com.example.hungryist.databinding.FragmentPlaceFilterBinding
 import com.example.hungryist.model.PlaceFilterModel
-import com.example.hungryist.model.SearchMapPlaceModel
 import com.example.hungryist.ui.activity.searchlocation.SearchLocationActivity
 import com.example.hungryist.ui.activity.searchlocation.SearchLocationViewModel
 import com.example.hungryist.ui.fragment.home.HomeViewModel
 import com.example.hungryist.utils.CustomTextWatcher
 import com.example.hungryist.utils.extension.format
 import com.example.hungryist.utils.extension.triggerVisibility
+import com.example.hungryist.utils.extension.triggerAnimatedVisibility
 import com.example.hungryist.utils.mapsearchplace.MapSearchPlaceUtils
 import com.google.android.material.slider.RangeSlider
 import dagger.hilt.android.AndroidEntryPoint
@@ -68,15 +68,20 @@ class PlaceFilterFragment : Fragment() {
 
     private fun setObservers() {
         searchLocationViewModel.selectedLocation.observe(requireActivity()) {
-            binding.editText.setText(it.placeName)
+            binding.editText.setText(it?.placeName)
             binding.recyclerView.triggerVisibility(false)
         }
     }
 
     private fun setListeners() {
         binding.btnApplyFilter.setOnClickListener {
-            homeViewModel.filterPlaces(getFilterItems())
-            requireActivity().finish()
+            if (binding.editText.text.toString().isEmpty())
+                binding.editText.error = getString(R.string.empty_location_info)
+            else {
+                searchLocationViewModel.validatePlaceSelection(binding.editText.text.toString(), searchPlaceUtils)
+                homeViewModel.filterPlaces(getFilterItems())
+                requireActivity().finish()
+            }
         }
 
         binding.layoutExpandDistance.setOnClickListener {
@@ -212,8 +217,8 @@ class PlaceFilterFragment : Fragment() {
         distanceRotationAngle += 180
         distanceRotationAngle %= 360
 
-        binding.sliderDistance.triggerVisibility(distanceRotationAngle == 0.0f)
-        binding.distanceLabel.triggerVisibility(distanceRotationAngle == 0.0f)
+        binding.sliderDistance.triggerAnimatedVisibility(distanceRotationAngle == 0.0f)
+        binding.distanceLabel.triggerAnimatedVisibility(distanceRotationAngle == 0.0f)
     }
 
     private fun setAnimatedPriceExpand() {
@@ -225,8 +230,8 @@ class PlaceFilterFragment : Fragment() {
         priceRotationAngle += 180
         priceRotationAngle %= 360
 
-        binding.sliderPrice.triggerVisibility(priceRotationAngle == 0.0f)
-        binding.priceLabel.triggerVisibility(priceRotationAngle == 0.0f)
+        binding.sliderPrice.triggerAnimatedVisibility(priceRotationAngle == 0.0f)
+        binding.priceLabel.triggerAnimatedVisibility(priceRotationAngle == 0.0f)
     }
 
 

@@ -11,6 +11,7 @@ import com.example.hungryist.model.OpenCloseStatusModel
 import com.example.hungryist.model.PlaceFilterModel
 import com.example.hungryist.model.SelectStringModel
 import com.example.hungryist.repo.BaseRepository
+import com.example.hungryist.utils.SharedPreferencesManager
 import com.example.hungryist.utils.UserManager
 import com.example.hungryist.utils.extension.showToastMessage
 import com.example.hungryist.utils.filterutils.FilterableBaseViewModel
@@ -22,7 +23,15 @@ import javax.inject.Inject
 
 class HomeViewModel @Inject constructor(
     private val repository: BaseRepository,
+    private val sharedPreferencesManager: SharedPreferencesManager,
+    val userManager: UserManager,
 ) : FilterableBaseViewModel() {
+
+    val isRegistered: Boolean
+        get():Boolean {
+            return sharedPreferencesManager.isRegistered()
+        }
+
 
     private val _isDealsOfMonthLoading = MutableLiveData(false)
     val isDealsOfMonthLoading: LiveData<Boolean> = _isDealsOfMonthLoading
@@ -166,12 +175,12 @@ class HomeViewModel @Inject constructor(
     fun getSavedList(isFiltered: Boolean): List<BaseInfoModel>? {
         val list = if (isFiltered) filteredBaseInfoList.value else fullList
         return list?.filter {
-            UserManager.checkSaved(it.id)
+            userManager.checkSaved(it.id)
         }
     }
 
     fun getSavedInfoTextResource(context: Context): String {
-        val emptySaveInfo = if (FirebaseAuth.getInstance().uid == null) {
+        val emptySaveInfo = if (sharedPreferencesManager.isRegistered()) {
             R.string.must_be_registered_info
         } else {
             R.string.empty_save_list_info
@@ -214,4 +223,9 @@ class HomeViewModel @Inject constructor(
 
     fun getFullList() = fullList
 
+    fun getFullSavedList() = userManager.savedList
+
+    fun triggerSavedPlace(id:String) {
+        userManager.triggerSavedPlace(id)
+    }
 }

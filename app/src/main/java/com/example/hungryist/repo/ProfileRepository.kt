@@ -4,6 +4,7 @@ import android.content.Context
 import android.net.Uri
 import android.util.Log
 import com.example.hungryist.model.ProfileInfoModel
+import com.example.hungryist.utils.SharedPreferencesManager
 import com.example.hungryist.utils.extension.showToastMessage
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
@@ -13,32 +14,31 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageTask
 import com.google.firebase.storage.UploadTask
 import java.util.UUID
+import javax.inject.Inject
 
-class ProfileRepository {
+class ProfileRepository @Inject constructor(val sharedPreferencesManager: SharedPreferencesManager) {
     private val db by lazy {
         FirebaseFirestore.getInstance()
-    }
-    val uid by lazy {
-        FirebaseAuth.getInstance().uid
     }
     private val storage by lazy {
         FirebaseStorage.getInstance()
     }
 
+
     fun saveProfileChanges(context: Context, profileInfo: ProfileInfoModel?) {
-        if (profileInfo != null) {
-            db.collection("profileInfo").document(uid ?: "Ic7QHNcYwix9rX5pkehn").set(profileInfo)
+        if (profileInfo != null)
+            db.collection("profileInfo").document(sharedPreferencesManager.getUserId()!!)
+                .set(profileInfo)
                 .addOnCompleteListener {
                     Log.d("MyTagHere", "Successfully completed!")
                 }
                 .addOnFailureListener {
                     context.showToastMessage(it.message.toString())
                 }
-        }
     }
 
     fun getProfileInfo(): Task<ProfileInfoModel?> {
-        return db.collection("profileInfo").document(uid!!).get()
+        return db.collection("profileInfo").document(sharedPreferencesManager.getUserId()!!).get()
             .continueWithTask {
                 if (it.isSuccessful) {
 
@@ -58,7 +58,8 @@ class ProfileRepository {
     }
 
     fun addSaved(placeLink: String) {
-        db.collection("profileInfo").document(uid!!).collection("saved")
+        db.collection("profileInfo").document(sharedPreferencesManager.getUserId()!!)
+            .collection("saved")
             .document()
             .set(hashMapOf("saved" to placeLink))
             .addOnSuccessListener {
@@ -70,7 +71,8 @@ class ProfileRepository {
     }
 
     fun deleteSaved(placeLink: String) {
-        db.collection("profileInfo").document(uid!!).collection("saved")
+        db.collection("profileInfo").document(sharedPreferencesManager.getUserId()!!)
+            .collection("saved")
             .whereEqualTo("saved", placeLink)
             .get()
             .addOnSuccessListener {
@@ -87,7 +89,8 @@ class ProfileRepository {
     }
 
     fun createProfile(profileInfoModel: ProfileInfoModel) {
-        db.collection("profileInfo").document(uid!!).set(profileInfoModel)
+        db.collection("profileInfo").document(sharedPreferencesManager.getUserId()!!)
+            .set(profileInfoModel)
             .addOnSuccessListener {
                 println("Document link created successfully$it")
             }
@@ -97,7 +100,8 @@ class ProfileRepository {
     }
 
     fun initializePlaces(): Task<List<String>> {
-        return db.collection("profileInfo").document(uid!!).collection("saved")
+        return db.collection("profileInfo").document(sharedPreferencesManager.getUserId()!!)
+            .collection("saved")
             .get()
             .continueWithTask {
                 if (it.isSuccessful) {

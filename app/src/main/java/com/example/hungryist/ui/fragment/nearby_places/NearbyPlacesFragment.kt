@@ -3,8 +3,6 @@ package com.example.hungryist.ui.fragment.nearby_places
 import android.Manifest
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
-import android.app.Activity
-import android.content.Intent
 import android.location.Location
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -20,8 +18,6 @@ import com.example.hungryist.R
 import com.example.hungryist.adapter.BaseInfoRecyclerAdapter
 import com.example.hungryist.adapter.SelectMapPlaceAdapter
 import com.example.hungryist.databinding.FragmentNearbyPlacesBinding
-import com.example.hungryist.model.PlaceFilterModel
-import com.example.hungryist.model.SearchMapPlaceModel
 import com.example.hungryist.ui.activity.searchlocation.SearchLocationActivity
 import com.example.hungryist.ui.activity.searchlocation.SearchLocationViewModel
 import com.example.hungryist.ui.dialog.ChooseLocationDialog
@@ -29,6 +25,7 @@ import com.example.hungryist.ui.fragment.home.HomeViewModel
 import com.example.hungryist.utils.CustomTextWatcher
 import com.example.hungryist.utils.extension.format
 import com.example.hungryist.utils.extension.showToastMessage
+import com.example.hungryist.utils.extension.triggerAnimatedVisibility
 import com.example.hungryist.utils.extension.triggerVisibility
 import com.example.hungryist.utils.mapsearchplace.MapSearchPlaceUtils
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -49,7 +46,7 @@ class NearbyPlacesFragment : Fragment() {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
     private val filteredAdapter by lazy {
-        BaseInfoRecyclerAdapter(requireContext(), emptyList())
+        BaseInfoRecyclerAdapter(requireContext(), emptyList(),homeViewModel)
     }
 
     private val selectMapPlaceAdapter by lazy {
@@ -107,8 +104,10 @@ class NearbyPlacesFragment : Fragment() {
         }
 
         searchLocationViewModel.selectedLocation.observe(requireActivity()) {
-            nearbyViewModel.setPlaceSelected(it)
-            binding.editText.setText(it.placeName)
+            if(it != null){
+                nearbyViewModel.setPlaceSelected(it)
+                binding.editText.setText(it.placeName)
+            }
             binding.editText.clearFocus()
             binding.selectPlaceRecyclerView.triggerVisibility(false)
         }
@@ -134,7 +133,6 @@ class NearbyPlacesFragment : Fragment() {
             }
 
             override fun onStopTrackingTouch(slider: RangeSlider) {
-                // Called when touch stops
             }
         })
 
@@ -156,6 +154,9 @@ class NearbyPlacesFragment : Fragment() {
         }
 
         binding.editText.addTextChangedListener(CustomTextWatcher {
+            if(it.isEmpty()){
+                searchLocationViewModel.setPlaceSelected(null, searchPlaceUtils)
+            }
             binding.selectPlaceRecyclerView.triggerVisibility(it.isNotEmpty())
             searchPlaceUtils.searchPlaces(it) {
                 selectMapPlaceAdapter.update(it.toMutableList())
@@ -242,8 +243,8 @@ class NearbyPlacesFragment : Fragment() {
         distanceRotationAngle += 180
         distanceRotationAngle %= 360
 
-        binding.sliderDistance.triggerVisibility(distanceRotationAngle == 0.0f)
-        binding.distanceLabel.triggerVisibility(distanceRotationAngle == 0.0f)
+        binding.sliderDistance.triggerAnimatedVisibility(distanceRotationAngle == 0.0f)
+        binding.distanceLabel.triggerAnimatedVisibility(distanceRotationAngle == 0.0f)
     }
 
     private fun Button.toggleSelection(isSelected: Boolean) {

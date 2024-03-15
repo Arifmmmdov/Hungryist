@@ -5,30 +5,30 @@ import com.example.hungryist.repo.ProfileRepository
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import javax.inject.Inject
 
-object UserManager {
+class UserManager @Inject constructor(private val profileRepository: ProfileRepository) {
 
     lateinit var savedList: MutableList<String>
 
-    fun initializeSavedPlaces() {
-        if (FirebaseAuth.getInstance().uid == null) {
+
+    fun initializeSavedList(){
+        if (profileRepository.sharedPreferencesManager.getUserId() == null)
             savedList = mutableListOf()
-            return
-        }
-        ProfileRepository().initializePlaces()
-            .addOnSuccessListener {
-                println("Document link created successfully$it")
-                savedList = it.toMutableList()
-            }
-            .addOnFailureListener {
-                println("MyTagHere:Error creating document link: ${it.message.toString()}")
-                this.savedList = mutableListOf()
-            }
+        else
+            profileRepository.initializePlaces()
+                .addOnSuccessListener {
+                    println("Document link created successfully$it")
+                    savedList = it.toMutableList()
+                }
+                .addOnFailureListener {
+                    println("MyTagHere:Error creating document link: ${it.message.toString()}")
+                    this.savedList = mutableListOf()
+                }
     }
 
     fun triggerSavedPlace(placeLink: String) {
 
-        val profileRepository = ProfileRepository()
         val isExist = savedList.contains(placeLink)
 
         if (isExist) {
@@ -44,12 +44,12 @@ object UserManager {
     }
 
     fun createProfile(registrationData: String?, isEmail: Boolean) {
-        val profileRepository = ProfileRepository()
         profileRepository.createProfile(ProfileInfoModel(registrationData, isEmail))
-
     }
 
     fun checkSaved(id: String): Boolean {
         return savedList.contains(id)
     }
+
+    fun getUserId() = profileRepository.sharedPreferencesManager.getUserId()
 }

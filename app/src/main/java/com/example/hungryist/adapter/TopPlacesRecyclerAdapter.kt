@@ -1,7 +1,6 @@
 package com.example.hungryist.adapter
 
 import android.content.Context
-import android.content.SharedPreferences
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
@@ -14,16 +13,15 @@ import com.example.hungryist.generics.BaseViewHolder
 import com.example.hungryist.model.BaseInfoModel
 import com.example.hungryist.ui.activity.detailedinfo.DetailedInfoActivity
 import com.example.hungryist.utils.RestaurantStatusChecker
-import com.example.hungryist.utils.SharedPreferencesManager
-import com.example.hungryist.utils.UserManager
 import com.example.hungryist.utils.extension.setStatus
 import com.example.hungryist.utils.extension.setSaved
+import com.example.hungryist.utils.extension.triggerAnimatedVisibility
 import com.example.hungryist.utils.extension.triggerVisibility
-import javax.inject.Inject
 
-class TopPlacesRecyclerAdapter @Inject constructor(
+class TopPlacesRecyclerAdapter(
     val context: Context,
     dataList: List<BaseInfoModel>,
+    val viewModel: HomeViewModel,
 ) :
     BaseRecyclerAdapter<BaseInfoModel, ItemRecyclerTopPlacesBinding>(dataList.toMutableList()) {
     override fun onCreateViewHolder(
@@ -47,7 +45,7 @@ class TopPlacesRecyclerAdapter @Inject constructor(
                 name.text = item.name
                 val statusColor = openStatus.setStatus(item.openCloseTimes)
                 dot.setCardBackgroundColor(ContextCompat.getColor(context, statusColor))
-                savedSticker.setSaved(item.id)
+                savedSticker.setSaved(item.id,viewModel.userManager)
 
                 location.text = item.location
                 openEndTime.text =
@@ -72,7 +70,7 @@ class TopPlacesRecyclerAdapter @Inject constructor(
 
         override fun clickListener(position: Int) {
             binding.itemRecyclerDetailedInfo.savedSticker.setOnClickListener {
-                UserManager.triggerSavedPlace(dataList[position].id)
+                viewModel.triggerSavedPlace(dataList[position].id)
                 notifyItemChanged(position)
             }
 

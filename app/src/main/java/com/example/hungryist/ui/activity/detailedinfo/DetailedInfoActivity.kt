@@ -3,8 +3,8 @@ package com.example.hungryist.ui.activity.detailedinfo
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.example.hungryist.R
 import com.example.hungryist.adapter.viewpageradapter.FragmentViewPagerAdapter
@@ -15,8 +15,9 @@ import com.example.hungryist.ui.fragment.interior.InteriorFragment
 import com.example.hungryist.ui.fragment.menu.MenuFragment
 import com.example.hungryist.ui.fragment.reviews.ReviewsFragment
 import com.example.hungryist.utils.Constant.PLACE_ID
-import com.example.hungryist.utils.UserManager
 import com.example.hungryist.utils.extension.setSaved
+import com.example.hungryist.utils.extension.triggerAnimatedVisibility
+import com.example.hungryist.utils.extension.triggerVisibility
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -48,8 +49,8 @@ class DetailedInfoActivity : AppCompatActivity() {
     private fun setListeners() {
         binding.savedSticker.setOnClickListener {
             viewModel.detailedInfo.value?.id?.let { id ->
-                binding.savedSticker.setImageResource(if (!UserManager.checkSaved(id)) R.drawable.ic_saved_sticker else R.drawable.ic_unsaved_sticker)
-                UserManager.triggerSavedPlace(id)
+                binding.savedSticker.setImageResource(if (!viewModel.checkSaved(id)) R.drawable.ic_saved_sticker else R.drawable.ic_unsaved_sticker)
+                viewModel.triggerSavedPlace(id)
             }
 
         }
@@ -68,7 +69,8 @@ class DetailedInfoActivity : AppCompatActivity() {
 
     private fun setUpViews(info: DetailedInfoModel) {
         Glide.with(this).load(info.imageUrl).into(binding.mainImage)
-        binding.savedSticker.setSaved(info.id)
+        binding.savedSticker.triggerVisibility(viewModel.checkUserRegistration())
+        binding.savedSticker.setSaved(info.id, viewModel.userManager)
         binding.name.text = info.name
         binding.rating.text = getString(R.string.rating_info, info.overallRating.toString())
         binding.reviews.text = getString(R.string.reviews, info.reviews)

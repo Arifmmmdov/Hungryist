@@ -10,12 +10,11 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.hungryist.R
 import com.example.hungryist.adapter.SelectMealRecyclerAdapter
-import com.example.hungryist.adapter.SimpleTextRecyclerAdapter
 import com.example.hungryist.databinding.FragmentMealFilterBinding
 import com.example.hungryist.model.MealFilterModel
-import com.example.hungryist.model.MealModel
 import com.example.hungryist.ui.fragment.home.HomeViewModel
 import com.example.hungryist.utils.extension.triggerVisibility
+import com.example.hungryist.utils.extension.triggerAnimatedVisibility
 import com.google.android.material.slider.RangeSlider
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject

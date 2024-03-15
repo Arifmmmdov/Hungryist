@@ -130,4 +130,7 @@
     <string name="empty_profile_description">You can’t see any profile details until you register or log in</string>
     <string name="choose_location_info">Choose the location where you want to find nearby places</string>
     <string name="choose_from_map">Choose from map</string>
+    <string name="update_required_info">New version of this app is available. Update now!</string>
+    <string name="update_now">Update now</string>
+    <string name="exit">Exit</string>
 </resources>

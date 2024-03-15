@@ -9,11 +9,15 @@ import com.example.hungryist.model.ReviewsModel
 import com.example.hungryist.model.SelectStringModel
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
 class DetailedInfoRepository {
 
 
+    val uid by lazy {
+        FirebaseAuth.getInstance().uid
+    }
     private val db = FirebaseFirestore.getInstance()
     private lateinit var id: String
 

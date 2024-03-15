@@ -26,11 +26,14 @@ class MainActivity : AppCompatActivity() {
         ActivityMainBinding.inflate(layoutInflater)
     }
 
+    @Inject
+    lateinit var userManager:UserManager
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        UserManager.initializeSavedPlaces()
         FirebaseApp.initializeApp(this)
+        userManager.initializeSavedList()
         setBottomNavigationView()
     }
 

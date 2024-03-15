@@ -58,6 +58,7 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.9.0'
     implementation 'com.github.haseebazeem15:gifImageView:1.4'
+    implementation 'androidx.security:security-crypto-ktx:1.1.0-alpha06'
 
 
     // Phone number validity

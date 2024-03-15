@@ -3,14 +3,11 @@ package com.example.hungryist.ui.dialog
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.DialogFragment
 import androidx.viewpager2.widget.ViewPager2
 import com.example.hungryist.R
 import com.example.hungryist.adapter.viewpageradapter.PicturesViewPagerAdapter
 import com.example.hungryist.databinding.DialogPicturesBinding
+import com.example.hungryist.utils.extension.triggerAnimatedVisibility
 import com.example.hungryist.utils.extension.triggerVisibility
 
 class PicturesDialog(var position: Int, private val mContext: Context, private val images: List<String>) :

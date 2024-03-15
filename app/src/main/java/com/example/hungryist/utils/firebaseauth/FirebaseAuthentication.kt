@@ -34,6 +34,7 @@ class FirebaseAuthentication(
     private val auth: FirebaseAuth,
     private val facebookCallbackManager: CallbackManager,
     private val sharedPreferencesManager: SharedPreferencesManager,
+    private val userManager: UserManager,
 ) {
 
     private lateinit var oneTapClient: SignInClient
@@ -79,9 +80,8 @@ class FirebaseAuthentication(
         auth.signInWithCredential(credential)
             .addOnCompleteListener(activity) { task ->
                 if (task.isSuccessful) {
-                    MainActivity.intentFor(activity)
-                    UserManager.createProfile(auth.currentUser?.email,true)
-                    sharedPreferencesManager.setRegistered(true)
+                    userManager.createProfile(auth.currentUser?.email, true)
+                    registerAccepted()
                 } else {
                     Toast.makeText(activity, task.exception?.message, Toast.LENGTH_LONG).show()
                 }
@@ -172,9 +172,8 @@ class FirebaseAuthentication(
         auth.createUserWithEmailAndPassword("$phoneNumber@hungryist.com", password)
             .addOnCompleteListener(activity) { task ->
                 if (task.isSuccessful) {
-                    sharedPreferencesManager.setRegistered(true)
-                    UserManager.createProfile(phoneNumber,false)
-                    MainActivity.intentFor(activity)
+                    registerAccepted()
+                    userManager.createProfile(phoneNumber, false)
                 } else
                     errorCallback(
                         task.exception!!.message.toString().replace("email address", "phone number")
@@ -193,9 +192,8 @@ class FirebaseAuthentication(
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(activity) { task ->
                 if (task.isSuccessful) {
-                    UserManager.createProfile(email,true)
-                    MainActivity.intentFor(activity)
-                    sharedPreferencesManager.setRegistered(true)
+                    userManager.createProfile(email, true)
+                    registerAccepted()
                 } else
                     callback(task.exception!!.message.toString())
             }
@@ -209,11 +207,18 @@ class FirebaseAuthentication(
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(activity) { task ->
                 if (task.isSuccessful) {
-                    MainActivity.intentFor(activity)
-                    sharedPreferencesManager.setRegistered(true)
+                    registerAccepted()
                 } else {
                     callback(task.exception!!.message.toString())
                 }
             }
+    }
+
+    private fun registerAccepted() {
+        val firebaseUser = auth.currentUser
+        sharedPreferencesManager.setUserId(firebaseUser?.uid)
+        MainActivity.intentFor(activity)
+        Log.d("MyTagHerenm", "signInWithEmailAndPassword: ${firebaseUser?.uid}")
+        sharedPreferencesManager.setRegistered(true)
     }
 }

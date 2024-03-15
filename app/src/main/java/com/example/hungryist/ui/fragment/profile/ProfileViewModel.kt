@@ -30,22 +30,11 @@ class ProfileViewModel @Inject constructor(
     ViewModel() {
 
     private val _profileInfo = MutableLiveData<ProfileInfoModel?>()
+
     val profileInfo = _profileInfo
     private val _selectedImageUrl = MutableLiveData<String>()
     val selectedImageUrl: LiveData<String> = _selectedImageUrl
 
-    init {
-        if (profileRepository.uid == null)
-            _profileInfo.value = null
-        else
-            profileRepository.getProfileInfo()
-                .addOnSuccessListener {
-                    _profileInfo.value = it
-                }
-                .addOnFailureListener {
-                    Log.d("MyTagHere", "Failed call: ${it.message.toString()}")
-                }
-    }
 
     fun setSelectedImageUrl(imageUrl: String) {
         _selectedImageUrl.value = imageUrl
@@ -54,13 +43,13 @@ class ProfileViewModel @Inject constructor(
     fun logOut(activity: Activity) {
         FirebaseAuth.getInstance().signOut()
         sharedPreferencesManager.setRegistered(false)
+        sharedPreferencesManager.setUserId(null)
         IntroActivity.intentFor(activity)
     }
 
     fun saveChanges(context: Context, profileInfo: ProfileInfoModel) {
         _profileInfo.value = profileInfo
         profileRepository.saveProfileChanges(context, profileInfo)
-        MainActivity.intentFor(context)
     }
 
     fun openGallery(contentLauncher: ActivityResultLauncher<String>) {
@@ -75,5 +64,18 @@ class ProfileViewModel @Inject constructor(
             .addOnFailureListener {
                 Log.e("MyTagHere", "uploadImage: ${it.message.toString()}")
             }
+    }
+
+    fun getData() {
+        if (!sharedPreferencesManager.isRegistered())
+            _profileInfo.value = null
+        else
+            profileRepository.getProfileInfo()
+                .addOnSuccessListener {
+                    _profileInfo.value = it
+                }
+                .addOnFailureListener {
+                    Log.d("MyTagHere", "Failed call: ${it.message.toString()}")
+                }
     }
 }

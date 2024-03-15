@@ -97,4 +97,16 @@ class BaseRepository {
         }
     }
 
+    fun getVersionCode():Task<String> {
+        return   db.collection("general_infos").get().continueWithTask {
+            if (it.isSuccessful) {
+                var versionCode:String? = null
+                for (document in it.result) {
+                    versionCode = document.getString("version_code")
+                }
+                Tasks.forResult(versionCode)
+            } else Tasks.forException(it.exception!!)
+        }
+    }
+
 }

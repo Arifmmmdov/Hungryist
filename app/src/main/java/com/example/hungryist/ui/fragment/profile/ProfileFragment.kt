@@ -14,7 +14,7 @@ import com.example.hungryist.model.ProfileInfoModel
 import com.example.hungryist.ui.activity.EditProfileActivity
 import com.example.hungryist.ui.activity.intro.IntroActivity
 import com.example.hungryist.utils.DynamicStarFillUtil
-import com.example.hungryist.utils.enum.VisibleStatusEnum
+import com.example.hungryist.utils.extension.triggerAnimatedVisibility
 import com.example.hungryist.utils.extension.triggerVisibility
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -38,6 +38,7 @@ class ProfileFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
+        viewModel.getData()
         setListeners()
         setObservers()
         return binding.root

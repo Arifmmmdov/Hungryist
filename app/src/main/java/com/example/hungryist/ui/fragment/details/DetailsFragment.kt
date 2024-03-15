@@ -21,6 +21,7 @@ import com.example.hungryist.model.RatingModel
 import com.example.hungryist.ui.activity.MapsActivity
 import com.example.hungryist.ui.activity.detailedinfo.DetailedInfoViewModel
 import com.example.hungryist.utils.extension.setStatus
+import com.example.hungryist.utils.extension.triggerAnimatedVisibility
 import com.example.hungryist.utils.extension.triggerVisibility
 import com.google.android.gms.maps.SupportMapFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -78,8 +79,8 @@ class DetailsFragment : Fragment() {
         ratingRotationAngle += 180
         ratingRotationAngle %= 360
 
-        binding.recyclerRating.triggerVisibility(ratingRotationAngle == 0.0f)
-        binding.dividerRecyclerRating.triggerVisibility(ratingRotationAngle == 0.0f)
+        binding.recyclerRating.triggerAnimatedVisibility(ratingRotationAngle == 0.0f)
+        binding.dividerRecyclerRating.triggerAnimatedVisibility(ratingRotationAngle == 0.0f)
 
     }
 
@@ -94,8 +95,8 @@ class DetailsFragment : Fragment() {
         dateRotationAngle += 180
         dateRotationAngle %= 360
 
-        binding.recyclerOpenDate.triggerVisibility(dateRotationAngle == 0.0f)
-        binding.dividerRating.triggerVisibility(dateRotationAngle == 0.0f)
+        binding.recyclerOpenDate.triggerAnimatedVisibility(dateRotationAngle == 0.0f)
+        binding.dividerRating.triggerAnimatedVisibility(dateRotationAngle == 0.0f)
     }
 
     private fun setOpenCloseTimeAdapter(openCloseTimes: List<OpenCloseStatusModel>?) {

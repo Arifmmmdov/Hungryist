@@ -9,12 +9,31 @@ import com.example.hungryist.R
 import com.example.hungryist.model.OpenCloseStatusModel
 import com.example.hungryist.utils.RestaurantStatusChecker
 import com.example.hungryist.utils.UserManager
-import com.google.firebase.auth.FirebaseAuth
-import kotlin.properties.Delegates
 
 
 fun View.triggerVisibility(isVisible: Boolean) {
     visibility = if (isVisible) View.VISIBLE else View.GONE
+}
+
+fun View.triggerAnimatedVisibility(isVisible: Boolean) {
+    if (isVisible) animateShowView() else animateHideView()
+}
+
+fun View.animateShowView() {
+    this.visibility = View.VISIBLE
+    this.alpha = 0f
+    this.animate()
+        .alpha(1f)
+        .start();
+}
+
+fun View.animateHideView() {
+    this.animate()
+        .alpha(0f)
+        .withEndAction {
+            this.visibility = View.GONE
+        }
+        .start()
 }
 
 fun Context.showToastMessage(message: String) {
@@ -38,9 +57,8 @@ fun TextView.setStatus(openCloseTimes: List<OpenCloseStatusModel>?): Int {
     return statusColor
 }
 
-fun ImageView.setSaved(placeId: String) {
-    val uid = FirebaseAuth.getInstance().currentUser?.uid
+fun ImageView.setSaved(placeId: String, userManager: UserManager) {
+    val uid = userManager.getUserId()
     triggerVisibility(!uid.isNullOrEmpty())
-    setImageResource(if (UserManager.checkSaved(placeId)) R.drawable.ic_saved_sticker else R.drawable.ic_unsaved_sticker)
-
+    setImageResource(if (userManager.checkSaved(placeId)) R.drawable.ic_saved_sticker else R.drawable.ic_unsaved_sticker)
 }

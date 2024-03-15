@@ -10,6 +10,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.hungryist.utils.CommonHelper
 import com.example.hungryist.utils.SharedPreferencesManager
+import com.example.hungryist.utils.UserManager
 import com.example.hungryist.utils.firebaseauth.FirebaseAuthentication
 import com.facebook.CallbackManager
 import com.google.firebase.auth.FacebookAuthProvider
@@ -19,7 +20,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class IntroViewModel @Inject constructor(val context: Context,val sharedPreferencesManager:SharedPreferencesManager) : ViewModel() {
+class IntroViewModel @Inject constructor(val userManager: UserManager,val sharedPreferencesManager:SharedPreferencesManager) : ViewModel() {
     private val _isEmailSelected = MutableLiveData<Boolean>()
     val isEmailSelected: LiveData<Boolean> = _isEmailSelected
 
@@ -41,7 +42,8 @@ class IntroViewModel @Inject constructor(val context: Context,val sharedPreferen
                 activity,
                 FirebaseAuth.getInstance(),
                 facebookCallbackManager,
-                sharedPreferencesManager
+                sharedPreferencesManager,
+                userManager
             )
         this.resultLauncherForGoogle = resultLauncherForGoogle
     }

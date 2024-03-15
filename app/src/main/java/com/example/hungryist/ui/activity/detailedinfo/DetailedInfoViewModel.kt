@@ -1,6 +1,7 @@
 package com.example.hungryist.ui.activity.detailedinfo
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.graphics.BitmapFactory
 import android.util.Log
 import android.widget.Toast
@@ -14,6 +15,8 @@ import com.example.hungryist.model.RatingModel
 import com.example.hungryist.repo.DetailedInfoRepository
 import com.example.hungryist.ui.activity.MapsActivity
 import com.example.hungryist.utils.RestaurantStatusChecker
+import com.example.hungryist.utils.SharedPreferencesManager
+import com.example.hungryist.utils.UserManager
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
@@ -21,8 +24,9 @@ import com.google.android.gms.maps.model.MarkerOptions
 import javax.inject.Inject
 
 class DetailedInfoViewModel @Inject constructor(
-    val context: Context,
+    val sharedPreferencesManager: SharedPreferencesManager,
     val repository: DetailedInfoRepository,
+    val userManager: UserManager,
 ) :
     ViewModel() {
     private val _detailedInfo = MutableLiveData<DetailedInfoModel>()
@@ -41,7 +45,7 @@ class DetailedInfoViewModel @Inject constructor(
                 getOtherDataAsync()
             }
             .addOnFailureListener {
-                Toast.makeText(context, it.message, Toast.LENGTH_LONG).show()
+                Log.e("MyTagHere", "getDetailedInfo: ${it.message}")
             }
     }
 
@@ -96,6 +100,16 @@ class DetailedInfoViewModel @Inject constructor(
     fun setPlaceId(id: String?) {
         repository.setPlaceId(id!!)
     }
+
+    fun checkUserRegistration(): Boolean {
+        return sharedPreferencesManager.isRegistered()
+    }
+
+    fun triggerSavedPlace(id: String) {
+        userManager.triggerSavedPlace(id)
+    }
+
+    fun checkSaved(id: String): Boolean = userManager.checkSaved(id)
 
 
 }

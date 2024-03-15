@@ -6,14 +6,13 @@ import com.example.hungryist.utils.Constant.USER_ID
 import javax.inject.Inject
 
 
-class SharedPreferencesManager @Inject constructor(private val sharedPreferences: SharedPreferences) {
+class SharedPreferencesManager @Inject constructor(
+    private val sharedPreferences: SharedPreferences,
+    private val encryptedSharedPreferences: SharedPreferences,
+) {
 
     fun getString(key: String, defaultValue: String) {
         sharedPreferences.getString(key, defaultValue)
-    }
-
-    fun setString(key: String, item: String) {
-        sharedPreferences.edit().putString(key, item).apply()
     }
 
     fun isRegistered(): Boolean {
@@ -25,10 +24,10 @@ class SharedPreferencesManager @Inject constructor(private val sharedPreferences
     }
 
     fun setUserId(userId: String?) {
-        sharedPreferences.edit().putString(USER_ID, userId).apply()
+        encryptedSharedPreferences.edit().putString(USER_ID, userId).apply()
     }
 
     fun getUserId(): String? {
-        return sharedPreferences.getString(USER_ID, null)
+        return encryptedSharedPreferences.getString(USER_ID, null)
     }
 }

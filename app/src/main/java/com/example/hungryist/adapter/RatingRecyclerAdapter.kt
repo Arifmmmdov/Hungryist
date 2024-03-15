@@ -8,6 +8,7 @@ import com.example.hungryist.databinding.ItemOpenCloseTimesBinding
 import com.example.hungryist.generics.BaseRecyclerAdapter
 import com.example.hungryist.generics.BaseViewHolder
 import com.example.hungryist.model.RatingModel
+import com.example.hungryist.utils.extension.triggerAnimatedVisibility
 import com.example.hungryist.utils.extension.triggerVisibility
 
 class RatingRecyclerAdapter(val context: Context, ratingList: List<RatingModel>) :

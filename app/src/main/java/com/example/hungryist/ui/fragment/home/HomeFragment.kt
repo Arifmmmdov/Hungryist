@@ -17,6 +17,7 @@ import com.example.hungryist.model.BaseInfoModel
 import com.example.hungryist.model.SelectStringModel
 import com.example.hungryist.ui.activity.filter.FilterActivity
 import com.example.hungryist.utils.enum.VisibleStatusEnum
+import com.example.hungryist.utils.extension.triggerAnimatedVisibility
 import com.example.hungryist.utils.extension.triggerVisibility
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -29,11 +30,11 @@ class HomeFragment : Fragment() {
     }
 
     private val baseInfoAdapter by lazy {
-        BaseInfoRecyclerAdapter(requireContext(), emptyList())
+        BaseInfoRecyclerAdapter(requireContext(), emptyList(),viewModel)
     }
 
     private val topPlacesAdapter by lazy {
-        TopPlacesRecyclerAdapter(requireContext(), emptyList())
+        TopPlacesRecyclerAdapter(requireContext(), emptyList(),viewModel)
     }
 
     @Inject
@@ -51,13 +52,17 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View {
         getItems()
+        setViews()
+        setListeners()
+        setObservers()
+        return binding.root
+    }
+
+    private fun setViews() {
         binding.lnrEmptyFilter.triggerVisibility(false)
         selectedTextAdapter =
             SelectedTextRecyclerAdapter(requireContext(), mutableListOf(), viewModel)
         setSelectedTextAdapter()
-        setListeners()
-        setObservers()
-        return binding.root
     }
 
     private fun setObservers() {
@@ -91,9 +96,6 @@ class HomeFragment : Fragment() {
                 setPlacesAdapter(it, true)
             } else {
                 setPlacesAdapter(it.filter { it.titleName.isNotEmpty() }, false)
-                viewModel.getDealsOfMonth {
-                    setDealsOfMonthAdapter(it)
-                }
             }
             binding.lnrEmptyFilter.triggerVisibility(it.isEmpty())
             checkCustomFilter()

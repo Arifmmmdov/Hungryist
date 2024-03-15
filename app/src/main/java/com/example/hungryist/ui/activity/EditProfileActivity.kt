@@ -19,11 +19,7 @@ import com.example.hungryist.ui.fragment.profile.ProfileViewModel
 import com.example.hungryist.utils.CommonHelper
 import com.example.hungryist.utils.DynamicStarFillUtil
 import com.example.hungryist.utils.extension.showToastMessage
-import com.example.hungryist.utils.extension.triggerVisibility
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.storage.FirebaseStorage
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.UUID
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -97,6 +93,7 @@ class EditProfileActivity : AppCompatActivity() {
         binding.saveChanges.setOnClickListener {
             if (checkAllValidities()) {
                 viewModel.saveChanges(this, getProfileInfo())
+                finish()
             }
         }
 

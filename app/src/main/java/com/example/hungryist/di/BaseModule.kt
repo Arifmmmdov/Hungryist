@@ -1,19 +1,21 @@
 package com.example.hungryist.di
 
-import android.app.Activity
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.security.crypto.EncryptedSharedPreferences
+import androidx.security.crypto.MasterKey
 import com.example.hungryist.repo.BaseRepository
 import com.example.hungryist.repo.DetailedInfoRepository
 import com.example.hungryist.repo.ProfileRepository
 import com.example.hungryist.utils.SharedPreferencesManager
+import com.example.hungryist.utils.UserManager
 import com.google.firebase.auth.FirebaseAuth
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dagger.hilt.android.scopes.ActivityScoped
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -22,13 +24,34 @@ object BaseModule {
 
     @Provides
     @Singleton
+    @Named("shared_preferences")
     fun getSharedPreference(@ApplicationContext context: Context): SharedPreferences {
         return context.getSharedPreferences("", Context.MODE_PRIVATE)
     }
 
     @Provides
-    fun getSharedPreferencesManager(sharedPreferences: SharedPreferences): SharedPreferencesManager {
-        return SharedPreferencesManager(sharedPreferences)
+    @Singleton
+    @Named("encrypted_shared_preferences")
+    fun getEncryptedSharedPreference(@ApplicationContext context: Context): SharedPreferences {
+        val masterKey = MasterKey.Builder(context)
+            .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
+            .build()
+
+        return EncryptedSharedPreferences.create(
+            context,
+            "encrypted_shared_preferences",
+            masterKey,
+            EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+            EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+        )
+    }
+
+    @Provides
+    fun getSharedPreferencesManager(
+        @Named("shared_preferences") sharedPreferences: SharedPreferences,
+        @Named("encrypted_shared_preferences") encryptedSharedPreferences: SharedPreferences,
+    ): SharedPreferencesManager {
+        return SharedPreferencesManager(sharedPreferences, encryptedSharedPreferences)
     }
 
 
@@ -38,7 +61,8 @@ object BaseModule {
 
     @Provides
     @Singleton
-    fun profileRepository(): ProfileRepository = ProfileRepository()
+    fun getProfileRepository(sharedPreferencesManager: SharedPreferencesManager): ProfileRepository =
+        ProfileRepository(sharedPreferencesManager)
 
     @Provides
     @Singleton
@@ -53,6 +77,12 @@ object BaseModule {
     @Provides
     @Singleton
     fun getFirebaseAuth(): FirebaseAuth = FirebaseAuth.getInstance()
+
+
+    @Provides
+    @Singleton
+    fun getUserManager(profileRepository: ProfileRepository): UserManager =
+        UserManager(profileRepository)
 
 
 }

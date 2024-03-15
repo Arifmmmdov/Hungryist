@@ -9,11 +9,11 @@ import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.hungryist.adapter.BaseInfoRecyclerAdapter
 import com.example.hungryist.databinding.FragmentSavedBinding
+import com.example.hungryist.ui.activity.filter.FilterActivity
 import com.example.hungryist.ui.activity.intro.IntroActivity
 import com.example.hungryist.ui.fragment.home.HomeViewModel
-import com.example.hungryist.utils.UserManager
+import com.example.hungryist.utils.extension.triggerAnimatedVisibility
 import com.example.hungryist.utils.extension.triggerVisibility
-import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -44,13 +44,15 @@ class SavedFragment : Fragment() {
     }
 
     private fun setVisibilities() {
-        UserManager.savedList.run {
-            binding.register.triggerVisibility(FirebaseAuth.getInstance().uid == null)
-            binding.login.triggerVisibility(FirebaseAuth.getInstance().uid == null)
+        viewModel.getFullSavedList().run {
+
+            binding.register.triggerVisibility(viewModel.isRegistered)
+            binding.login.triggerVisibility(viewModel.isRegistered)
             binding.lnrEmptyInfo.triggerVisibility(isEmpty())
             binding.recyclerSaved.triggerVisibility(!isEmpty())
             setViews(this)
         }
+
     }
 
     private fun setViews(savedList: MutableList<String>) {
@@ -64,7 +66,7 @@ class SavedFragment : Fragment() {
     private fun setRecyclerAdapter(isFiltered: Boolean) {
         binding.recyclerSaved.apply {
             adapter = viewModel.getSavedList(isFiltered)
-                ?.let { BaseInfoRecyclerAdapter(requireContext(), it) }
+                ?.let { BaseInfoRecyclerAdapter(requireContext(), it, viewModel) }
             layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         }
@@ -78,7 +80,7 @@ class SavedFragment : Fragment() {
 
         binding.swipeRefresh.setOnRefreshListener {
             binding.editFilter.setText("")
-            setViews(UserManager.savedList)
+            setViews(viewModel.getFullSavedList())
             binding.swipeRefresh.isRefreshing = false
         }
 
@@ -88,6 +90,10 @@ class SavedFragment : Fragment() {
 
         binding.login.setOnClickListener {
             IntroActivity.intentFor(requireContext(), "login")
+        }
+
+        binding.filterButton.setOnClickListener {
+            FilterActivity.intentFor(requireContext())
         }
     }
 }

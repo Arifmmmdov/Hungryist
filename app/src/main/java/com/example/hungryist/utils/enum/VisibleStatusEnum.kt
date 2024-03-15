@@ -1,7 +1,7 @@
 package com.example.hungryist.utils.enum
 
 import androidx.recyclerview.widget.RecyclerView
-import com.example.hungryist.utils.UnaryConsumer
+import com.example.hungryist.utils.extension.triggerAnimatedVisibility
 import com.example.hungryist.utils.extension.triggerVisibility
 import com.facebook.shimmer.ShimmerFrameLayout
 
@@ -35,7 +35,7 @@ enum class VisibleStatusEnum(
     );
 
     fun triggerVisibility(shimmerLayout: ShimmerFrameLayout, recyclerView: RecyclerView) {
-        shimmerFunction.invoke(shimmerLayout)
         recyclerFunction.invoke(recyclerView)
+        shimmerFunction.invoke(shimmerLayout)
     }
 }

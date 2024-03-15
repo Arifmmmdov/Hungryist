@@ -1,13 +1,14 @@
 package com.example.hungryist.ui.activity.searchlocation
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.location.Location
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,6 +21,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.example.hungryist.databinding.ActivitySearchLocationBinding
 import com.example.hungryist.utils.extension.showToastMessage
+import com.example.hungryist.utils.extension.triggerAnimatedVisibility
 import com.example.hungryist.utils.extension.triggerVisibility
 import com.example.hungryist.utils.mapsearchplace.MapSearchPlaceUtils
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -71,7 +73,7 @@ class SearchLocationActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private fun setObservers() {
         viewModel.selectedLocation.observe(this) {
-            binding.editText.setText(it.placeName)
+            binding.editText.setText(it?.placeName)
             binding.recyclerView.triggerVisibility(false)
         }
     }
@@ -110,8 +112,10 @@ class SearchLocationActivity : AppCompatActivity(), OnMapReadyCallback {
         binding.btnAdd.setOnClickListener {
             if (binding.editText.text.toString().isEmpty())
                 binding.editText.error = getString(R.string.empty_location_info)
-            else
+            else {
+                viewModel.validatePlaceSelection(binding.editText.text.toString(), searchPlaceUtils)
                 finish()
+            }
         }
 
         binding.btnCurrentLocation.setOnClickListener {
@@ -133,20 +137,29 @@ class SearchLocationActivity : AppCompatActivity(), OnMapReadyCallback {
 
     }
 
-    @SuppressLint("MissingPermission")
-    fun getCurrentLocation() {
-        fusedLocationClient.lastLocation
-            .addOnSuccessListener { location: Location? ->
-                if (location != null) {
-                    currentLocation = LatLng(location.latitude, location.longitude)
-                    viewModel.addMarker(currentLocation!!, R.drawable.ic_current_location)
-                } else {
-                    showToastMessage("Location data not available")
+    private fun getCurrentLocation() {
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        )
+            showToastMessage(getString(R.string.permission_denied_message))
+        else
+            fusedLocationClient.lastLocation
+                .addOnSuccessListener { location: Location? ->
+                    if (location != null) {
+                        currentLocation = LatLng(location.latitude, location.longitude)
+                        viewModel.addMarker(currentLocation!!, R.drawable.ic_current_location)
+                    } else {
+                        showToastMessage("Location data not available")
+                    }
                 }
-            }
-            .addOnFailureListener { e ->
-                showToastMessage("Error getting location: ${e.message}")
-            }
+                .addOnFailureListener { e ->
+                    showToastMessage("Error getting location: ${e.message}")
+                }
     }
 
 

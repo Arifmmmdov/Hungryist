@@ -12,16 +12,15 @@ import com.example.hungryist.model.BaseInfoModel
 import com.example.hungryist.ui.activity.detailedinfo.DetailedInfoActivity
 import com.example.hungryist.ui.fragment.home.HomeViewModel
 import com.example.hungryist.utils.RestaurantStatusChecker
-import com.example.hungryist.utils.UserManager
 import com.example.hungryist.utils.extension.setSaved
 import com.example.hungryist.utils.extension.setStatus
+import com.example.hungryist.utils.extension.triggerAnimatedVisibility
 import com.example.hungryist.utils.extension.triggerVisibility
-import com.example.hungryist.utils.filterutils.FilterableBaseViewModel
-import javax.inject.Inject
 
-class BaseInfoRecyclerAdapter @Inject constructor(
+class BaseInfoRecyclerAdapter(
     val context: Context,
     dataList: List<BaseInfoModel>,
+    val viewModel: HomeViewModel
 ) :
     BaseRecyclerAdapter<BaseInfoModel, ItemRecyclerDetailedInfoBinding>(dataList.toMutableList()) {
     override fun onCreateViewHolder(
@@ -44,7 +43,7 @@ class BaseInfoRecyclerAdapter @Inject constructor(
                 name.text = item.name
                 val statusColor = openStatus.setStatus(item.openCloseTimes)
                 binding.dot.setCardBackgroundColor(context.getColor(statusColor))
-                savedSticker.setSaved(item.id)
+                savedSticker.setSaved(item.id,viewModel.userManager)
                 location.text = item.location
                 openEndTime.text =
                     RestaurantStatusChecker.getTimesToday(context, item.openCloseTimes)
@@ -65,7 +64,7 @@ class BaseInfoRecyclerAdapter @Inject constructor(
 
         override fun clickListener(position: Int) {
             binding.savedSticker.setOnClickListener {
-                UserManager.triggerSavedPlace(dataList[position].id)
+                viewModel.triggerSavedPlace(dataList[position].id)
                 notifyItemChanged(position)
             }
 
