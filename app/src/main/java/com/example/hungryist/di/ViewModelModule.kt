@@ -30,10 +30,10 @@ object ViewModelModule {
     @Provides
     @Singleton
     fun getSplashScreenViewModel(
-        context: Context,
         sharedPreferencesManager: SharedPreferencesManager,
+        baseRepository: BaseRepository,
     ): SplashScreenViewModel {
-        return SplashScreenViewModel(context, sharedPreferencesManager)
+        return SplashScreenViewModel(sharedPreferencesManager, baseRepository)
     }
 
     @Provides

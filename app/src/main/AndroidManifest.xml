@@ -37,16 +37,20 @@
         <activity
             android:name=".ui.activity.searchlocation.SearchLocationActivity"
             android:exported="false"
-            android:label="@string/title_activity_search_location" />
+            android:label="@string/title_activity_search_location"
+            android:screenOrientation="fullSensor" />
         <activity
             android:name=".ui.activity.filter.FilterActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="fullSensor" />
         <activity
             android:name=".ui.activity.EditProfileActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="fullSensor" />
         <activity
             android:name=".ui.activity.splashscreen.SplashScreenActivity"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="fullSensor">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -55,16 +59,19 @@
         </activity>
         <activity
             android:name=".ui.activity.intro.IntroActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="fullSensor" />
         <activity
             android:name=".ui.activity.detailedinfo.DetailedInfoActivity"
             android:exported="false" />
         <activity
             android:name=".ui.activity.main.MainActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="fullSensor" />
         <activity
             android:name=".ui.activity.MapsActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="fullSensor" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"

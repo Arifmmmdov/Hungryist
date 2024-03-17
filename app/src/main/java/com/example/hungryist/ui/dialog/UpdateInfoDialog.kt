@@ -2,15 +2,18 @@ package com.example.hungryist.ui.dialog
 
 import android.app.Activity
 import android.app.Dialog
-import android.content.Context
+import android.content.ActivityNotFoundException
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import androidx.core.content.ContextCompat.startActivity
 import com.example.hungryist.R
 import com.example.hungryist.databinding.DialogChooseLocationBinding
 
+
 class UpdateInfoDialog(
     val context: Activity,
-) :
-    Dialog(context) {
+) : Dialog(context) {
 
     private val binding by lazy {
         DialogChooseLocationBinding.inflate(layoutInflater)
@@ -32,12 +35,30 @@ class UpdateInfoDialog(
     private fun setListeners() {
 
         binding.btnFirst.setOnClickListener {
-            //TODO update now clicked
+            openPlayStore()
         }
 
         binding.btnSecond.setOnClickListener {
             context.finish()
         }
 
+    }
+
+    private fun openPlayStore() {
+        val appPackageName = "com.example.hungryist"
+        try {
+            context.startActivity(
+                Intent(
+                    Intent.ACTION_VIEW, Uri.parse("market://details?id=$appPackageName")
+                )
+            )
+        } catch (e: ActivityNotFoundException) {
+            context.startActivity(
+                Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("https://play.google.com/store/apps/details?id=$appPackageName")
+                )
+            )
+        }
     }
 }

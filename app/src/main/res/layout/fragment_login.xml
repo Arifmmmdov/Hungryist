@@ -94,7 +94,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
-                android:text="@string/forgot_password"
+                android:text="@string/forgot_password_underline"
                 android:textColor="@color/secondary_color"
                 android:textSize="14sp" />
 

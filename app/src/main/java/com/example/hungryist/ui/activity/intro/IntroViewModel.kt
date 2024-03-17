@@ -2,6 +2,7 @@ package com.example.hungryist.ui.activity.intro
 
 import android.app.Activity
 import android.content.Context
+import androidx.activity.ComponentActivity
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.ActivityResultRegistryOwner
 import androidx.activity.result.IntentSenderRequest
@@ -13,6 +14,7 @@ import com.example.hungryist.utils.SharedPreferencesManager
 import com.example.hungryist.utils.UserManager
 import com.example.hungryist.utils.firebaseauth.FirebaseAuthentication
 import com.facebook.CallbackManager
+import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
@@ -33,7 +35,7 @@ class IntroViewModel @Inject constructor(val userManager: UserManager,val shared
 
 
     fun initializeItems(
-        activity: Activity,
+        activity: ComponentActivity,
         resultLauncherForGoogle: ActivityResultLauncher<IntentSenderRequest>,
         facebookCallbackManager: CallbackManager,
     ) {
@@ -131,6 +133,10 @@ class IntroViewModel @Inject constructor(val userManager: UserManager,val shared
                 9
             ), "994"
         ).isValid
+    }
+
+    fun resetPassword(email: String,callback: (Task<Void>) -> Unit) {
+        firebaseAuth.resetPassword(email,callback)
     }
 
 }

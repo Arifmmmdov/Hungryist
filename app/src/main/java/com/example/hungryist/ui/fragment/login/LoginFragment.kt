@@ -9,6 +9,7 @@ import com.example.hungryist.R
 import com.example.hungryist.databinding.FragmentLoginBinding
 import com.example.hungryist.ui.activity.intro.IntroViewModel
 import com.example.hungryist.ui.activity.main.MainActivity
+import com.example.hungryist.ui.fragment.ForgotPasswordFragment
 import com.example.hungryist.ui.fragment.register.RegisterFragment
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -32,7 +33,7 @@ class LoginFragment : Fragment() {
     }
 
     private fun setObservers() {
-        viewModel.loginErrorMessage.observe(requireActivity()){
+        viewModel.loginErrorMessage.observe(requireActivity()) {
             binding.textInputMain.error = it
         }
     }
@@ -60,6 +61,12 @@ class LoginFragment : Fragment() {
                 .commit()
         }
 
+        binding.forgotPassword.setOnClickListener {
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, ForgotPasswordFragment())
+                .addToBackStack("Forgot Password")
+                .commit()
+        }
 
     }
 

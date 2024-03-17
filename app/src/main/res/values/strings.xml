@@ -62,7 +62,8 @@
     <string name="count_more_items">+%d</string>
     <string name="profile_picture">Profile picture</string>
     <string name="sequence">%d/%d</string>
-    <string name="forgot_password"><u>Forgot password?</u></string>
+    <string name="forgot_password_underline"><u>Forgot password?</u></string>
+    <string name="forgot_password">Forgot password?</string>
 
     <string name="facebook_application_id" translatable="false">com.example.hungryist</string>
     <string name="facebook_login_protocol_scheme" translatable="false">fbcom.example.hungryist</string>
@@ -133,4 +134,9 @@
     <string name="update_required_info">New version of this app is available. Update now!</string>
     <string name="update_now">Update now</string>
     <string name="exit">Exit</string>
+    <string name="forgot_password_description">Enter your registered email or phone number below to receive password reset instruction</string>
+    <string name="send">Send</string>
+    <string name="reset_success_message">Password sent to your email!</string>
+    <string name="empty_email_info">Email can\'t be empty!</string>
+    <string name="reset_email_sent_message">Reset message sent to your email!</string>
 </resources>

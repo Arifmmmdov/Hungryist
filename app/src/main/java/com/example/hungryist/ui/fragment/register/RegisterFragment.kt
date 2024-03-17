@@ -84,6 +84,7 @@ class RegisterFragment : Fragment() {
         binding.guest.setOnClickListener(this::registerWithGuest)
         binding.facebook.setOnClickListener(this::registerWithFacebook)
         binding.tabLayout.addOnTabSelectedListener(tabSelectedListener())
+        binding.backButton.setOnClickListener { requireActivity().onBackPressedDispatcher.onBackPressed() }
     }
 
     private fun register() {
@@ -92,6 +93,7 @@ class RegisterFragment : Fragment() {
         binding.checkbox.error = null
 
         if (!binding.checkbox.isChecked) {
+            binding.checkbox.isFocusableInTouchMode = true
             binding.checkbox.setError(getString(R.string.terms_and_conditions_warning), null)
             binding.checkbox.requestFocus()
         } else if (!viewModel.checkMainText(binding.editMain.text.toString()))
