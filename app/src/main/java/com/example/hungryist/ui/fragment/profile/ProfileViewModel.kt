@@ -31,7 +31,7 @@ class ProfileViewModel @Inject constructor(
 
     private val _profileInfo = MutableLiveData<ProfileInfoModel?>()
 
-    val profileInfo = _profileInfo
+    val profileInfo: LiveData<ProfileInfoModel?> = _profileInfo
     private val _selectedImageUrl = MutableLiveData<String>()
     val selectedImageUrl: LiveData<String> = _selectedImageUrl
 

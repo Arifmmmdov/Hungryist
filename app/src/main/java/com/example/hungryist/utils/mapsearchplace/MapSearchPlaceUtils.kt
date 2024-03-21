@@ -1,23 +1,12 @@
 package com.example.hungryist.utils.mapsearchplace
 
-import android.annotation.SuppressLint
 import android.content.Context
-import android.location.Address
 import android.location.Geocoder
-import android.location.Location
-import android.os.Build
 import android.widget.Toast
-import androidx.annotation.RequiresApi
-import com.example.hungryist.R
+import com.example.hungryist.BuildConfig
 import com.example.hungryist.model.SearchMapPlaceModel
-import com.example.hungryist.utils.UnaryConsumer
 import com.example.hungryist.utils.extension.showToastMessage
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.AutocompletePrediction
 import com.google.android.libraries.places.api.model.AutocompleteSessionToken
@@ -27,8 +16,6 @@ import com.google.android.libraries.places.api.model.TypeFilter
 import com.google.android.libraries.places.api.net.FetchPlaceRequest
 import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest
 import com.google.android.libraries.places.api.net.PlacesClient
-import com.google.android.libraries.places.api.net.PlacesStatusCodes
-import java.util.Arrays
 import java.util.Locale
 
 class MapSearchPlaceUtils(val context: Context) {
@@ -59,7 +46,7 @@ class MapSearchPlaceUtils(val context: Context) {
 
     private fun initializePlace() {
         if (!Places.isInitialized()) {
-            Places.initialize(context, context.getString(R.string.api_key))
+            Places.initialize(context, BuildConfig.API_KEY)
         }
 
         placesClient = Places.createClient(context)

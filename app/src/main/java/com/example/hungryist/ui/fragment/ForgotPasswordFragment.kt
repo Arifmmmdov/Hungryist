@@ -2,17 +2,22 @@ package com.example.hungryist.ui.fragment
 
 import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.widget.addTextChangedListener
+import androidx.fragment.app.Fragment
 import com.example.hungryist.R
 import com.example.hungryist.databinding.FragmentForgotPasswordBinding
 import com.example.hungryist.ui.activity.intro.IntroViewModel
 import com.example.hungryist.utils.extension.showToastMessage
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+
 
 @AndroidEntryPoint
 class ForgotPasswordFragment : Fragment() {

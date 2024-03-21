@@ -6,10 +6,7 @@ import retrofit2.Call
 import retrofit2.Callback
 
 
-fun <Result, Response : BaseResponseAdapter<Result>> Call<Response>.awaitResult(
-    context: Context,
-    showProgressBar: Boolean,
-): Expected<Result>? {
+fun <Result, Response : BaseResponseAdapter<Result>> Call<Response>.awaitResult(): Expected<Result>? {
     var expected: Expected<Result>? = null
     enqueue(object : Callback<Response> {
         override fun onResponse(call: Call<Response>, response: retrofit2.Response<Response>) {

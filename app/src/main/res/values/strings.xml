@@ -27,8 +27,6 @@
 
     //Facebook
     <string name="fb_login_protocol_scheme">fb1234</string>
-    <string name="facebook_client_token">b183e4e30b48a8c7a02421d826e6e159</string>
-    <string name="facebook_app_id">687266166938075</string>
 
     <string name="free_wifi">Free wifi</string>
     <string name="booking_mandatory">Booking mandatory</string>
@@ -124,8 +122,6 @@
     <string name="add">Add</string>
     <string name="choose_a_location">Choose a location</string>
     <string name="permission_denied_message">You must give permission to the app for your setting your current location!</string>
-    <!--    Todo must be held secret -->
-    <string name="api_key">AIzaSyBWEUyQrrFsc4aOraG87hnFwZAKDdN96n4</string>
     <string name="empty_location_info">You must set a location</string>
     <string name="empty_profile_title">You didn’t log in</string>
     <string name="empty_profile_description">You can’t see any profile details until you register or log in</string>

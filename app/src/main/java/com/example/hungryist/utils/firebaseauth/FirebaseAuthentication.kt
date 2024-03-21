@@ -218,13 +218,13 @@ class FirebaseAuthentication(
     private fun registrationAccepted() {
         val firebaseUser = auth.currentUser
         sharedPreferencesManager.setUserId(firebaseUser?.uid)
-        MainActivity.intentFor(activity)
-        Log.d("MyTagHerenm", "signInWithEmailAndPassword: ${firebaseUser?.uid}")
         sharedPreferencesManager.setRegistered(true)
+        Log.d("MyTagHerenm", "signInWithEmailAndPassword: ${firebaseUser?.uid}")
+        MainActivity.intentFor(activity)
     }
 
 
-    fun resetPassword(email: String,callback: (Task<Void>) -> Unit) {
+    fun resetPassword(email: String, callback: (Task<Void>) -> Unit) {
         auth.sendPasswordResetEmail(email)
             .addOnCompleteListener { task ->
                 callback(task)

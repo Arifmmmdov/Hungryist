@@ -19,11 +19,19 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        Properties properties = new Properties()
+        properties.load(project.rootProject.file("local.properties").newDataInputStream())
+
+        buildConfigField("String","API_KEY","\"${properties.getProperty("API_KEY")}\"")
+        buildConfigField("String","FACEBOOK_CLIENT_TOKEN","\"${properties.getProperty("FACEBOOK_CLIENT_TOKEN")}\"")
+        buildConfigField("String","FACEBOOK_APP_ID","\"${properties.getProperty("FACEBOOK_APP_ID")}\"")
     }
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -109,7 +117,3 @@ dependencies {
 
 
 }
-
-//secrets{
-//    defaultProperties "local.properties"
-//}

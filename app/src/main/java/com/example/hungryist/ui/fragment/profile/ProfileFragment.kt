@@ -33,6 +33,11 @@ class ProfileFragment : Fragment() {
     @Inject
     lateinit var viewModel: ProfileViewModel
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.getData()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

@@ -3,12 +3,17 @@ package com.example.hungryist.ui.fragment.nearby_places
 import android.Manifest
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
+import android.content.Context
+import android.graphics.Rect
 import android.location.Location
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.View.OnFocusChangeListener
+import android.view.View.OnTouchListener
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.FloatRange
@@ -166,6 +171,22 @@ class NearbyPlacesFragment : Fragment() {
         binding.btnSearchLocation.setOnClickListener {
             SearchLocationActivity.intentFor(requireContext())
         }
+
+//        binding.mainFrame.setOnTouchListener { view, event ->
+//            if (event.action == MotionEvent.ACTION_DOWN) {
+//                if (binding.editText.isFocused) {
+//                    val outRect = Rect()
+//                    binding.editText.getGlobalVisibleRect(outRect)
+//                    if (!outRect.contains(event.rawX.toInt(), event.rawY.toInt())) {
+//                        binding.editText.clearFocus()
+//                        val imm = view.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+//                        imm.hideSoftInputFromWindow(view.windowToken, 0)
+//                    }
+//                }
+//            }
+//            false
+//        }
+
     }
 
     @SuppressLint("MissingPermission")
