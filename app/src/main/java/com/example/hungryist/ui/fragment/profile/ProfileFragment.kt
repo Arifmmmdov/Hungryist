@@ -11,6 +11,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.example.hungryist.R
 import com.example.hungryist.databinding.FragmentProfileBinding
 import com.example.hungryist.model.ProfileInfoModel
+import com.example.hungryist.ui.activity.AboutUsActivity
 import com.example.hungryist.ui.activity.EditProfileActivity
 import com.example.hungryist.ui.activity.intro.IntroActivity
 import com.example.hungryist.utils.DynamicStarFillUtil
@@ -77,11 +78,15 @@ class ProfileFragment : Fragment() {
         }
 
         binding.register.setOnClickListener {
-            IntroActivity.intentFor(requireContext(),"register")
+            IntroActivity.intentFor(requireContext(), "register")
         }
 
         binding.login.setOnClickListener {
-            IntroActivity.intentFor(requireContext(),"login")
+            IntroActivity.intentFor(requireContext(), "login")
+        }
+
+        binding.aboutUs.setOnClickListener {
+            AboutUsActivity.intentFor(requireContext())
         }
     }
 

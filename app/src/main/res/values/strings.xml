@@ -135,4 +135,20 @@
     <string name="reset_success_message">Password sent to your email!</string>
     <string name="empty_email_info">Email can\'t be empty!</string>
     <string name="reset_email_sent_message">Reset message sent to your email!</string>
+    <string name="title_activity_about_us">AboutUsActivity</string>
+    <string name="large_text">
+        "Find your perfect bite: Restaurants and cafes with menus, reservations, and more!\n\n"
+        "Our app simplifies finding the perfect cafe or restaurant for any occasion. Explore detailed information on thousands of venues, including prices, opening hours, menus, reviews, special offers, and ratings (meals, service, interior). Visual previews let you see the ambience before you go. Filter your search by distance, type of cuisine, price range, and customer rating. Book a table seamlessly and enjoy a stress-free dining experience. Download our app today and discover your next culinary adventure!\n\n"
+
+        "You will need Hungryist if you:\n\n"
+            "• are hungry and can't find the exact place for your needs.\n"
+            "• want to end searching on multiple sites.\n"
+            "• need all the information in one place.\n"
+            "• believe it would be beneficial to filter places and meals according to your preferences.\n\n"
+
+        "In today's fast-paced world, finding the perfect place to dine can be a daunting task. With an abundance of options available, ranging from local eateries to fine dining establishments, navigating the culinary landscape can be overwhelming. That's where Hungryist comes in.\n\n"
+
+        "Hungryist is more than just a dining app; it's your ultimate companion for all things food-related. Whether you're craving a cozy cafe, a trendy bistro, or a five-star restaurant, Hungryist has you covered. With its intuitive interface and comprehensive database, finding your next culinary adventure has never been easier.\n"
+    </string>
+    <string name="action_settings">Settings</string>
 </resources>
